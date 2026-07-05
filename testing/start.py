@@ -84,7 +84,6 @@ button_state = [False] * 5
 encoder = rotaryio.IncrementalEncoder(ss)
 last_position = encoder.position
 
-
 # ------------------------------------------------------------
 # Draw Screen
 # ------------------------------------------------------------
@@ -96,33 +95,27 @@ def redraw():
 
     if page == HOME:
 
-        draw.text((150, 40), "RaspReader", font=font_title, fill=0)
-
+        draw.text((140, 40), "RaspReader", font=font_title, fill=0)
         draw.line((70, 70, 340, 70), fill=0)
-
-        draw.text((140, 120), "Press Select", font=font, fill=0)
+        draw.text((130, 120), "Press Select", font=font, fill=0)
 
     elif page == MENU:
 
         draw.text((20, 20), "RaspReader", font=font_title, fill=0)
-
         draw.line((20, 45, 390, 45), fill=0)
 
         y = 70
 
         for i, item in enumerate(MENU_ITEMS):
 
-            if i == menu_index:
-                draw.text((20, y), "> " + item, font=font, fill=0)
-            else:
-                draw.text((40, y), item, font=font, fill=0)
+            prefix = "> " if i == menu_index else "  "
+            draw.text((20, y), prefix + item, font=font, fill=0)
 
             y += 35
 
     epd.display(epd.getbuffer(image))
 
-
-# Draw first screen
+# Draw initial screen
 redraw()
 
 print("Ready.")
@@ -135,26 +128,22 @@ try:
 
     while True:
 
-        # ----------------------------
-        # Rotary Encoder
-        # ----------------------------
-
-        position = encoder.position
-
+        #
+        # Encoder
+        #
         position = encoder.position
 
         if page == MENU and position != last_position:
 
             last_position = position
 
-            # Update the selected menu item internally.
-            # Do NOT refresh the display.
+            # Update menu selection only.
+            # DO NOT refresh the display.
             menu_index = position % len(MENU_ITEMS)
 
-        # ----------------------------
+        #
         # Buttons
-        # ----------------------------
-
+        #
         for i in range(len(buttons)):
 
             pressed = not buttons[i].value
@@ -167,19 +156,29 @@ try:
 
                 print(name)
 
-                position = encoder.position
+                #
+                # SELECT
+                #
+                if name == "Select":
 
-                if page == MENU and position != last_position:
+                    if page == HOME:
 
-                    last_position = position
+                        page = MENU
+                        redraw()
 
-                    # Update the selected menu item internally.
-                    # Do NOT refresh the display.
-                    menu_index = position % len(MENU_ITEMS)
+                    elif page == MENU:
 
+                        redraw()
+
+                        print(f"Selected: {MENU_ITEMS[menu_index]}")
+
+                #
+                # LEFT
+                #
                 elif name == "Left":
 
                     if page == MENU:
+
                         page = HOME
                         redraw()
 
