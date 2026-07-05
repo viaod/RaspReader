@@ -141,13 +141,15 @@ try:
 
         position = encoder.position
 
+        position = encoder.position
+
         if page == MENU and position != last_position:
 
             last_position = position
 
+            # Update the selected menu item internally.
+            # Do NOT refresh the display.
             menu_index = position % len(MENU_ITEMS)
-
-            redraw()
 
         # ----------------------------
         # Buttons
@@ -165,14 +167,15 @@ try:
 
                 print(name)
 
-                if name == "Select":
+                position = encoder.position
 
-                    if page == HOME:
-                        page = MENU
-                        redraw()
+                if page == MENU and position != last_position:
 
-                    else:
-                        print("Selected:", MENU_ITEMS[menu_index])
+                    last_position = position
+
+                    # Update the selected menu item internally.
+                    # Do NOT refresh the display.
+                    menu_index = position % len(MENU_ITEMS)
 
                 elif name == "Left":
 
