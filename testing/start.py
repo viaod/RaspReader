@@ -12,7 +12,7 @@ LIBDIR = "/home/viaod/e-Paper/E-paper_Separate_Program/3in7_e-Paper_G/RaspberryP
 if LIBDIR not in sys.path:
     sys.path.append(LIBDIR)
 
-from waveshare_epd import epd3in7g
+from lib.waveshare_epd  import epd3in7g
 
 # ------------------------------------------------------------
 # Encoder
