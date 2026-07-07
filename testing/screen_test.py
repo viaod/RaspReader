@@ -17,9 +17,9 @@ def test():
     screens = [
         ("Home", HomeScreen(display)),
         ("Menu", MenuScreen(display)),
-        ("Library", LibraryScreen(display)),
-        ("Reader", ReaderScreen(display)),
-        ("Settings", SettingsScreen(display)),
+        # ("Library", LibraryScreen(display)),
+        # ("Reader", ReaderScreen(display)),
+        # ("Settings", SettingsScreen(display)),
     ]
 
     current = 0

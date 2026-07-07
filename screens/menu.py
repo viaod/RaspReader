@@ -35,7 +35,7 @@ class MenuScreen(Screen):
 
         image = Image.new(
             "1",
-            (self.display.epd.width, self.display.epd.height),
+            (self.display.epd.height, self.display.epd.weight),
             255,
         )
 

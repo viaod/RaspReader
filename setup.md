@@ -12,6 +12,8 @@ viaod ALL=(ALL) NOPASSWD: ALL
 
 ## setting up static IP address
 
+https://johnj.com/posts/e-paper-rpi-display/
+
 ```
 
 ```
@@ -19,6 +21,8 @@ viaod ALL=(ALL) NOPASSWD: ALL
 ## Screen
 
 https://www.waveshare.com/wiki/3.7inch_e-Paper_HAT+_(G)_Manual#Raspberry_Pi
+https://www.waveshare.com/wiki/3.7inch_e-Paper_HAT%2B_(G)
+https://github.com/waveshareteam/e-Paper/tree/master
 
 ```
 sudo raspi-config
@@ -56,6 +60,8 @@ deactivate
 ```
 
 ## Encoder
+
+https://learn.adafruit.com/adafruit-ano-rotary-navigation-encoder-to-i2c-stemma-qt-adapter
 
 ```
 # install blika in venv 
