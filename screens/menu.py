@@ -167,7 +167,5 @@ class MenuScreen(Screen):
 
         return "No IP"
     
-    def show(self, image):
-        self.epd.display(
-            self.epd.getbuffer(image)
-        )
+    def show(self):
+        self.draw()

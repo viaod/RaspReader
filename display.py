@@ -17,6 +17,13 @@ class Display:
 
         self.epd.init()
         self.epd.Clear()
+        
+    def show(self, image):
+        """Display an existing PIL Image."""
+
+        self.epd.display(
+            self.epd.getbuffer(image)
+        )
 
     def show_image(self, filename):
 
