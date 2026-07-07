@@ -22,13 +22,13 @@ class Display:
 
         image = Image.open(filename)
 
+        # Rotate image 90 degrees
+        image = image.rotate(90)
+        
         # Resize to match the display
         image = image.resize(
             (self.epd.width, self.epd.height)
         )
-
-        # Rotate image 90 degrees
-        image = image.rotate(90, expand=True)
 
         self.epd.display(
             self.epd.getbuffer(image)
