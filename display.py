@@ -22,17 +22,14 @@ class Display:
 
         image = Image.open(filename)
 
-        # Rotate image 90 degrees
-        image = image.rotate(90)
-        
-        # Resize to match the display
+        # Waveshare 3.7" expects height x width orientation
         image = image.resize(
-            (self.epd.width, self.epd.height)
+            (self.epd.height, self.epd.width)
         )
 
         self.epd.display(
             self.epd.getbuffer(image)
-        )
+    )
 
     def redraw(self, screen):
 
