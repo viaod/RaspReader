@@ -35,7 +35,7 @@ class MenuScreen(Screen):
 
         image = Image.new(
             "1",
-            (self.display.epd.height, self.display.epd.weight),
+            (self.display.epd.height, self.display.epd.width),
             255,
         )
 
@@ -166,3 +166,8 @@ class MenuScreen(Screen):
             pass
 
         return "No IP"
+    
+    def show(self, image):
+        self.epd.display(
+            self.epd.getbuffer(image)
+        )
