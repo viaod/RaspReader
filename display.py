@@ -28,7 +28,7 @@ class Display:
         )
 
         # Rotate image 90 degrees
-        image = image.rotate(90)
+        image = image.rotate(90, expand=True)
 
         self.epd.display(
             self.epd.getbuffer(image)
