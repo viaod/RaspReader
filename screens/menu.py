@@ -62,22 +62,29 @@ class MenuScreen(Screen):
 
         for i, item in enumerate(MENU_ITEMS):
 
-            if i == self.selected:
+            padding = 10
 
+            text_width = draw.textlength(item, font=self.font)
+            x = (display_width - text_width) / 2
+
+            if i == self.selected:
                 draw.rectangle(
-                    (15, y - 2, 220, y + 18),
+                    (
+                        x - padding,
+                        y - 2,
+                        x + text_width + padding,
+                        y + 18,
+                    ),
                     outline=0,
                     width=2,
                 )
 
             draw.text(
-                (25, y),
+                (x, y),
                 item,
                 font=self.font,
                 fill=0,
             )
-
-            y += 35
 
         #
         # Footer

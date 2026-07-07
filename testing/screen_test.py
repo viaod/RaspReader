@@ -28,7 +28,7 @@ def test():
         # ("Settings", SettingsScreen(display)),
     ]
 
-    current = 0
+    current = 1
 
     try:
 
