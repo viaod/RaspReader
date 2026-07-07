@@ -1,15 +1,12 @@
-from PIL import Image, ImageDraw, ImageFont
+from PIL import Image
 import sys
-
-from screens.home import HomeScreen
-from screens.menu import MenuScreen
 
 LIBDIR = "/home/viaod/e-Paper/E-paper_Separate_Program/3in7_e-Paper_G/RaspberryPi_JetsonNano/python/lib"
 
 if LIBDIR not in sys.path:
     sys.path.append(LIBDIR)
 
-from lib.waveshare_epd  import epd3in7g
+from lib.waveshare_epd import epd3in7g
 
 
 class Display:
@@ -25,28 +22,31 @@ class Display:
 
         image = Image.open(filename)
 
+        # Resize to match the display
         image = image.resize(
             (self.epd.width, self.epd.height)
+        )
+
+        # Rotate image 180 degrees
+        # Change to 90 or 270 if needed
+        image = image.rotate(180)
+
+        self.epd.display(
+            self.epd.getbuffer(image)
+        )
+
+    def redraw(self, screen):
+
+        image = Image.new(
+            "1",
+            (self.epd.width, self.epd.height),
+            255
         )
 
         self.epd.display(
             self.epd.getbuffer(image)
         )
-        
-    def redraw(self, screen):
-        
-        image = Image.new("1", (self.epd.width, aelf.epd.height), 255)
-        
-        if screen == HOME:
-            HomeScreen(self)
-            
-        elif screen == MENU:
-            MenuScreen(self)
-            
-        self.epd.display(
-            self.epd.getbuffer(image)
-        )
-        
-    
+
     def sleep(self):
+
         self.epd.sleep()
