@@ -27,9 +27,8 @@ class Display:
             (self.epd.width, self.epd.height)
         )
 
-        # Rotate image 180 degrees
-        # Change to 90 or 270 if needed
-        image = image.rotate(180)
+        # Rotate image 90 degrees
+        image = image.rotate(90)
 
         self.epd.display(
             self.epd.getbuffer(image)
