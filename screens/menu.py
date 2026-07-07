@@ -58,6 +58,8 @@ class MenuScreen(Screen):
         # Menu Items
         #
 
+        display_width = self.display.epd.height
+
         y = 60
 
         for i, item in enumerate(MENU_ITEMS):
@@ -85,6 +87,8 @@ class MenuScreen(Screen):
                 font=self.font,
                 fill=0,
             )
+
+            y += 35
 
         #
         # Footer
