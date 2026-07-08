@@ -8,6 +8,7 @@ from display import Display
 
 from screens.home import HomeScreen
 from screens.menu import MenuScreen
+from screens.reader_menu import ReaderMenuScreen
 from screens.library import LibraryScreen
 from screens.reader import ReaderScreen
 from screens.settings import SettingsScreen
@@ -24,7 +25,7 @@ def test():
     screens = [
         ("Home", HomeScreen(display)),
         ("Menu", MenuScreen(display)),
-        ("Reader Menu", ReaderScreen(display)),
+        ("Reader Menu", ReaderMenuScreen(display)),
         # ("Library", LibraryScreen(display)),
         # ("Reader", ReaderScreen(display)),
         ("Settings", SettingsScreen(display)),
