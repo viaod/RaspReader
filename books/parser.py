@@ -1,4 +1,5 @@
 # EPUB/TXT support
+from pathlib import Path
 
 import ebooklib
 from ebooklib import epub
@@ -8,9 +9,14 @@ from bs4 import BeautifulSoup
 class Parser:
 
     def __init__(self):
+        
+         # Directory containing parser.py
+        books_dir = Path(__file__).parent
 
         # Load the EPUB book
-        book = epub.read_epub("prideandprejudice.epub")
+        book_path = books_dir / "prideandprejudice.epub"
+        
+        book = epub.read_epub(book_path)
 
         print(book.get_metadata("DC", "title"))
         print(book.get_metadata("DC", "creator"))
