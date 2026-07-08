@@ -2,15 +2,6 @@
 # -*- coding: utf-8 -*-
 
 import subprocess
-# ------------------------------------------------------------
-# Waveshare Library
-# ------------------------------------------------------------
-LIBDIR = "/home/viaod/e-Paper/E-paper_Separate_Program/3in7_e-Paper_G/RaspberryPi_JetsonNano/python/lib"
-
-if LIBDIR not in sys.path:
-    sys.path.append(LIBDIR)
-
-from lib.waveshare_epd  import epd3in7g
 
 from PIL import Image, ImageDraw, ImageFont
 
