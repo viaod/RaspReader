@@ -89,7 +89,7 @@ class MenuScreen(Screen):
                 fill=0,
             )
 
-            y += 25
+            y += 35
 
         #
         # Footer

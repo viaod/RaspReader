@@ -47,12 +47,9 @@ class UploadScreen(Screen):
         #
         # Details
         #
-        
-        display_width = self.display.epd.height
-        
+                
         draw.text((130, 110), "Connect and upload epub file", font=self.font, fill=0)
         draw.text((130, 130), "http://***.***.*.*", font=self.font, fill=0)
-
         
         #
         # Footer
