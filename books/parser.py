@@ -4,17 +4,17 @@ import ebooklib
 from ebooklib import epub
 from bs4 import BeautifulSoup
 
-class parser:#
-    
-    def __init__():
+
+class Parser:
+
+    def __init__(self):
+
+        # Load the EPUB book
+        book = epub.read_epub("prideandprejudice.epub")
+
+        print(book.get_metadata("DC", "title"))
+        print(book.get_metadata("DC", "creator"))
         
-        # Load the epub book
-        book = epub.read_epub('prideandprejudice.epub')
-        
-        print(book.get_metadata('DC', 'title'))
-        
-        print(book.get_metadata('DC', 'creator')
-)
         # # Extract all HTML documents (chapters) from the book
         # chapters = list(book.get_items_of_type(ebooklib.ITEM_DOCUMENT))
 
@@ -28,3 +28,8 @@ class parser:#
 
         #     # Print page/chapter text (or send to an e-paper display)
         #     print(text)
+
+
+if __name__ == "__main__":
+    Parser()
+        
