@@ -49,7 +49,7 @@ class ReaderMenuScreen(Screen):
 
         draw.text(
             (15, 15),
-            "RaspReader\tMenu",
+            "Reader Menu",
             font=self.title_font,
             fill=0,
         )
@@ -90,7 +90,7 @@ class ReaderMenuScreen(Screen):
                 fill=0,
             )
 
-            y += 35
+            y += 20
 
         #
         # Footer

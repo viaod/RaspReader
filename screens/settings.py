@@ -14,7 +14,6 @@ MENU_ITEMS = [
     "Shutdown",
 ]
 
-
 class SettingsScreen(Screen):
     
     def __init__(self, display):
@@ -46,7 +45,7 @@ class SettingsScreen(Screen):
 
         draw.text(
             (15, 15),
-            "RaspReader\tMenu",
+            "Settings",
             font=self.title_font,
             fill=0,
         )
