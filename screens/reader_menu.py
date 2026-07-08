@@ -13,8 +13,8 @@ MENU_ITEMS = [
     "Jump to Page",
     "Home",
     "Bookmarks",
-    "Dictionary"
-    "Library"
+    "Dictionary",
+    "Library",
     "Settings",
 ]
 

@@ -12,7 +12,7 @@ MENU_ITEMS = [
     "Library",
     "> ...",
     "Bookmarks",
-    "Dictionary"
+    "Dictionary",
     "Settings",
 ]
 
