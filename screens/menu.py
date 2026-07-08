@@ -10,9 +10,10 @@ from screens.screen import Screen
 
 MENU_ITEMS = [
     "Library",
-    "Continue",
+    "> ...",
+    "Bookmarks",
+    "Dictionary"
     "Settings",
-    "Shutdown",
 ]
 
 
@@ -47,7 +48,7 @@ class MenuScreen(Screen):
 
         draw.text(
             (15, 15),
-            "RaspReader",
+            "RaspReader\tMenu",
             font=self.title_font,
             fill=0,
         )

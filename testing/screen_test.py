@@ -11,6 +11,7 @@ from screens.menu import MenuScreen
 from screens.library import LibraryScreen
 from screens.reader import ReaderScreen
 from screens.settings import SettingsScreen
+from screens.upload import UploadScreen
 
 import time
 
@@ -23,9 +24,11 @@ def test():
     screens = [
         ("Home", HomeScreen(display)),
         ("Menu", MenuScreen(display)),
+        ("Reader Menu", ReaderScreen(display)),
         # ("Library", LibraryScreen(display)),
         # ("Reader", ReaderScreen(display)),
-        # ("Settings", SettingsScreen(display)),
+        ("Settings", SettingsScreen(display)),
+        ("Upload", UploadScreen(display)),
     ]
 
     current = 1
