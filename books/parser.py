@@ -1,7 +1,5 @@
 # EPUB/TXT support
 
-from torch import ge
-
 import ebooklib
 from ebooklib import epub
 from bs4 import BeautifulSoup
