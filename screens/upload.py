@@ -8,6 +8,7 @@ from PIL import Image, ImageDraw, ImageFont
 from screens.screen import Screen
 
 class UploadScreen(Screen):
+    
     def __init__(self, display):
 
         super().__init__(display)
