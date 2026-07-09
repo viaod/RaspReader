@@ -26,6 +26,7 @@ class Encoder:
 
         self.buttons = []
         self.button_states = []
+        self.listeners = []
 
         self.last_position = 0
         self.rotation = 0
@@ -57,6 +58,15 @@ class Encoder:
         self.encoder = rotaryio.IncrementalEncoder(self.ss)
         self.last_position = self.encoder.position
 
+    def add_listener(self, listener):
+        """Register an object that wants encoder events."""
+        if listener not in self.listeners:
+            self.listeners.append(listener)
+
+    def _notify(self, event):
+        for listener in self.listeners:
+            listener(event)
+
     def update(self):
         """
         Call once every loop.
@@ -68,11 +78,17 @@ class Encoder:
 
         if position > self.last_position:
             self.rotation = 1
+            self._notify("clockwise")
 
         elif position < self.last_position:
             self.rotation = -1
+            self._notify("counter_clockwise")
 
         self.last_position = position
+
+        button = self.button_pressed()
+        if button is not None:
+            self._notify(button)
 
     def get_rotation(self):
         """
