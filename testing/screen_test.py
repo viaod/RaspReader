@@ -49,6 +49,9 @@ def test():
             print("  n = next screen")
             print("  p = previous screen")
             print("  q = quit")
+            print("  l = left")
+            print("  r = right")
+            print("  s = select")
 
             command = input("> ")
 
@@ -64,6 +67,21 @@ def test():
 
             elif command == "q":
                 break
+
+            elif command in {"l", "left"}:
+                if hasattr(screen, "handle_input"):
+                    screen.handle_input("left")
+                    screen.show()
+
+            elif command in {"r", "right"}:
+                if hasattr(screen, "handle_input"):
+                    screen.handle_input("right")
+                    screen.show()
+
+            elif command in {"s", "select"}:
+                if hasattr(screen, "handle_input"):
+                    result = screen.handle_input("select")
+                    print(f"Selected: {result}")
 
     except KeyboardInterrupt:
         pass

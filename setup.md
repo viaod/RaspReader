@@ -73,8 +73,6 @@ sudo -E env PATH=$PATH python3 raspi-blinka.py
 # check I2C and SPI
 ls /dev/i2c* /dev/spi*
 
-i2cdetect -y 1
-
 # add second SPI
 sudo nano /boot/firmware/config.txt
 # add:

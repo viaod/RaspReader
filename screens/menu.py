@@ -125,17 +125,22 @@ class MenuScreen(Screen):
     def handle_input(self, event):
 
         if event == "clockwise":
-
             self.selected = (self.selected + 1) % len(MENU_ITEMS)
             return True
 
         if event == "counter_clockwise":
-
             self.selected = (self.selected - 1) % len(MENU_ITEMS)
             return True
 
-        if event == "select":
+        if event == "left":
+            self.selected = (self.selected - 1) % len(MENU_ITEMS)
+            return True
 
+        if event == "right":
+            self.selected = (self.selected + 1) % len(MENU_ITEMS)
+            return True
+
+        if event == "select":
             return MENU_ITEMS[self.selected]
 
         return None
