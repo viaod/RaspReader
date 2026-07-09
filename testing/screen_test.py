@@ -1,4 +1,5 @@
 import os
+import select
 import sys
 import time
 from pathlib import Path
@@ -26,22 +27,24 @@ from screens.upload import UploadScreen
 
 
 def _read_keyboard_command():
-    if msvcrt is None:
+    if os.name == "nt" and msvcrt is not None:
+        if msvcrt.kbhit():
+            key = msvcrt.getwch()
+            if key in {"\x03", "q", "Q"}:
+                raise KeyboardInterrupt
+            return key.lower()
         return None
 
-    if msvcrt.kbhit():
-        key = msvcrt.getwch()
-
+    if select.select([sys.stdin], [], [], 0)[0]:
+        key = sys.stdin.read(1)
         if key in {"\x03", "q", "Q"}:
             raise KeyboardInterrupt
-
         return key.lower()
 
     return None
 
 
 def test():
-
     display = Display()
 
     try:
@@ -58,7 +61,6 @@ def test():
             print(f"Encoder initialization failed: {exc}")
             encoder = None
 
-    # Create screens
     screens = [
         ("Home", HomeScreen(display)),
         ("Menu", MenuScreen(display)),
@@ -74,7 +76,6 @@ def test():
     try:
         while True:
             name, screen = screens[current]
-
             print(f"Showing {name} screen")
             screen.show()
 
@@ -85,7 +86,7 @@ def test():
             print("  l = left")
             print("  r = right")
             print("  s = select")
-            print("  encoder rotation/button will also be handled")
+            print("  encoder movement/button will also be handled when available")
 
             while True:
                 if encoder is not None:
@@ -109,7 +110,17 @@ def test():
                     button = encoder.button_pressed()
                     if button is not None:
                         if hasattr(screen, "handle_input"):
-                            result = screen.handle_input(button)
+                            mapped = button
+                            if button in {"up", "down"}:
+                                mapped = "clockwise" if button == "down" else "counter_clockwise"
+                            elif button == "select":
+                                mapped = "select"
+                            elif button == "left":
+                                mapped = "left"
+                            elif button == "right":
+                                mapped = "right"
+
+                            result = screen.handle_input(mapped)
                             screen.show()
                             if result is not None:
                                 print(f"Selected: {result}")
@@ -122,15 +133,11 @@ def test():
                     continue
 
                 if command == "n":
-                    current += 1
-                    if current >= len(screens):
-                        current = 0
+                    current = (current + 1) % len(screens)
                     break
 
                 if command == "p":
-                    current -= 1
-                    if current < 0:
-                        current = len(screens) - 1
+                    current = (current - 1) % len(screens)
                     break
 
                 if command in {"q", "\x03"}:

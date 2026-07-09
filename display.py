@@ -1,12 +1,24 @@
+from pathlib import Path
 from PIL import Image
 import sys
 
-LIBDIR = "/home/viaod/e-Paper/E-paper_Separate_Program/3in7_e-Paper_G/RaspberryPi_JetsonNano/python"
+PROJECT_ROOT = Path(__file__).resolve().parent
 
-if LIBDIR not in sys.path:
-    sys.path.insert(0, LIBDIR)
+for candidate in (
+    PROJECT_ROOT / "lib" / "e-Paper" / "lib",
+    PROJECT_ROOT / "lib" / "e-Paper" / "python",
+    PROJECT_ROOT / "lib" / "e-Paper" / "RaspberryPi_JetsonNano" / "python",
+):
+    if candidate.exists() and str(candidate) not in sys.path:
+        sys.path.insert(0, str(candidate))
 
-from lib.waveshare_epd import epd3in7g
+try:
+    from waveshare_epd import epd3in7g
+except ImportError as exc:
+    raise ImportError(
+        "Could not import the Waveshare e-paper library. "
+        "Expected it under lib/e-Paper/lib or a matching path."
+    ) from exc
 
 
 class Display:
