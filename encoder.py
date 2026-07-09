@@ -5,8 +5,6 @@
 Encoder driver for the Adafruit ANO Navigation Encoder.
 """
 
-import subprocess
-
 import board
 from adafruit_seesaw import seesaw, digitalio, rotaryio
 
@@ -20,8 +18,6 @@ class Encoder:
         "down",
         "right",
     ]
-
-    I2C_ADDRESSES = (0x49, 0x36, 0x30)
 
     def __init__(self):
 
@@ -39,7 +35,8 @@ class Encoder:
         print("Initializing encoder...")
 
         i2c = board.I2C()
-        self.ss = self._connect_seesaw(i2c)
+
+        self.ss = seesaw.Seesaw(i2c, addr=0x49)
 
         product = (self.ss.get_version() >> 16) & 0xFFFF
         print(f"Found product: {product}")
@@ -59,36 +56,6 @@ class Encoder:
 
         self.encoder = rotaryio.IncrementalEncoder(self.ss)
         self.last_position = self.encoder.position
-
-    def _print_i2c_scan(self):
-        try:
-            output = subprocess.check_output(["i2cdetect", "-y", "1"], text=True)
-            print("I2C scan:")
-            print(output)
-        except Exception as exc:
-            print(f"Unable to run i2cdetect: {exc}")
-
-    def _connect_seesaw(self, i2c):
-        last_error = None
-
-        for addr in self.I2C_ADDRESSES:
-            try:
-                ss = seesaw.Seesaw(i2c, addr=addr)
-                product = (ss.get_version() >> 16) & 0xFFFF
-                print(f"Found seesaw device at 0x{addr:02x}: product {product}")
-
-                if product == 5740:
-                    return ss
-
-            except Exception as exc:
-                last_error = exc
-                print(f"No response at 0x{addr:02x}: {exc}")
-
-        self._print_i2c_scan()
-        raise RuntimeError(
-            "The device on the I2C bus is not responding as a compatible seesaw encoder. "
-            "This usually means the wrong board is connected, the wiring is incorrect, or the encoder uses a different chip/firmware."
-        ) from last_error
 
     def update(self):
         """
