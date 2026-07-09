@@ -4,6 +4,7 @@
 """I2C ANO rotary encoder simple test example."""
 
 import os
+import subprocess
 import sys
 from pathlib import Path
 
@@ -16,6 +17,15 @@ import board
 from adafruit_seesaw import digitalio, rotaryio, seesaw
 
 I2C_ADDRESSES = (0x49, 0x36, 0x30)
+
+
+def print_i2c_scan():
+    try:
+        output = subprocess.check_output(["i2cdetect", "-y", "1"], text=True)
+        print("I2C scan:")
+        print(output)
+    except Exception as exc:
+        print(f"Unable to run i2cdetect: {exc}")
 
 
 def connect_seesaw(i2c):
@@ -34,9 +44,11 @@ def connect_seesaw(i2c):
             last_error = exc
             print(f"No response at 0x{addr:02x}: {exc}")
 
+    print_i2c_scan()
     raise RuntimeError(
-        "Could not find a compatible seesaw encoder. Check wiring, power, and I2C address. "
-        "Run `i2cdetect -y 1` on the Pi and confirm the device appears at 0x49, 0x36, or 0x30."
+        "The device on the I2C bus is not responding as a compatible seesaw encoder. "
+        "This usually means the wrong board is connected, the wiring is incorrect, or the encoder uses a different chip/firmware. "
+        "Run `i2cdetect -y 1` on the Pi and confirm the device appears at the expected address."
     ) from last_error
 
 

@@ -5,6 +5,8 @@
 Encoder driver for the Adafruit ANO Navigation Encoder.
 """
 
+import subprocess
+
 import board
 from adafruit_seesaw import seesaw, digitalio, rotaryio
 
@@ -58,6 +60,14 @@ class Encoder:
         self.encoder = rotaryio.IncrementalEncoder(self.ss)
         self.last_position = self.encoder.position
 
+    def _print_i2c_scan(self):
+        try:
+            output = subprocess.check_output(["i2cdetect", "-y", "1"], text=True)
+            print("I2C scan:")
+            print(output)
+        except Exception as exc:
+            print(f"Unable to run i2cdetect: {exc}")
+
     def _connect_seesaw(self, i2c):
         last_error = None
 
@@ -74,10 +84,10 @@ class Encoder:
                 last_error = exc
                 print(f"No response at 0x{addr:02x}: {exc}")
 
+        self._print_i2c_scan()
         raise RuntimeError(
-            "Could not find a compatible seesaw encoder. "
-            "Check the wiring, power, and I2C address. "
-            "Run `i2cdetect -y 1` on the Pi and confirm the device appears at 0x49, 0x36, or 0x30."
+            "The device on the I2C bus is not responding as a compatible seesaw encoder. "
+            "This usually means the wrong board is connected, the wiring is incorrect, or the encoder uses a different chip/firmware."
         ) from last_error
 
     def update(self):
