@@ -4,6 +4,10 @@ from pathlib import Path
 # Add the project root (RaspReader) to Python's path
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
+import board
+
+from adafruit_seesaw import digitalio, rotaryio, seesaw
+
 from display import Display
 
 from screens.home import HomeScreen
