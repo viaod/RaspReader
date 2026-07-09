@@ -32,7 +32,7 @@ def test():
         ("Upload", UploadScreen(display)),
     ]
 
-    current = 1
+    current = 0
 
     try:
 

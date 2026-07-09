@@ -73,6 +73,8 @@ sudo -E env PATH=$PATH python3 raspi-blinka.py
 # check I2C and SPI
 ls /dev/i2c* /dev/spi*
 
+i2cdetect -y 1
+
 # add second SPI
 sudo nano /boot/firmware/config.txt
 # add:
@@ -93,4 +95,12 @@ sudo nano /boot/firmware/config.txt
 sudo apt-get update
 sudo apt-get install python3-pip
 pip3 install ebooklib beautifulsoup4
+```
+
+## books
+```
+# copy books onto raspberry pi using ssh
+scp "C:\Users\vodug\Electronic_Projects\e-reader\RaspReader\books\epubs\*.epub" viaod@raspreader:/home/viaod/RaspReader/books/epubs/
+
+# will add upload portal later 
 ```

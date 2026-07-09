@@ -19,6 +19,8 @@ class Encoder:
         "right",
     ]
 
+    I2C_ADDRESSES = (0x49, 0x36, 0x30)
+
     def __init__(self):
 
         self.ss = None
@@ -35,8 +37,7 @@ class Encoder:
         print("Initializing encoder...")
 
         i2c = board.I2C()
-
-        self.ss = seesaw.Seesaw(i2c, addr=0x49)
+        self.ss = self._connect_seesaw(i2c)
 
         product = (self.ss.get_version() >> 16) & 0xFFFF
         print(f"Found product: {product}")
@@ -56,6 +57,28 @@ class Encoder:
 
         self.encoder = rotaryio.IncrementalEncoder(self.ss)
         self.last_position = self.encoder.position
+
+    def _connect_seesaw(self, i2c):
+        last_error = None
+
+        for addr in self.I2C_ADDRESSES:
+            try:
+                ss = seesaw.Seesaw(i2c, addr=addr)
+                product = (ss.get_version() >> 16) & 0xFFFF
+                print(f"Found seesaw device at 0x{addr:02x}: product {product}")
+
+                if product == 5740:
+                    return ss
+
+            except Exception as exc:
+                last_error = exc
+                print(f"No response at 0x{addr:02x}: {exc}")
+
+        raise RuntimeError(
+            "Could not find a compatible seesaw encoder. "
+            "Check the wiring, power, and I2C address. "
+            "Run `i2cdetect -y 1` on the Pi and confirm the device appears at 0x49, 0x36, or 0x30."
+        ) from last_error
 
     def update(self):
         """
