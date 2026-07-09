@@ -3,6 +3,14 @@
 
 """I2C ANO rotary encoder simple test example."""
 
+import os
+import sys
+from pathlib import Path
+
+PROJECT_ROOT = Path(__file__).resolve().parent.parent
+os.chdir(PROJECT_ROOT)
+sys.path.insert(0, str(PROJECT_ROOT))
+
 import board
 
 from adafruit_seesaw import digitalio, rotaryio, seesaw
