@@ -58,9 +58,6 @@ class Encoder:
             button = digitalio.DigitalIO(self.ss, pin)
             self.buttons.append(button)
             self.button_states.append(False)  # Initialize button states to False (not pressed)
-            
-        self.encoder = rotaryio.IncrementalEncoder(self.ss)
-        self.last_position = self.encoder.position
         
         logger.info("Encoder initialized")
         
