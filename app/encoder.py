@@ -106,13 +106,20 @@ class Encoder:
             
     def get_rotation(self):
         return self.rotation
-
+    
     def button_pressed(self):
         for i, button in enumerate(self.buttons):
             pressed = not button.value
+
+            # Print every time a button appears pressed
+            if pressed:
+                print(f"Detected: {self.BUTTON_NAMES[i]}")
+
             if pressed and not self.button_states[i]:
                 self.button_states[i] = True
                 return self.BUTTON_EVENTS[self.BUTTON_NAMES[i]]
+
             if not pressed and self.button_states[i]:
                 self.button_states[i] = False
+
         return None
