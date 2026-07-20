@@ -1,12 +1,13 @@
+import time
 import board
 from adafruit_seesaw.seesaw import Seesaw
 
 ss = Seesaw(board.I2C(), addr=0x49)
 
-print(hex(ss.get_version()))
-
-for i in range(20):
+while True:
     try:
-        print(i, ss.encoder_position())
+        print(hex(ss.get_version()))
     except Exception as e:
-        print(i, e)
+        print(e)
+
+    time.sleep(0.1)
