@@ -1,6 +1,8 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
+import time
+
 import board
 from adafruit_seesaw import seesaw, digitalio, rotaryio
 
@@ -35,6 +37,10 @@ class Encoder:
         self.listeners = []
         self.last_position = 0
         self.rotation = 0
+        self._pending_position = None
+        self._pending_since = None
+        self._last_emitted_position = None
+        self._debounce_seconds = 0.08
         
     def initialize(self):
         i2c = board.I2C()  # uses board.SCL and board.SDA
@@ -43,6 +49,7 @@ class Encoder:
         # Set up the rotary encoder
         self.encoder = rotaryio.IncrementalEncoder(self.ss)
         self.last_position = self.encoder.position
+        self._last_emitted_position = self.last_position
         
         # Set up the buttons
         input_pullup = getattr(self.ss, "INPUT_PULLUP", None)
@@ -75,13 +82,33 @@ class Encoder:
     def update(self):
         self.rotation = 0
         position = self.encoder.position
+        now = time.monotonic()
 
-        if position > self.last_position:
-            self.rotation = 1
-            self._notify(Event.ROTATE_RIGHT)
-        elif position < self.last_position:
-            self.rotation = -1
-            self._notify(Event.ROTATE_LEFT)
+        if position != self.last_position:
+            if self._pending_position is None:
+                self._pending_position = position
+                self._pending_since = now
+            elif position != self._pending_position:
+                self._pending_position = position
+                self._pending_since = now
+
+            if (
+                self._pending_position is not None
+                and self._pending_since is not None
+                and now - self._pending_since >= self._debounce_seconds
+            ):
+                if self._last_emitted_position is None:
+                    self._last_emitted_position = self._pending_position
+                elif self._pending_position > self._last_emitted_position:
+                    self.rotation = 1
+                    self._notify(Event.ROTATE_RIGHT)
+                elif self._pending_position < self._last_emitted_position:
+                    self.rotation = -1
+                    self._notify(Event.ROTATE_LEFT)
+
+                self._last_emitted_position = self._pending_position
+                self._pending_position = None
+                self._pending_since = None
 
         self.last_position = position
 
