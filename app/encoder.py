@@ -45,8 +45,14 @@ class Encoder:
         self.last_position = self.encoder.position
         
         # Set up the buttons
+        input_pullup = getattr(self.ss, "INPUT_PULLUP", None)
+        if input_pullup is None:
+            input_pullup = getattr(seesaw, "INPUT_PULLUP", None)
+            if input_pullup is None:
+                raise AttributeError("Your installed seesaw package does not expose INPUT_PULLUP")
+
         for pin in range(1, 6):
-            self.ss.pin_mode(pin, seesaw.INPUT_PULLUP)
+            self.ss.pin_mode(pin, input_pullup)
             button = digitalio.DigitalIO(self.ss, pin)
             self.buttons.append(button)
             self.button_states.append(False)  # Initialize button states to False (not pressed)
