@@ -27,7 +27,7 @@ class Encoder:
         "right": Event.RIGHT,
     }
     
-    MAX_VALID_DELTA = 2
+    MAX_VALID_DELTA = 1
     
     def __init__(self):
         self.ss = None
