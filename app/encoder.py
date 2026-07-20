@@ -38,6 +38,7 @@ class Encoder:
         self.last_position = 0
         self.rotation = 0
         self._last_emitted_position = None
+        self.button_press_counts = [0] * 5
         
     def initialize(self):
         i2c = board.I2C()  # uses board.SCL and board.SDA
@@ -111,15 +112,18 @@ class Encoder:
         for i, button in enumerate(self.buttons):
             pressed = not button.value
 
-            # Print every time a button appears pressed
             if pressed:
-                print(f"Detected: {self.BUTTON_NAMES[i]}")
+                self.button_press_counts[i] += 1
+            else:
+                self.button_press_counts[i] = 0
+                self.button_states[i] = False
 
-            if pressed and not self.button_states[i]:
+            # Require 2 consecutive reads before treating as a press
+            if (
+                self.button_press_counts[i] >= 2
+                and not self.button_states[i]
+            ):
                 self.button_states[i] = True
                 return self.BUTTON_EVENTS[self.BUTTON_NAMES[i]]
-
-            if not pressed and self.button_states[i]:
-                self.button_states[i] = False
 
         return None
