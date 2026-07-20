@@ -27,6 +27,8 @@ class Encoder:
         "right": Event.RIGHT,
     }
     
+    MAX_VALID_DELTA = 2
+    
     def __init__(self):
         self.ss = None
         self.encoder = None
@@ -73,21 +75,30 @@ class Encoder:
             
     def update(self):
         self.rotation = 0
-        position = self.encoder.position
 
-        if position != self.last_position:
-            delta = position - self.last_position
+        position = self.encoder.position
+        delta = position - self.last_position
+
+        # Ignore obviously bogus encoder values
+        if abs(delta) <= self.MAX_VALID_DELTA:
 
             if delta > 0:
                 self.rotation = 1
                 self._notify(Event.ROTATE_RIGHT)
+                self.last_position = position
+
             elif delta < 0:
                 self.rotation = -1
                 self._notify(Event.ROTATE_LEFT)
+                self.last_position = position
 
-            self.last_position = position
+            # delta == 0 -> nothing to do
+
         else:
-            self.last_position = position
+            logger.debug(
+                f"Ignored bogus encoder position {position} "
+                f"(delta={delta}, last={self.last_position})"
+            )
 
         button = self.button_pressed()
         if button is not None:
