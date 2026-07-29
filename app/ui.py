@@ -23,7 +23,7 @@ class UI:
             self,
         )
 
-    self.current_screen.show()
+        self.current_screen.show()
 
     def handle_input(self, event):
         if self.current_screen is not None:
