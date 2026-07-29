@@ -96,10 +96,11 @@ class Encoder:
             # delta == 0 -> nothing to do
 
         else:
-            logger.debug(
-                f"Ignored bogus encoder position {position} "
-                f"(delta={delta}, last={self.last_position})"
-            )
+            ...
+            # logger.debug(
+            #     f"Ignored bogus encoder position {position} "
+            #     f"(delta={delta}, last={self.last_position})"
+            # )
 
         button = self.button_pressed()
         if button is not None:
