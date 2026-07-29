@@ -39,6 +39,7 @@ class Encoder:
         self.rotation = 0
         self._last_emitted_position = None
         self.button_press_counts = [0] * 5
+        self.encoder_out_of_sync = False
         
     def initialize(self):
         i2c = board.I2C()  # uses board.SCL and board.SDA
