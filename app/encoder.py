@@ -80,21 +80,31 @@ class Encoder:
         position = self.encoder.position
         delta = position - self.last_position
 
-        # Ignore obviously bogus encoder values
-        if abs(delta) <= self.MAX_VALID_DELTA:
-
-            if delta > 0:
+        # Normal encoder movement
+        if delta == 1:
+            if self.encoder_out_of_sync:
+                logger.debug(f"Encoder resynchronised at {position}")
+                self.encoder_out_of_sync = False
+            else:
                 self.rotation = 1
                 self._notify(Event.ROTATE_RIGHT)
-                self.last_position = position
 
-            elif delta < 0:
+            self.last_position = position
+
+        elif delta == -1:
+            if self.encoder_out_of_sync:
+                logger.debug(f"Encoder resynchronised at {position}")
+                self.encoder_out_of_sync = False
+            else:
                 self.rotation = -1
                 self._notify(Event.ROTATE_LEFT)
-                self.last_position = position
 
-            # delta == 0 -> nothing to do
+            self.last_position = position
 
+        elif delta == 0:
+            pass
+        
+        # Ignore obviously bogus encoder values
         else:
             ...
             # logger.debug(
