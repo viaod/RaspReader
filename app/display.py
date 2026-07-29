@@ -28,6 +28,8 @@ class Display:
         self.width = self.epd.width
         self.height = self.epd.height
         
+        logger.info(f"Display size: {self.width}x{self.height}")
+        
         self.image = Image.new('1', (self.width, self.height), 255) 
         self.draw = ImageDraw.Draw(self.image)
         
