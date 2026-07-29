@@ -3,6 +3,7 @@ import time
 from app.events import Event
 from app.logger import Logger
 from app.ui import UI
+from app.screens.home import HomeScreen
 
 logger = Logger("App")
 
@@ -32,24 +33,12 @@ class App:
             self.encoder = None
 
         self.ui = UI(self.display)
-        self.ui.show_home()
+        self.ui.show(HomeScreen)
         logger.info("App initialized")
 
     def handle_input(self, event):
-        if event == Event.ROTATE_RIGHT:
-            logger.info("Rotate right")
-        elif event == Event.ROTATE_LEFT:
-            logger.info("Rotate left")
-        elif event == Event.UP:
-            logger.info("Up button")
-        elif event == Event.DOWN:
-            logger.info("Down button")
-        elif event == Event.LEFT:
-            logger.info("Left button")
-        elif event == Event.RIGHT:
-            logger.info("Right button")
-        elif event == Event.SELECT:
-            logger.info("Select button")
+        if self.ui is not None:
+            self.ui.handle_input(event)
 
     def run(self):
         self.initialize()

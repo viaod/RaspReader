@@ -51,6 +51,21 @@ class Display:
     def draw_rectangle(self, xy, fill=0):
         self.draw.rectangle(xy, fill=fill)
         logger.info(f"Drew rectangle at: {xy} with fill: {fill}")  
+    
+    def clear_image(self):
+        self.image.paste(
+            255,
+            (0, 0, self.width, self.height),
+        )
+
+    def get_font(self, size=18):
+        try:
+            return ImageFont.truetype(
+                os.path.join(picdir, "Font.ttc"),
+                size,
+            )
+        except Exception:
+            return ImageFont.load_default()    
         
     def clear(self):
         self.epd.Clear()
