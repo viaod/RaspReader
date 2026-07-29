@@ -27,7 +27,6 @@ class Encoder:
         "right": Event.RIGHT,
     }
     
-    MAX_VALID_DELTA = 1
     
     def __init__(self):
         self.ss = None
@@ -107,7 +106,7 @@ class Encoder:
         
         # Ignore obviously bogus encoder values
         else:
-            ...
+            self.encoder_out_of_sync = True
             # logger.debug(
             #     f"Ignored bogus encoder position {position} "
             #     f"(delta={delta}, last={self.last_position})"
