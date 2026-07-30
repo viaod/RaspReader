@@ -79,7 +79,7 @@ class MenuScreen(Screen):
             fill=0,
         )
         
-        w = draw.textlength(ip, font=self.font)
+        w = draw.textlength(ip, font=self.display.get_font(18))
 
         draw.text(
             (415 - w - 10, 222),
