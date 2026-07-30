@@ -17,7 +17,7 @@ libdir = os.path.join(
 if os.path.exists(libdir):
     sys.path.insert(0, libdir)
 
-from waveshare_epd import epd3in7g
+from lib.waveshare_epd import epd3in7g
 from PIL import Image, ImageDraw, ImageFont
 
 from app.core.logger import Logger
@@ -32,7 +32,7 @@ class Display:
 
         self.epd.init()
         self.epd.Clear()
-        
+
         # flag for switching between full and fast refresh
         self.fast_mode = False
 
@@ -55,18 +55,14 @@ class Display:
         logger.info("Display initialized")
 
     def show(self, image):
-        self.epd.display(
-            self.epd.getbuffer(image)
-        )
+        self.epd.display(self.epd.getbuffer(image))
         logger.info("Display updated")
 
     def show_image(self, image_path):
         image = Image.open(image_path).convert("RGB")
 
         # Match the canvas size exactly
-        image = image.resize(
-            (self.height, self.width)
-        )
+        image = image.resize((self.height, self.width))
 
         self.show(image)
 
@@ -135,13 +131,12 @@ class Display:
     def sleep(self):
         self.epd.sleep()
         logger.info("Display put to sleep")
-        
+
     def use_fast_mode(self):
         if not self.fast_mode:
             logger.info("Switching to fast refresh mode")
             self.epd.init_Fast()
             self.fast_mode = True
-
 
     def use_full_mode(self):
         if self.fast_mode:

@@ -79,7 +79,7 @@ class CustomFileHandler(logging.FileHandler):
         log_dir = Path(__file__).resolve().parent / "logs"
         log_dir.mkdir(parents=True, exist_ok=True)
 
-        log_file = log_dir / datetime.now().strftime("mylogfile_%H_%M_%d_%m_%Y.log")
+        log_file = log_dir / datetime.now().strftime("out_%H_%M_%d_%m_%Y.log")
         super().__init__(log_file, encoding="UTF-8")
         formatter = logging.Formatter(
             "%(asctime)s - %(levelname)s - %(message)s",
