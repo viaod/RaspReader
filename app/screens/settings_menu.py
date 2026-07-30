@@ -2,6 +2,8 @@ import subprocess
 
 from app.widgets.menu import MenuItem, MenuScreen
 from app.screens.storage import StorageScreen
+from app.screens.shutdown import ShutdownScreen
+
 
 class SettingsScreen(MenuScreen):
 
@@ -20,6 +22,7 @@ class SettingsScreen(MenuScreen):
                     action=self.wifi_settings,
                 ),
                 MenuItem("Back", action=self.back),
+                MenuItem("Shutdown", action=self.shutdown),
             ],
         )
 
@@ -72,3 +75,6 @@ class SettingsScreen(MenuScreen):
     def back(self):
         from app.screens.main_menu import MainMenu
         self.ui.show(MainMenu)
+        
+    def shutdown(self):
+        self.ui.show(ShutdownScreen)
