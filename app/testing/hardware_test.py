@@ -1,8 +1,8 @@
 
 import time
 
-from app.encoder import Encoder
-from app.events import Event
+from app.hardware.encoder import Encoder
+from app.core.events import Event
 
 
 EVENT_NAMES = {

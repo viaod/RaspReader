@@ -1,4 +1,4 @@
-from app.menu import MenuItem, MenuScreen
+from app.widgets.menu import MenuItem, MenuScreen
 
 class SettingsScreen(MenuScreen):
 
@@ -12,7 +12,7 @@ class SettingsScreen(MenuScreen):
             items=[
                 MenuItem("Upload", action=self.upload_setting),
                 MenuItem("Storage", action=self.storage_settings),
-                MenuItem("Toggle Wifi", action=self.wifi_settings),
+                MenuItem("Toggle WiFi", action=self.wifi_settings),
                 MenuItem("Back", action=self.back),
             ],
         )

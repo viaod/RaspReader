@@ -1,4 +1,4 @@
-from app.menu import MenuItem, MenuScreen
+from app.widgets.menu import MenuItem, MenuScreen
 from app.screens.settings_menu import SettingsScreen
 from app.screens.library_menu import LibraryScreen
 

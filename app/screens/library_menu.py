@@ -1,6 +1,6 @@
-from app.menu import MenuItem, MenuScreen
+from app.widgets.menu import MenuItem, MenuScreen
 
-from app.menu import MenuItem, MenuScreen
+from app.widgets.menu import MenuItem, MenuScreen
 
 class LibraryScreen(MenuScreen):
 

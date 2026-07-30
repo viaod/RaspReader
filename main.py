@@ -1,8 +1,8 @@
 import time
 
-from app.events import Event
-from app.logger import Logger
-from app.ui import UI
+from app.core.events import Event
+from app.core.logger import Logger
+from app.core.ui import UI
 from app.screens.home import HomeScreen
 
 logger = Logger("App")
@@ -17,14 +17,14 @@ class App:
 
     def initialize(self):
         try:
-            from app.display import Display
+            from app.hardware.display import Display
             self.display = Display()
         except Exception as exc:
             logger.warning(f"Display unavailable: {exc}")
             self.display = None
 
         try:
-            from app.encoder import Encoder
+            from app.hardware.encoder import Encoder
             self.encoder = Encoder()
             self.encoder.initialize()
             self.encoder.add_listener(self.handle_input)

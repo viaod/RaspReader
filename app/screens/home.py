@@ -1,4 +1,4 @@
-from app.events import Event
+from app.core.events import Event
 from app.screen import Screen
 from app.screens.main_menu import MainMenu
 
