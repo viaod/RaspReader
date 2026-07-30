@@ -7,7 +7,7 @@ class UI:
     def __init__(self, display=None, assets_dir=None):
         self.display = display
         self.assets_dir = Path(
-            assets_dir or Path(__file__).resolve().parent.parent / "assets"
+            assets_dir or Path(__file__).resolve().parent.parent.parent / "assets"
         )
 
         self.current_screen = None

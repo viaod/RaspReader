@@ -6,7 +6,7 @@ class Screen:
         self.display = display
         self.ui = ui
         self.assets_dir = Path(
-            assets_dir or Path(__file__).resolve().parent.parent / "assets"
+            assets_dir or Path(__file__).resolve().parent.parent.parent / "assets"
         )
 
     def show(self):
