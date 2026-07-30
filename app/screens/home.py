@@ -12,6 +12,9 @@ class HomeScreen(Screen):
         image_path = self.assets_dir / "images" / "raspreader_home.bmp"
         self.display.show_image(str(image_path))
 
+        # From now on use fast refreshes
+        self.display.use_fast_mode()
+
     def handle_input(self, event):
         if event == Event.SELECT:
             self.ui.show(MainMenu)

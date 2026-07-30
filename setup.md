@@ -9,6 +9,11 @@ sudo visudo
 viaod ALL=(ALL) NOPASSWD: ALL
 ```
 
+## shut down raspberry pi
+
+```
+sudo shutdown -h now
+```
 
 ## setting up static IP address
 

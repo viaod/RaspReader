@@ -32,6 +32,9 @@ class Display:
 
         self.epd.init()
         self.epd.Clear()
+        
+        # flag for switching between full and fast refresh
+        self.fast_mode = False
 
         self.width = self.epd.width
         self.height = self.epd.height
@@ -132,3 +135,16 @@ class Display:
     def sleep(self):
         self.epd.sleep()
         logger.info("Display put to sleep")
+        
+    def use_fast_mode(self):
+        if not self.fast_mode:
+            logger.info("Switching to fast refresh mode")
+            self.epd.init_Fast()
+            self.fast_mode = True
+
+
+    def use_full_mode(self):
+        if self.fast_mode:
+            logger.info("Switching to full refresh mode")
+            self.epd.init()
+            self.fast_mode = False

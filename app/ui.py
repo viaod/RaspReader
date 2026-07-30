@@ -20,10 +20,14 @@ class UI:
         self.current_screen = screen_cls(
             self.display,
             self.assets_dir,
-            self,
+            self
         )
 
         self.current_screen.show()
+
+        # Any screen after Home uses fast updates
+        if screen_cls.__name__ != "HomeScreen":
+            self.display.use_fast_mode()
 
     def handle_input(self, event):
         if self.current_screen is not None:
