@@ -53,19 +53,12 @@ class ShutdownScreen(Screen):
             self.power_off()
 
     def power_off(self):
-
         self.display.clear_image()
-
-        font = self.display.get_font(22)
-
-        self.display.draw.text(
-            (20, 100),
-            "Shutting down...",
-            font=font,
-            fill=0,
-        )
-
         self.display.refresh()
+        self.display.sleep()
+
+        import time
+        time.sleep(1)
 
         subprocess.run(
             ["sudo", "shutdown", "-h", "now"],
