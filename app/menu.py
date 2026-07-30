@@ -1,4 +1,5 @@
 from dataclasses import dataclass
+import subprocess
 
 from PIL import ImageFont
 
@@ -44,6 +45,8 @@ class MenuScreen(Screen):
             font=self.display.get_font(24),
             fill=0,
         )
+        
+        draw.line((15, 38, 400, 38), fill=0)
 
         y = 70
 
@@ -59,6 +62,31 @@ class MenuScreen(Screen):
             )
 
             y += 35
+            
+        #
+        # Footer
+        #
+
+        wifi = self.get_wifi_status()
+        ip = self.get_ip()
+
+        draw.line((0, 215, 415, 215), fill=0)
+
+        draw.text(
+            (10, 222),
+            wifi,
+            font=self.font,
+            fill=0,
+        )
+        
+        w = draw.textlength(ip, font=self.font)
+
+        draw.text(
+            (415 - w - 10, 222),
+            ip,
+            font=self.font,
+            fill=0,
+        )
 
         self.display.refresh()
 
@@ -90,3 +118,39 @@ class MenuScreen(Screen):
 
     def back(self):
         pass
+    
+    def get_wifi_status(self):
+
+        try:
+
+            result = subprocess.check_output(
+                ["cat", "/sys/class/net/wlan0/operstate"],
+                text=True,
+            ).strip()
+
+            if result == "up":
+                return "WiFi [ON]"
+
+            return "WiFi [OFF]"
+
+        except Exception:
+
+            return "WiFi ?"
+
+    def get_ip(self):
+
+        try:
+
+            ip = subprocess.check_output(
+                ["hostname", "-I"],
+                text=True,
+            ).split()
+
+            if ip:
+                return ip[0]
+
+        except Exception:
+            pass
+
+        return "No IP"
+    
