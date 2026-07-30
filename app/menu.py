@@ -75,7 +75,7 @@ class MenuScreen(Screen):
         draw.text(
             (10, 222),
             wifi,
-            font=self.font,
+            font=self.display.get_font(18),
             fill=0,
         )
         
@@ -84,7 +84,7 @@ class MenuScreen(Screen):
         draw.text(
             (415 - w - 10, 222),
             ip,
-            font=self.font,
+            font=self.display.get_font(18),
             fill=0,
         )
 

@@ -12,17 +12,16 @@ class LibraryScreen(MenuScreen):
             ui,
             title="Library",
             items=[
-                MenuItem("Display", action=self.display_settings),
-                MenuItem("WiFi", action=self.wifi_settings),
+                MenuItem("Dracula", action=self.select_book),
+                MenuItem("The Odyssey", action=self.select_book),
+                MenuItem("Pride and Prejudice", action=self.select_book),
+                MenuItem("Hunger Games", action=self.select_book),
                 MenuItem("Back", action=self.back),
             ],
         )
 
-    def display_settings(self):
-        print("Display")
-
-    def wifi_settings(self):
-        print("WiFi")
+    def select_book(self):
+        print("=== Book selected ===")
 
     def back(self):
         from app.screens.main_menu import MainMenu

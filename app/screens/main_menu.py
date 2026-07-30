@@ -14,13 +14,21 @@ class MainMenu(MenuScreen):
             title="Main Menu",
             items=[
                 MenuItem("Library", screen=LibraryScreen),
+                MenuItem("Continue Reading", action=self.continue_reading),
+                MenuItem("Bookmarks", action=self.bookmarks),
+                MenuItem("Dictionary", action=self.dictionary),
                 MenuItem("Settings", screen=SettingsScreen),
-                MenuItem("About", action=self.about),
             ],
         )
 
-    def about(self):
-        print("About selected")
+    def continue_reading(self):
+        print("Continue Reading")
+    
+    def bookmarks(self):
+        print("Bookmarks")
+        
+    def dictionary(self):
+        print("Dictionary")
 
     def back(self):
         from app.screens.home import HomeScreen
