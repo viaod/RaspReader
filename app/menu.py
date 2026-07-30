@@ -48,7 +48,7 @@ class MenuScreen(Screen):
         
         draw.line((15, 38, 400, 38), fill=0)
 
-        y = 70
+        y = 60
 
         for i, item in enumerate(self.items):
 
@@ -61,7 +61,7 @@ class MenuScreen(Screen):
                 fill=0,
             )
 
-            y += 35
+            y += 25
             
         #
         # Footer
