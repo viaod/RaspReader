@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+import time
 
 from app.hardware.display import Display
 from app.core.ui import UI
@@ -23,7 +24,7 @@ def main():
 
     try:
         while True:
-            pass
+            time.sleep(0.1)
     except KeyboardInterrupt:
         display.clear_image()
         display.refresh()

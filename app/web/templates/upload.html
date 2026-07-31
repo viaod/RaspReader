@@ -18,6 +18,14 @@
             <input type="file" name="book" accept=".epub" required>
             <button type="submit">Upload Book</button>
         </form>
+
+        <script>
+        document.getElementById("upload-form").addEventListener("submit", function () {
+            const button = document.getElementById("upload-button");
+            button.disabled = true;
+            button.textContent = "Uploading...";
+        });
+        </script>
             
         {% if error %}
         <div class="message error">
