@@ -8,7 +8,7 @@ from app.screens.shutdown import ShutdownScreen
 
 class SettingsScreen(MenuScreen):
 
-    def __init__(self, display, assets_dir=None, ui=None):
+    def __init__(self, display, assets_dir=None, ui=None, **kwargs):
 
         super().__init__(
             display,
@@ -25,6 +25,7 @@ class SettingsScreen(MenuScreen):
                 MenuItem("Back", action=self.back),
                 MenuItem("Shutdown", screen=ShutdownScreen),
             ],
+            **kwargs
         )
 
     def wifi_settings(self):
