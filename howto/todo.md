@@ -2,7 +2,7 @@
 
 ## UI
 - [ ] Complete `SettingsMenu`
-- [ ] Complete `Library`
+- [] Complete `Library`
 - [ ] Add `Dictionary`
 - [ ] Add `Bookmarks`
 - [ ] Menu scroll functionality
@@ -25,10 +25,13 @@
 - [ ] Page turn animation
 
 ## Upload
-- [ ] Upload books
+- [x] Upload books
 - [ ] Get text from webpage 
 
 ## Testing
 - [ ] Hardware integration tests
 - [ ] UI navigation tests
 - [ ] Battery life testing
+
+
+- [ ] requirements.txt file for downloading deps

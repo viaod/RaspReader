@@ -1,5 +1,6 @@
 import subprocess
 
+from app.screens.upload import UploadScreen
 from app.widgets.menu import MenuItem, MenuScreen
 from app.screens.storage import StorageScreen
 from app.screens.shutdown import ShutdownScreen
@@ -15,22 +16,16 @@ class SettingsScreen(MenuScreen):
             ui,
             title="Settings",
             items=[
-                MenuItem("Upload", action=self.upload_setting),
+                MenuItem("Upload", screen=UploadScreen),
                 MenuItem("Storage", screen=StorageScreen),
                 MenuItem(
                     f"WiFi: {'On' if self.wifi_enabled() else 'Off'}",
                     action=self.wifi_settings,
                 ),
                 MenuItem("Back", action=self.back),
-                MenuItem("Shutdown", action=self.shutdown),
+                MenuItem("Shutdown", screen=ShutdownScreen),
             ],
         )
-
-    def upload_setting(self):
-        print("Uploading...")
-        
-    def storage_settings(self):
-        self.ui.show(StorageScreen)
 
     def wifi_settings(self):
         try:
@@ -75,6 +70,4 @@ class SettingsScreen(MenuScreen):
     def back(self):
         from app.screens.main_menu import MainMenu
         self.ui.show(MainMenu)
-        
-    def shutdown(self):
-        self.ui.show(ShutdownScreen)
+    
