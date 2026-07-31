@@ -76,7 +76,7 @@ class StorageScreen(Screen):
         )
         
         self.display.draw.rectangle(
-            (0, 0, self.display.width - 1, self.display.height - 1),
+            (0, 0, self.display.height - 1, self.display.width - 1),
             outline=0,
             width=2,
         )
