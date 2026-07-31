@@ -8,12 +8,12 @@ class LibraryScreen(MenuScreen):
         display,
         assets_dir=None,
         ui=None,
-        library=None,
+        app=None
     ):
 
-        self.library = library
+        self.app = app
 
-        books = self.library.get_books()
+        books = self.app.library.get_books()
 
         items = []
 
@@ -38,6 +38,7 @@ class LibraryScreen(MenuScreen):
             ui,
             title="Library",
             items=items,
+            app=app,
         )
 
 

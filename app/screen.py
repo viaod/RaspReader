@@ -7,14 +7,12 @@ class Screen:
         display,
         assets_dir=None,
         ui=None,
-        **services
+        app=None
     ):
         self.display = display
         self.assets_dir = assets_dir
         self.ui = ui
-
-        for name, value in services.items():
-            setattr(self, name, value)
+        self.app = app
 
     def show(self):
         raise NotImplementedError

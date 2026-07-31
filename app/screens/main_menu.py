@@ -5,7 +5,15 @@ from app.screens.library_menu import LibraryScreen
 
 class MainMenu(MenuScreen):
 
-    def __init__(self, display, assets_dir=None, ui=None, **kwargs):
+    def __init__(
+        self,
+        display,
+        assets_dir=None,
+        ui=None,
+        title="Menu",
+        items=None,
+        app=None,
+    ):
 
         super().__init__(
             display,
@@ -19,8 +27,8 @@ class MainMenu(MenuScreen):
                 MenuItem("Dictionary", action=self.dictionary),
                 MenuItem("Settings", screen=SettingsScreen),
             ],
-            **kwargs
-        )
+            app=app,
+            )
 
     def continue_reading(self):
         print("Continue Reading")

@@ -5,6 +5,7 @@ from app.core.logger import Logger
 from app.core.ui import UI
 from app.screens.home import HomeScreen
 from app.library.library_manager import LibraryManager
+from app.web.server import WebServer
 
 
 logger = Logger("App")
@@ -16,11 +17,16 @@ class App:
         self.encoder = None
         self.ui = None
         self.library = None
+        self.web_server = None
         self.running = True
-
+        
     def initialize(self):
         
         self.library = LibraryManager()
+        
+        self.web_server = WebServer(
+            self.library
+        )
         
         try:
             from app.hardware.display import Display
@@ -40,7 +46,7 @@ class App:
         
         self.ui = UI(
             self.display,
-            library=self.library
+            app=self
         )
         self.ui.show(HomeScreen)
         logger.info("App initialized")
