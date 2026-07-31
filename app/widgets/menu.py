@@ -48,7 +48,7 @@ class MenuScreen(Screen):
 
         # Calculate how many items fit
         footer_height = 40
-        available_height = self.display.height - self.menu_start_y - footer_height
+        available_height = self.display.width - self.menu_start_y - footer_height
 
         self.visible_items = max(1, available_height // self.item_height)
 
@@ -70,7 +70,7 @@ class MenuScreen(Screen):
         )
 
         draw.line(
-            (15, 38, self.display.width - 15, 38),
+            (15, 38, self.display.height - 15, 38),
             fill=0,
         )
 
@@ -117,9 +117,9 @@ class MenuScreen(Screen):
 
                 draw.rectangle(
                     (
-                        self.display.width - 8,
+                        self.display.height - 8,
                         scrollbar_y,
-                        self.display.width - 4,
+                        self.display.height - 4,
                         scrollbar_y + scrollbar_height,
                     ),
                     fill=0,
@@ -129,10 +129,10 @@ class MenuScreen(Screen):
         # Footer
         #
 
-        footer_y = self.display.height - 35
+        footer_y = self.display.width - 35
 
         draw.line(
-            (0, footer_y - 5, self.display.width, footer_y - 5),
+            (0, footer_y - 5, self.display.height, footer_y - 5),
             fill=0,
         )
 
@@ -149,7 +149,7 @@ class MenuScreen(Screen):
         ip_width = draw.textlength(ip, font=self.display.get_font(18))
 
         draw.text(
-            (self.display.width - ip_width - 10, footer_y),
+            (self.display.height - ip_width - 10, footer_y),
             ip,
             font=self.display.get_font(18),
             fill=0,
