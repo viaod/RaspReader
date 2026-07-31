@@ -6,11 +6,9 @@ from app.web.server import WebServer
 
 
 class UploadScreen(Screen):
-    def __init__(self, ui):
-        super().__init__(ui)
-        self.server = WebServer()
 
     def show(self):
+        self.server = WebServer()
         self.server.start()
 
         self.display.clear_image()
