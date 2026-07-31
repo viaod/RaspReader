@@ -5,7 +5,7 @@ from flask import (
     flash,
 )
 
-from app.library.manager import LibraryManager
+from app.library.library_manager import LibraryManager
 from app.web.upload import upload_book
 
 library = LibraryManager()
