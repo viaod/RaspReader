@@ -10,10 +10,22 @@ logging.addLevelName(TRACE_LEVEL, "TRACE")
 def log_with_extra(func):
     @wraps(func)
     def wrapper(self, msg, *args, **kwargs):
-        extra_info = {}
-        for key, value in kwargs.items():
-            extra_info[key] = value
-        return func(self, msg, *args, extra=extra_info)
+        reserved = {
+            "exc_info",
+            "stack_info",
+            "stacklevel",
+            "extra",
+        }
+
+        extra = kwargs.pop("extra", {})
+
+        for key in list(kwargs.keys()):
+            if key not in reserved:
+                extra[key] = kwargs.pop(key)
+
+        kwargs["extra"] = extra
+
+        return func(self, msg, *args, **kwargs)
 
     return wrapper
 

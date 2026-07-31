@@ -6,6 +6,7 @@ from flask import (
 )
 
 from app.library.library_manager import LibraryManager
+Logger
 from app.web.upload import upload_book
 
 library = LibraryManager()
@@ -23,17 +24,23 @@ def register_routes(app):
 
     @app.route("/upload", methods=["POST"])
     def upload():
-
         file = request.files.get("book")
 
         if file is None or file.filename == "":
-            flash("Please choose a book.")
-            return redirect("/")
+            return render_template(
+                "upload.html",
+                books=library.get_books(),
+                error="Please choose a book."
+            )
 
         try:
             upload_book(file, library)
-
+            logger.info("Book uploaded", filename="alice.epub")
         except ValueError as e:
-            flash(str(e))
+            return render_template(
+                "upload.html",
+                books=library.get_books(),
+                error=str(e)
+            )
 
         return redirect("/")
