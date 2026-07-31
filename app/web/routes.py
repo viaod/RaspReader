@@ -35,7 +35,6 @@ def register_routes(app):
 
         try:
             upload_book(file, library)
-            logger.info("Book uploaded", filename="alice.epub")
         except ValueError as e:
             return render_template(
                 "upload.html",
