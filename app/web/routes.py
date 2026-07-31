@@ -34,11 +34,12 @@ def register_routes(app):
 
         try:
             upload_book(file, library)
-        except ValueError as e:
+        except Exception as e:
+            print(type(e), repr(e))   # Debug
             return render_template(
                 "upload.html",
                 books=library.get_books(),
-                error=str(e)
+                error=f"{type(e).__name__}: {e}"
             )
 
         return redirect("/")
