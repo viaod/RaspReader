@@ -1,12 +1,20 @@
 from pathlib import Path
 
 class Screen:
-    def __init__(self, display, assets_dir=None, ui=None):
+
+    def __init__(
+        self,
+        display,
+        assets_dir=None,
+        ui=None,
+        **services
+    ):
         self.display = display
+        self.assets_dir = assets_dir
         self.ui = ui
-        self.assets_dir = Path(
-            assets_dir or Path(__file__).resolve().parent.parent.parent / "assets"
-        )
+
+        for name, value in services.items():
+            setattr(self, name, value)
 
     def show(self):
         raise NotImplementedError
