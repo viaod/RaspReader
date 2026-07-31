@@ -46,7 +46,7 @@ class Display:
         # dimensions (height, width), not (width, height).
         self.image = Image.new(
             "RGB",
-            (self.height, self.width),
+            (self.width, self.height),
             self.epd.WHITE,
         )
 
