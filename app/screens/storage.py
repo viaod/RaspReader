@@ -27,12 +27,17 @@ class StorageScreen(Screen):
         font = self.display.get_font(18)
 
         # Title
-        self.draw_centered("Storage", 20, font_title)
+        self.display.draw.text(
+            (20, 20),
+            "Storage",
+            font=font_title,
+            fill=0,
+        )
 
         # Progress bar
         width = 180
         height = 20
-        x = (self.display.width - width) // 2
+        x = (self.display.height - width) // 2
         y = 70
 
         self.display.draw.rectangle(
@@ -69,10 +74,11 @@ class StorageScreen(Screen):
         )
 
         # Back hint
-        self.draw_centered(
+        self.display.draw.text(
+            (20, 220),
             "< Left to return",
-            220,
-            font,
+            font=font,
+            fill=0,
         )
         
         # self.display.draw.rectangle(
