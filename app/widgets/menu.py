@@ -23,9 +23,17 @@ class MenuScreen(Screen):
         ui=None,
         title="Menu",
         items=None,
+        app=None,
     ):
-        super().__init__(display, assets_dir, ui)
+        super().__init__(
+            display,
+            assets_dir,
+            ui,
+            app=app,
+        )
 
+        self.app = app
+        
         self.title = title
         self.items = items or []
 
