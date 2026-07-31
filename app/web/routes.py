@@ -6,7 +6,6 @@ from flask import (
 )
 
 from app.library.library_manager import LibraryManager
-Logger
 from app.web.upload import upload_book
 
 library = LibraryManager()
