@@ -4,6 +4,8 @@ from app.core.events import Event
 from app.core.logger import Logger
 from app.core.ui import UI
 from app.screens.home import HomeScreen
+from app.library.library_manager import LibraryManager
+
 
 logger = Logger("App")
 
@@ -13,9 +15,13 @@ class App:
         self.display = None
         self.encoder = None
         self.ui = None
+        self.library = None
         self.running = True
 
     def initialize(self):
+        
+        self.library = LibraryManager()
+        
         try:
             from app.hardware.display import Display
             self.display = Display()
@@ -31,8 +37,11 @@ class App:
         except Exception as exc:
             logger.warning(f"Encoder unavailable: {exc}")
             self.encoder = None
-
-        self.ui = UI(self.display)
+        
+        self.ui = UI(
+            self.display,
+            library=self.library
+        )
         self.ui.show(HomeScreen)
         logger.info("App initialized")
 

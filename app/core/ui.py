@@ -4,12 +4,13 @@ from app.screens.home import HomeScreen
 
 
 class UI:
-    def __init__(self, display=None, assets_dir=None):
+    def __init__(self, display=None, assets_dir=None, library=None):
         self.display = display
         self.assets_dir = Path(
             assets_dir or Path(__file__).resolve().parent.parent.parent / "assets"
         )
-
+        self.library = library
+        
         self.current_screen = None
 
     def show(self, screen_cls):
@@ -20,7 +21,8 @@ class UI:
         self.current_screen = screen_cls(
             self.display,
             self.assets_dir,
-            self
+            self,
+            library=self.library
         )
 
         self.current_screen.show()

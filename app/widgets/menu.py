@@ -28,10 +28,21 @@ class MenuScreen(Screen):
 
         self.title = title
         self.items = items or []
+
         self.selected = 0
+        self.scroll_offset = 0
+
+        self.item_height = 25
+        self.menu_start_y = 60
 
         self.title_font = ImageFont.load_default()
         self.item_font = ImageFont.load_default()
+
+        # Calculate how many items fit
+        footer_height = 40
+        available_height = self.display.height - self.menu_start_y - footer_height
+
+        self.visible_items = max(1, available_height // self.item_height)
 
     def show(self):
 
@@ -39,18 +50,34 @@ class MenuScreen(Screen):
 
         draw = self.display.draw
 
+        #
+        # Title
+        #
+
         draw.text(
             (20, 20),
             self.title,
             font=self.display.get_font(24),
             fill=0,
         )
-        
-        draw.line((15, 38, 400, 38), fill=0)
 
-        y = 60
+        draw.line(
+            (15, 38, self.display.width - 15, 38),
+            fill=0,
+        )
 
-        for i, item in enumerate(self.items):
+        #
+        # Menu items
+        #
+
+        start = self.scroll_offset
+        end = min(start + self.visible_items, len(self.items))
+
+        y = self.menu_start_y
+
+        for i in range(start, end):
+
+            item = self.items[i]
 
             prefix = "▶ " if i == self.selected else "  "
 
@@ -61,28 +88,60 @@ class MenuScreen(Screen):
                 fill=0,
             )
 
-            y += 25
-            
+            y += self.item_height
+
+        #
+        # Scroll indicator
+        #
+
+        if len(self.items) > self.visible_items:
+
+            scrollbar_height = int((self.visible_items / len(self.items)) * 100)
+
+            scrollbar_height = max(scrollbar_height, 10)
+
+            max_scroll = len(self.items) - self.visible_items
+
+            if max_scroll > 0:
+                scrollbar_y = int(
+                    60 + (100 - scrollbar_height) * (self.scroll_offset / max_scroll)
+                )
+
+                draw.rectangle(
+                    (
+                        self.display.width - 8,
+                        scrollbar_y,
+                        self.display.width - 4,
+                        scrollbar_y + scrollbar_height,
+                    ),
+                    fill=0,
+                )
+
         #
         # Footer
         #
 
+        footer_y = self.display.height - 35
+
+        draw.line(
+            (0, footer_y - 5, self.display.width, footer_y - 5),
+            fill=0,
+        )
+
         wifi = self.get_wifi_status()
         ip = self.get_ip()
 
-        draw.line((0, 215, 415, 215), fill=0)
-
         draw.text(
-            (10, 222),
+            (10, footer_y),
             wifi,
             font=self.display.get_font(18),
             fill=0,
         )
-        
-        w = draw.textlength(ip, font=self.display.get_font(18))
+
+        ip_width = draw.textlength(ip, font=self.display.get_font(18))
 
         draw.text(
-            (415 - w - 10, 222),
+            (self.display.width - ip_width - 10, footer_y),
             ip,
             font=self.display.get_font(18),
             fill=0,
@@ -92,15 +151,40 @@ class MenuScreen(Screen):
 
     def handle_input(self, event):
 
+        if not self.items:
+            return
+
+        #
+        # Move down
+        #
+
         if event == Event.DOWN:
 
-            self.selected = (self.selected + 1) % len(self.items)
+            if self.selected < len(self.items) - 1:
+                self.selected += 1
+
+            if self.selected >= self.scroll_offset + self.visible_items:
+                self.scroll_offset += 1
+
             self.show()
+
+        #
+        # Move up
+        #
 
         elif event == Event.UP:
 
-            self.selected = (self.selected - 1) % len(self.items)
+            if self.selected > 0:
+                self.selected -= 1
+
+            if self.selected < self.scroll_offset:
+                self.scroll_offset -= 1
+
             self.show()
+
+        #
+        # Select
+        #
 
         elif event == Event.SELECT:
 
@@ -112,13 +196,17 @@ class MenuScreen(Screen):
             elif item.action is not None:
                 item.action()
 
+        #
+        # Back
+        #
+
         elif event == Event.LEFT:
 
             self.back()
 
     def back(self):
         pass
-    
+
     def get_wifi_status(self):
 
         try:
@@ -153,4 +241,3 @@ class MenuScreen(Screen):
             pass
 
         return "No IP"
-    
