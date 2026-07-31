@@ -8,6 +8,31 @@
 </head>
 <body>
 
+{% if error %}
+<div class="banner banner-error">
+    {{ error }}
+</div>
+{% endif %}
+
+{% if success %}
+<div class="banner banner-success">
+    {{ success }}
+</div>
+{% endif %}
+
+<script>
+const banner = document.querySelector(".banner");
+
+if (banner) {
+    setTimeout(() => {
+        banner.style.transition = "opacity 0.5s";
+        banner.style.opacity = "0";
+
+        setTimeout(() => banner.remove(), 500);
+    }, 3000);
+}
+</script>
+
 <div class="container">
 
     <div class="card">
@@ -19,21 +44,6 @@
             <button type="submit">Upload Book</button>
         </form>
 
-        <script>
-        document.getElementById("upload-form").addEventListener("submit", function () {
-            const button = document.getElementById("upload-button");
-            button.disabled = true;
-            button.textContent = "Uploading...";
-        });
-        </script>
-            
-        {% if error %}
-        <div class="message error">
-            {{ error }}
-        </div>
-        {% endif %}
-
-        <p>DEBUG: {{ error }}</p>
     </div>
 
 
