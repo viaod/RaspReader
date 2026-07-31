@@ -1,3 +1,4 @@
+import ebooklib
 from ebooklib import epub
 
 from app.library.book import Book
