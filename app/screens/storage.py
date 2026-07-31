@@ -9,7 +9,7 @@ class StorageScreen(Screen):
     def draw_centered(self, text, y, font):
         bbox = self.display.draw.textbbox((0, 0), text, font=font)
         text_width = bbox[2] - bbox[0]
-        x = (self.display.width - text_width) // 2
+        x = (self.display.height - text_width) // 2
         self.display.draw.text((x, y), text, font=font, fill=0)
 
     def show(self):
@@ -75,11 +75,11 @@ class StorageScreen(Screen):
             font,
         )
         
-        self.display.draw.rectangle(
-            (0, 0, self.display.height - 1, self.display.width - 1),
-            outline=0,
-            width=2,
-        )
+        # self.display.draw.rectangle(
+        #     (0, 0, self.display.height - 1, self.display.width - 1),
+        #     outline=0,
+        #     width=2,
+        # )
 
         self.display.refresh()
 
