@@ -36,8 +36,8 @@ class Display:
         # flag for switching between full and fast refresh
         self.fast_mode = False
 
-        self.width = self.epd.height
-        self.height = self.epd.width
+        self.width = self.epd.width
+        self.height = self.epd.height
 
         logger.info(f"Display size: {self.width}x{self.height}")
 

@@ -6,6 +6,12 @@ from app.screen import Screen
 
 class StorageScreen(Screen):
 
+    def draw_centered(self, text, y, font):
+        bbox = self.display.draw.textbbox((0, 0), text, font=font)
+        text_width = bbox[2] - bbox[0]
+        x = (self.display.width - text_width) // 2
+        self.display.draw.text((x, y), text, font=font, fill=0)
+
     def show(self):
         total, used, free = shutil.disk_usage("/")
 
@@ -20,18 +26,14 @@ class StorageScreen(Screen):
         font_title = self.display.get_font(22)
         font = self.display.get_font(18)
 
-        self.display.draw.text(
-            (20, 20),
-            "Storage",
-            font=font_title,
-            fill=0,
-        )
+        # Title
+        self.draw_centered("Storage", 20, font_title)
 
         # Progress bar
-        x = 20
-        y = 70
         width = 180
         height = 20
+        x = (self.display.width - width) // 2
+        y = 70
 
         self.display.draw.rectangle(
             (x, y, x + width, y + height),
@@ -47,32 +49,36 @@ class StorageScreen(Screen):
                 fill=0,
             )
 
-        self.display.draw.text(
-            (20, 105),
+        # Storage information
+        self.draw_centered(
             f"Used: {used_gb:.1f} / {total_gb:.1f} GB",
-            font=font,
-            fill=0,
+            105,
+            font,
         )
 
-        self.display.draw.text(
-            (20, 135),
+        self.draw_centered(
             f"Free: {free_gb:.1f} GB",
-            font=font,
-            fill=0,
+            135,
+            font,
         )
 
-        self.display.draw.text(
-            (20, 165),
-            f"{percent*100:.0f}% used",
-            font=font,
-            fill=0,
+        self.draw_centered(
+            f"{percent * 100:.0f}% used",
+            165,
+            font,
         )
 
-        self.display.draw.text(
-            (20, 220),
+        # Back hint
+        self.draw_centered(
             "< Left to return",
-            font=font,
-            fill=0,
+            220,
+            font,
+        )
+        
+        self.display.draw.rectangle(
+            (0, 0, self.display.width - 1, self.display.height - 1),
+            outline=0,
+            width=2,
         )
 
         self.display.refresh()
