@@ -1,3 +1,136 @@
+/* ---------- Reset ---------- */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* ---------- Body ---------- */
+
 body {
-    font-family: sans-serif;
+    font-family: Arial, Helvetica, sans-serif;
+    background: #f2f4f7;
+    color: #333;
+    padding: 40px 20px;
+}
+
+/* ---------- Layout ---------- */
+
+.container {
+    max-width: 700px;
+    margin: 0 auto;
+}
+
+.card {
+    background: #fff;
+    border-radius: 12px;
+    padding: 30px;
+    margin-bottom: 25px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+/* ---------- Headings ---------- */
+
+h1 {
+    text-align: center;
+    color: #c51a4a; /* Raspberry Pi pink */
+    margin-bottom: 10px;
+}
+
+.subtitle {
+    text-align: center;
+    color: #777;
+    margin-bottom: 25px;
+}
+
+h2 {
+    margin-bottom: 20px;
+    border-bottom: 2px solid #eee;
+    padding-bottom: 10px;
+}
+
+/* ---------- Upload Form ---------- */
+
+.upload-box {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+input[type="file"] {
+    padding: 15px;
+    border: 2px dashed #bbb;
+    border-radius: 8px;
+    background: #fafafa;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+input[type="file"]:hover {
+    border-color: #c51a4a;
+    background: #fff;
+}
+
+button {
+    align-self: center;
+    padding: 12px 28px;
+    border: none;
+    border-radius: 8px;
+    background: #c51a4a;
+    color: white;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background 0.2s ease;
+}
+
+button:hover {
+    background: #a0153c;
+}
+
+/* ---------- Library ---------- */
+
+ul {
+    list-style: none;
+}
+
+li {
+    background: #fafafa;
+    border-left: 5px solid #c51a4a;
+    padding: 15px;
+    margin-bottom: 12px;
+    border-radius: 8px;
+}
+
+li strong {
+    display: block;
+    font-size: 1.05rem;
+    margin-bottom: 4px;
+}
+
+li small {
+    color: #666;
+}
+
+.empty {
+    text-align: center;
+    color: #888;
+    border-left: none;
+}
+
+/* ---------- Mobile ---------- */
+
+@media (max-width: 600px) {
+    body {
+        padding: 20px 10px;
+    }
+
+    .card {
+        padding: 20px;
+    }
+
+    button {
+        width: 100%;
+    }
 }

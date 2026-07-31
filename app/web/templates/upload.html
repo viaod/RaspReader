@@ -1,18 +1,41 @@
-<h1>RaspReader</h1>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RaspReader</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
 
-<form action="/upload" method="POST" enctype="multipart/form-data">
-    <input type="file" name="book" accept=".epub">
-    <button type="submit">Upload</button>
-</form>
+<div class="container">
 
-<hr>
+    <div class="card">
+        <h1>📚 RaspReader</h1>
+        <p class="subtitle">Your personal Raspberry Pi ebook library</p>
 
-<h2>Library</h2>
+        <form class="upload-box" action="/upload" method="POST" enctype="multipart/form-data">
+            <input type="file" name="book" accept=".epub" required>
+            <button type="submit">Upload Book</button>
+        </form>
+    </div>
 
-<ul>
-{% for book in books %}
-    <li>{{ book.title }}</li>
-{% else %}
-    <li>No books uploaded.</li>
-{% endfor %}
-</ul>
+    <div class="card">
+        <h2>Library</h2>
+
+        <ul>
+        {% for book in books %}
+            <li>
+                <strong>{{ book.title }}</strong><br>
+                <small>by {{ book.author }}</small>
+            </li>
+        {% else %}
+            <li class="empty">No books uploaded yet.</li>
+        {% endfor %}
+        </ul>
+    </div>
+
+</div>
+
+</body>
+</html>
