@@ -18,13 +18,16 @@
             <input type="file" name="book" accept=".epub" required>
             <button type="submit">Upload Book</button>
         </form>
+            
+        {% if error %}
+        <div class="message error">
+            {{ error }}
+        </div>
+        {% endif %}
+
+        <p>DEBUG: {{ error }}</p>
     </div>
 
-    {% if error %}
-    <div class="message">
-        {{ error }}
-    </div>
-    {% endif %}
 
     <div class="card">
         <h2>Library</h2>

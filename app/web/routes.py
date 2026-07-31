@@ -23,9 +23,15 @@ def register_routes(app):
 
     @app.route("/upload", methods=["POST"])
     def upload():
+        print("=== upload route ===")
+
         file = request.files.get("book")
 
+        print("file:", file)
+        print("filename:", file.filename if file else None)
+
         if file is None or file.filename == "":
+            print("No file selected")
             return render_template(
                 "upload.html",
                 books=library.get_books(),
@@ -34,12 +40,14 @@ def register_routes(app):
 
         try:
             upload_book(file, library)
+            print("Upload succeeded")
         except Exception as e:
-            print(type(e), repr(e))   # Debug
+            print("Caught:", type(e).__name__, e)
             return render_template(
                 "upload.html",
                 books=library.get_books(),
-                error=f"{type(e).__name__}: {e}"
+                error=str(e)
             )
 
+        print("Redirecting")
         return redirect("/")
