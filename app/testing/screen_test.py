@@ -23,6 +23,8 @@ def main():
         while True:
             pass
     except KeyboardInterrupt:
+        display.clear_image()
+        display.refresh()
         display.sleep()
 
 

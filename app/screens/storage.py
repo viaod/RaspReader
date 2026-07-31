@@ -81,12 +81,6 @@ class StorageScreen(Screen):
             fill=0,
         )
         
-        # self.display.draw.rectangle(
-        #     (0, 0, self.display.height - 1, self.display.width - 1),
-        #     outline=0,
-        #     width=2,
-        # )
-
         self.display.refresh()
 
     def handle_input(self, event):
