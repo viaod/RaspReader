@@ -1,0 +1,18 @@
+<h1>RaspReader</h1>
+
+<form action="/upload" method="POST" enctype="multipart/form-data">
+    <input type="file" name="book" accept=".epub">
+    <button type="submit">Upload</button>
+</form>
+
+<hr>
+
+<h2>Library</h2>
+
+<ul>
+{% for book in books %}
+    <li>{{ book.name }}</li>
+{% else %}
+    <li>No books uploaded.</li>
+{% endfor %}
+</ul>

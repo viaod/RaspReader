@@ -16,3 +16,4 @@ sudo apt install python3 python3-flask
 ```
 sudo python3 -m app.web.app
 ```
+- go to: http://192.168.68.xxx:5000/
