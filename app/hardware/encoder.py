@@ -71,8 +71,9 @@ class Encoder:
 
     def _notify(self, event):
         for listener in self.listeners:
-            listener(event)
             logger.info(f"Notified listener {listener} with event: {event}")
+            listener(event)
+            logger.info(f"Event Completed: {listener} with event: {event}")
             
     def update(self):
         self.rotation = 0
