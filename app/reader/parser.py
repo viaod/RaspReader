@@ -9,6 +9,10 @@ class Parser:
 
         for chapter_number, document in enumerate(documents, start=1):
 
+            if not document or not document.strip():
+                print(f"Skipping empty document {chapter_number}")
+                continue
+
             tree = html.fromstring(document)
 
             heading = tree.xpath("//h1|//h2|//h3")
