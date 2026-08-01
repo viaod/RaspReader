@@ -29,7 +29,7 @@ class Parser:
         chapters.append(
             Chapter(
                 title=title,
-                content=content,
+                text=content,
             )
         )
 
