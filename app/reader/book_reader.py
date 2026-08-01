@@ -1,3 +1,4 @@
+from app.library import chapter
 from app.reader.parser import Parser
 from app.reader.paginator import Paginator
 from app.library.metadata import load_text
@@ -20,8 +21,17 @@ class BookReader:
         print(len(book_content))
         print(book_content[:200])
         
-        # parsed_book = self.parser.parse_book(book_content)
-        # print(parsed_book[:100])  
+        parsed_book = self.parser.parse_book(book_content)
+        
+        print(f"Chapters: {len(parsed_book)}")
+        for chapter in parsed_book:
+            print(chapter.title)
+            
+        print(parsed_book[0].title)
+        print(parsed_book[0].content[:500])
+            
+        for i, chapter in enumerate(parsed_book, start=1):
+            print(f"{i}. {chapter.title} ({len(chapter.content)} characters)")
         # Print the first 100 characters of the parsed book for debugging
         
         
