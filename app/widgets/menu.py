@@ -129,7 +129,7 @@ class MenuScreen(Screen):
         # Footer
         #
 
-        footer_y = self.display.width - 40
+        footer_y = self.display.width - 30
 
         draw.line(
             (0, footer_y - 5, self.display.height, footer_y - 5),
