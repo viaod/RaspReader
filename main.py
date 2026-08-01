@@ -6,6 +6,7 @@ from app.core.ui import UI
 from app.screens.home import HomeScreen
 from app.library.library_manager import LibraryManager
 from app.web.server import WebServer
+from app.reader.book_reader import BookReader
 
 
 logger = Logger("App")
@@ -23,6 +24,7 @@ class App:
     def initialize(self):
         
         self.library = LibraryManager()
+        self.book_reader = BookReader(self.library)
         
         self.web_server = WebServer(
             self.library

@@ -3,6 +3,19 @@ from ebooklib import epub
 
 from app.library.book import Book
 
+def load_text(path):
+    """
+    Read an EPUB file and return its text content.
+    """
+
+    epub_book = epub.read_epub(str(path))
+
+    text_content = []
+
+    for item in epub_book.get_items_of_type(ebooklib.ITEM_DOCUMENT):
+        text_content.append(item.get_content().decode("utf-8"))
+
+    return "\n".join(text_content)
 
 def load_book(path):
     """
