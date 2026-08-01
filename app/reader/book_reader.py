@@ -25,13 +25,15 @@ class BookReader:
         
         print(f"Chapters: {len(parsed_book)}")
         
-        for chapter in parsed_book:
-            print(chapter.title)
-            
-        
         print(type(parsed_book))
         print(type(parsed_book[0]))
-        print(parsed_book[0])
+        
+        # for chapter in parsed_book:
+        #     print(chapter.title)
+    
+        # print(type(parsed_book))
+        # print(type(parsed_book[0]))
+        # print(parsed_book[0])
             
         # print(parsed_book[0]["title"])
         # print(parsed_book[0]["content"][:500])
