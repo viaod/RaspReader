@@ -1,6 +1,6 @@
 from lxml import html
 
-from app.reader.chapter import Chapter
+from app.library.chapter import Chapter
 
 
 class Parser:
