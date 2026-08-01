@@ -19,11 +19,12 @@ class BookReader:
         
         print(type(book_content))
         print(len(book_content))
-        print(book_content[:200])
+        # print(book_content[:200])
         
         parsed_book = self.parser.parse_book(book_content)
         
         print(f"Chapters: {len(parsed_book)}")
+        
         for chapter in parsed_book:
             print(chapter.title)
             

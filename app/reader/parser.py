@@ -12,7 +12,7 @@ class Parser:
 
         for chapter_number, document in enumerate(documents, start=1):
 
-            soup = BeautifulSoup(document, "lxml")
+            soup = BeautifulSoup(document, "xml")
 
             heading = soup.find(["h1", "h2", "h3"])
 
