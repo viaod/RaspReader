@@ -168,11 +168,14 @@ class MenuScreen(Screen):
 
         if event == Event.DOWN:
 
-            if self.selected < len(self.items) - 1:
-                self.selected += 1
+            self.selected = (self.selected + 1) % len(self.items)
 
-            if self.selected >= self.scroll_offset + self.visible_items:
-                self.scroll_offset += 1
+            if self.selected == 0:
+                # Wrapped to the top
+                self.scroll_offset = 0
+
+            elif self.selected >= self.scroll_offset + self.visible_items:
+                self.scroll_offset = self.selected - self.visible_items + 1
 
             self.show()
 
@@ -182,11 +185,17 @@ class MenuScreen(Screen):
 
         elif event == Event.UP:
 
-            if self.selected > 0:
-                self.selected -= 1
+            self.selected = (self.selected - 1) % len(self.items)
 
-            if self.selected < self.scroll_offset:
-                self.scroll_offset -= 1
+            if self.selected == len(self.items) - 1:
+                # Wrapped to the bottom
+                self.scroll_offset = max(
+                    0,
+                    len(self.items) - self.visible_items,
+                )
+
+            elif self.selected < self.scroll_offset:
+                self.scroll_offset = self.selected
 
             self.show()
 
