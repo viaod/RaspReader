@@ -14,7 +14,7 @@ class Parser:
 
             soup = BeautifulSoup(document, "xml")
 
-            heading = soup.find(["h1", "h2", "h3"])
+            heading = soup.find(["h1", "h2"])
 
             if heading:
                 title = heading.get_text(strip=True)
@@ -26,10 +26,12 @@ class Parser:
             if not content:
                 continue
 
-            chapters.append({
-                "title": title,
-                "content": content,
-            })
+        chapters.append(
+            Chapter(
+                title=title,
+                content=content,
+            )
+        )
 
         return chapters
     

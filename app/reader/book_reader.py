@@ -29,7 +29,7 @@ class BookReader:
         print(type(parsed_book[0]))
         
         for chapter in parsed_book:
-            print(chapter['title'])
+            print(chapter.title)
     
         # print(type(parsed_book))
         # print(type(parsed_book[0]))
