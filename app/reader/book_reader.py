@@ -16,9 +16,12 @@ class BookReader:
         # Use the library to get the book content
         book_content = load_text(book.path)
         
-        parsed_book = self.parser.parse_book(book_content)
+        print(type(book_content))
+        print(len(book_content))
+        print(book_content[:200])
         
-        print(parsed_book[:100])  
+        # parsed_book = self.parser.parse_book(book_content)
+        # print(parsed_book[:100])  
         # Print the first 100 characters of the parsed book for debugging
         
         
