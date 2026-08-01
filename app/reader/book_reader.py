@@ -28,11 +28,11 @@ class BookReader:
         for chapter in parsed_book:
             print(chapter.title)
             
-        print(parsed_book[0].title)
-        print(parsed_book[0].content[:500])
+        print(parsed_book[0]["title"])
+        print(parsed_book[0]["content"][:500])
             
         for i, chapter in enumerate(parsed_book, start=1):
-            print(f"{i}. {chapter.title} ({len(chapter.content)} characters)")
+            print(f"{i}. {chapter['title']} ({len(chapter['content'])} characters)")
         # Print the first 100 characters of the parsed book for debugging
         
         
