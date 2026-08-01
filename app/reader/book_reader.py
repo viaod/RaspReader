@@ -18,8 +18,8 @@ class BookReader:
         
         parsed_book = self.parser.parse_book(book_content)
         
-        print(parsed_book[:300])  
-        # Print the first 300 characters of the parsed book for debugging
+        print(parsed_book[:100])  
+        # Print the first 100 characters of the parsed book for debugging
         
         
         # # Parse the book content into chapters
