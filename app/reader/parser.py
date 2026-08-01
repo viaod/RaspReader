@@ -1,4 +1,4 @@
-from bs4 import BeautifulSoup
+from lxml import html
 
 
 class Parser:
@@ -9,16 +9,16 @@ class Parser:
 
         for chapter_number, document in enumerate(documents, start=1):
 
-            soup = BeautifulSoup(document, "html.parser")
+            tree = html.fromstring(document)
 
-            heading = soup.find(["h1", "h2", "h3"])
+            heading = tree.xpath("//h1|//h2|//h3")
 
             if heading:
-                title = heading.get_text(strip=True)
+                title = heading[0].text_content().strip()
             else:
                 title = f"Chapter {chapter_number}"
 
-            content = soup.get_text("\n", strip=True)
+            content = tree.text_content().strip()
 
             chapters.append({
                 "title": title,
