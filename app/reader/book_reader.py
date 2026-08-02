@@ -1,6 +1,5 @@
 from app.library.book import Chapter
 from app.reader.chapters import load_chapters
-from app.reader.parser import Parser
 from app.reader.paginator import Paginator
 from app.library.metadata import load_metadata
 
