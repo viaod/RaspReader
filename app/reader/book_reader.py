@@ -17,40 +17,9 @@ class BookReader:
         # Use the library to get the book content
         book_content = load_text(book.path)
         
-        print(type(book_content))
-        print(len(book_content))
-        # print(book_content[:200])
+        # Parse the book content into chapters
         
-        parsed_book = self.parser.parse_book(book_content)
-        
-        print(f"Chapters: {len(parsed_book)}")
-        
-        print(type(parsed_book))
-        print(type(parsed_book[0]))
-        
-        for chapter in parsed_book:
-            print(chapter.title)
-    
-        # print(type(parsed_book))
-        # print(type(parsed_book[0]))
-        # print(parsed_book[0])
-            
-        # print(parsed_book[0]["title"])
-        # print(parsed_book[0]["content"][:500])
-            
-        for i, chapter in enumerate(parsed_book, start=1):
-            print(f"{i}. {chapter['title']} ({len(chapter['content'])} characters)")
-        # Print the first 100 characters of the parsed book for debugging
-        
-        
-        # # Parse the book content into chapters
-        # self.parser.chapters = self.parse_book(book_content)
-        
-        # # Paginate the parsed chapters into pages
-        # self.paginator.pages = self.paginate_chapters(self.parser.chapters)
-        
-        # # Reset current page index
-        # self.paginator.current_page_index = 0
+        # Turn 
         
     def close():
         ...

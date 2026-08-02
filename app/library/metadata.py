@@ -1,33 +1,25 @@
 import ebooklib
 from ebooklib import epub
+from ebooklib.utils import HTMLFilter
+from html.parser import HTMLParser
 
 from app.library.book import Book
 
 def load_text(path):
 
     book = epub.read_epub(str(path))
-
-    documents = []
-
-    for item_id, _ in book.spine:
-
-        # Skip the navigation document
-        if item_id == "nav":
-            continue
-
-        item = book.get_item_with_id(item_id)
-
-        if item is None:
-            continue
-
-        if item.get_type() != ebooklib.ITEM_DOCUMENT:
-            continue
-
-        documents.append(
-            item.get_content().decode("utf-8")
-        )
-
-    return documents
+    
+    content = ""
+    
+    for item in book.get_items():
+        if item.get_type() == ebooklib.ITEM_DOCUMENT:
+            bodyContent = item.get_body_content().decode()
+            f = HTMLFilter()
+            f.feed(bodyContent)
+            content += f.text
+            
+    print(content[:250])
+    
 
 def load_book(path):
     """
