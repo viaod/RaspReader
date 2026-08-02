@@ -65,16 +65,17 @@ class ReaderScreen(Screen):
 
     def handle_input(self, event):
 
-        if event == Event.DOWN:
+        if event == Event.RIGHT:
             self.book_reader.next_page()
             self.show()
 
 
-        elif event == Event.UP:
+        elif event == Event.LEFT:
             self.book_reader.previous_page()
             self.show()
 
 
-        elif event == Event.LEFT:
+        elif event == Event.SELECT:
             from app.screens.library_menu import LibraryScreen
             self.ui.show(LibraryScreen)
+            # TODO: change to reader menu
