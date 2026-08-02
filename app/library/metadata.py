@@ -1,57 +1,29 @@
-import ebooklib
+from pathlib import Path
+
 from ebooklib import epub
-from html.parser import HTMLParser
 
-from app.library.book import Book
+from .book import Book
 
-def load_text(path):
 
-    book = epub.read_epub(str(path))
-    
-    content = ""
-    
-    for item in book.get_items():
-        if item.get_type() == ebooklib.ITEM_DOCUMENT:
-            bodyContent = item.get_body_content().decode()
-            f = HTMLFilter()
-            f.feed(bodyContent)
-            content += f.text
-            
-    print(content[:250])
-    
+def _get_metadata(book, key, default=None):
 
-def load_book(path):
-    """
-    Read an EPUB file and return a Book object.
-    """
+    value = book.get_metadata("DC", key)
+
+    if value:
+        return value[0][0]
+
+    return default
+
+
+def load_metadata(path: Path):
 
     epub_book = epub.read_epub(str(path))
 
-    title = path.stem
-    author = "Unknown"
-
-    metadata = epub_book.get_metadata("DC", "title")
-    if metadata:
-        title = metadata[0][0]
-
-    metadata = epub_book.get_metadata("DC", "creator")
-    if metadata:
-        author = metadata[0][0]
-
     return Book(
         path=path,
-        title=title,
-        author=author,
-        # description=...,
-        # publisher=...,
-        # chapters=...,
+        title=_get_metadata(epub_book, "title", path.stem),
+        author=_get_metadata(epub_book, "creator", "Unknown"),
+        language=_get_metadata(epub_book, "language"),
+        publisher=_get_metadata(epub_book, "publisher"),
+        description=_get_metadata(epub_book, "description"),
     )
-    
-    # def get_title(...)
-    # def get_author(...)
-    # def get_language(...)
-    # def get_cover(...)
-    # def get_description(...)
-    # def get_publisher(...)
-    # def get_date(...)
-    # def get_subjects(...)

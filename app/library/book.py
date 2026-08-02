@@ -1,5 +1,12 @@
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from pathlib import Path
+
+
+@dataclass
+class Chapter:
+    title: str
+    text: str
+
 
 @dataclass
 class Book:
@@ -7,6 +14,8 @@ class Book:
     title: str
     author: str
 
-    @property
-    def filename(self):
-        return self.path.name
+    language: str | None = None
+    publisher: str | None = None
+    description: str | None = None
+
+    chapters: list[Chapter] = field(default_factory=list)
