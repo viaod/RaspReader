@@ -14,6 +14,11 @@ class LibraryScreen(MenuScreen):
         self.app = app
 
         books = self.app.library.get_books()
+         
+        # books = sorted(
+        #     self.app.library.get_books(),
+        #     key=lambda book: book.title.lower()
+        # )
 
         items = []
 

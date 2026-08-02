@@ -8,14 +8,11 @@ class Screen:
         assets_dir=None,
         ui=None,
         app=None,
-        book_reader=None,
-
     ):
         self.display = display
         self.assets_dir = assets_dir
         self.ui = ui
         self.app = app
-        self.book_reader = book_reader
 
     def show(self):
         raise NotImplementedError

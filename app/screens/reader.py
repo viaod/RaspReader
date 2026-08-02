@@ -10,7 +10,6 @@ class ReaderScreen(Screen):
         assets_dir=None,
         ui=None,
         app=None,
-        book_reader=None,
     ):
 
         super().__init__(
@@ -21,7 +20,7 @@ class ReaderScreen(Screen):
         )
 
         self.app = app
-        self.book_reader = book_reader
+        self.book_reader = app.book_reader
 
 
     def show(self):
