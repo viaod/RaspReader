@@ -35,7 +35,7 @@ class ReaderScreen(Screen):
 
         draw = self.display.draw
 
-        font = self.display.get_font(18)
+        font = self.display.get_font(20)
 
         y = 20
 
@@ -48,7 +48,7 @@ class ReaderScreen(Screen):
                 fill=0,
             )
 
-            y += 18
+            y += 20
 
 
         # footer
