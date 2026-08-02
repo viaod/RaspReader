@@ -6,8 +6,8 @@ from app.screens.main_menu import MainMenu
 
 class HomeScreen(Screen):
 
-    def __init__(self, display, assets_dir=None, ui=None, book_reader=None):
-        super().__init__(display, assets_dir, ui, book_reader)
+    def __init__(self, display, assets_dir=None, ui=None, book_reader=None, app=None):
+        super().__init__(display, assets_dir, ui, book_reader, app)
 
     def show(self):
         image_path = self.assets_dir / "images" / "raspreader_home.bmp"
