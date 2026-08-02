@@ -30,8 +30,7 @@ class UI:
             self.display,
             self.assets_dir,
             self,
-            app=self.app,
-            book_reader=self.app.book_reader
+            app=self.app
         )
 
         self.current_screen.show()
