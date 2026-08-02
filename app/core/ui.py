@@ -3,7 +3,6 @@ from pathlib import Path
 from app.screens.home import HomeScreen
 from app.reader.book_reader import BookReader
 
-
 class UI:
     def __init__(
         self,
@@ -19,7 +18,7 @@ class UI:
         self.app = app
         self.current_screen = None
         self.book_reader = BookReader(
-            self.library
+            self.app.library
         )
 
     def show(self, screen_cls):

@@ -18,6 +18,7 @@ SKIP_TOC = {
     "about the author",
     "the full project gutenberg™ license",
     "donate",
+    "praise for",
 }
 
 

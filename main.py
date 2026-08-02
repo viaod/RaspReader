@@ -71,8 +71,13 @@ class App:
             self.shutdown()
 
     def shutdown(self):
+
         self.running = False
-        if self.display is not None:
+
+        if self.book_reader:
+            self.book_reader.save_position()
+
+        if self.display:
             self.display.clear()
         logger.info("App shutdown")
 
