@@ -27,7 +27,7 @@ class BookReader:
         
         chapter = book.chapters[0]
 
-        pages = paginator.paginate_chapter(chapter)
+        pages = self.paginator.paginate_chapter(chapter)
 
 
         print(
