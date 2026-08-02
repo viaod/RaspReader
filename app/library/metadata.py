@@ -1,6 +1,5 @@
 import ebooklib
 from ebooklib import epub
-from ebooklib.utils import HTMLFilter
 from html.parser import HTMLParser
 
 from app.library.book import Book
