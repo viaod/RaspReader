@@ -1,6 +1,7 @@
 from pathlib import Path
 
 from app.screens.home import HomeScreen
+from app.reader.book_reader import BookReader
 
 
 class UI:
@@ -17,17 +18,21 @@ class UI:
         )
         self.app = app
         self.current_screen = None
+        self.book_reader = BookReader(
+            self.library
+        )
 
     def show(self, screen_cls):
 
         if self.display is None:
             return
-
+        
         self.current_screen = screen_cls(
             self.display,
             self.assets_dir,
             self,
-            app=self.app
+            app=self.app,
+            book_reader=self.app.book_reader
         )
 
         self.current_screen.show()
