@@ -6,7 +6,6 @@ from app.library.metadata import load_metadata
 class BookReader:
     def __init__(self, library=None):
         self.library = library
-        self.parser = Parser()
         self.paginator = Paginator()
         
         # current page functionality ughh...?
