@@ -1,4 +1,4 @@
-from .book import Chapter, Page
+from app.library.book import Chapter, Page
 
 
 class Paginator:
