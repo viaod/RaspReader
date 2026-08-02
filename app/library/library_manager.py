@@ -1,7 +1,7 @@
 from pathlib import Path
 
 from app.core.logger import Logger
-from app.library.metadata import load_book
+from app.library.metadata import load_metadata
 
 logger = Logger("Library")
 
@@ -22,7 +22,7 @@ class LibraryManager:
         books = []
 
         for path in sorted(self.books_dir.glob("*.epub")):
-            books.append(load_book(path))
+            books.append(load_metadata(path))
 
         return books
 
@@ -33,7 +33,7 @@ class LibraryManager:
         if not path.exists():
             return None
 
-        return load_book(path)
+        return load_metadata(path)
 
     def add_book(self, uploaded_file):
 
@@ -43,7 +43,7 @@ class LibraryManager:
 
         logger.info(f"Added {uploaded_file.filename}")
 
-        return load_book(destination)
+        return load_metadata(destination)
 
     def remove_book(self, filename):
 
