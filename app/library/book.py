@@ -3,9 +3,16 @@ from pathlib import Path
 
 
 @dataclass
+class Page:
+    number: int
+    text: str
+
+
+@dataclass
 class Chapter:
     title: str
     text: str
+    pages: list[Page] = field(default_factory=list)
 
 
 @dataclass

@@ -9,12 +9,15 @@ SKIP_TOC = {
     "ecopyright",
     "license",
     "title page",
+    "titlepage",
     "introduction",
     "foreword",
     "preface",
     "acknowledgements",
+    "acknowledgments",
     "about the author",
     "the full project gutenberg™ license",
+    "donate",
 }
 
 

@@ -6,7 +6,10 @@ from app.library.metadata import load_metadata
 class BookReader:
     def __init__(self, library=None):
         self.library = library
-        self.paginator = Paginator()
+        self.paginator = Paginator(
+            chars_per_line=50,
+            lines_per_page=18
+        )
         
         # current page functionality ughh...?
 
@@ -16,15 +19,24 @@ class BookReader:
         book = load_metadata(book.path)
         book.chapters = load_chapters(book.path)
         
-        print(book.title)
-        print(book.author)
+        # print(book.title)
+        # print(book.author)
 
-        for chapter in book.chapters:
-            print(chapter.title)
+        # for chapter in book.chapters:
+        #     print(chapter.title)
         
-        # Parse the book content into chapters
+        chapter = book.chapters[0]
+
+        pages = paginator.paginate_chapter(chapter)
+
+
+        print(
+            f"{chapter.title}: {len(pages)} pages"
+        )
+
+
+        print(pages[0].text)
         
-        # Turn 
         
     def close():
         ...
