@@ -25,8 +25,6 @@ class App:
         
         self.library = LibraryManager()
         self.book_reader = BookReader(self.library)
-        self.book_reader = BookReader(self.library)
-
         
         self.web_server = WebServer(
             self.library

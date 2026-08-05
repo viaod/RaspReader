@@ -17,9 +17,6 @@ class UI:
         )
         self.app = app
         self.current_screen = None
-        self.book_reader = BookReader(
-            self.app.library
-        )
 
     def show(self, screen_cls):
 
