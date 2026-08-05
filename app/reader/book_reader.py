@@ -19,10 +19,7 @@ class BookReader:
         self.chapter_index = 0
         self.page_index = 0
 
-        self.paginator = Paginator(
-            chars_per_line=100,
-            lines_per_page=9,
-        )
+        self.paginator = Paginator()
 
         self.progress = ProgressManager()
         
