@@ -31,7 +31,7 @@ class BookReader:
 
         self.paginator = Paginator(
             font=font,
-            page_width=display.width,
+            page_width=display.height,
             lines_per_page=9,
             margin=10,
         )
