@@ -54,12 +54,11 @@ class LibraryScreen(MenuScreen):
     def select_book(self, book):
 
         logger.info("Selected book: %s", book.title)
-        self.app.book_reader.open(book)
+        self.app.selected_book = book
 
-        from app.screens.reader import ReaderScreen
+        from app.screens.reader_menu import ReaderMenu
 
-        logger.debug("Showing reader screen")
-        self.ui.show(ReaderScreen)
+        self.ui.show(ReaderMenu)
 
 
     def back(self):

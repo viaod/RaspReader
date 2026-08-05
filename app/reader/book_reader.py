@@ -19,6 +19,7 @@ class BookReader:
         self.chapter = None
         self.page = None
         self.pages = []
+        self.page_chapter_indices = []
 
         self.chapter_index = 0
         self.page_index = 0
@@ -72,14 +73,33 @@ class BookReader:
             for chapter in self.book.chapters
             for page in chapter.pages
         ]
-        self.page_index = 0
-        self.page = self.current_page()
+        self.page_chapter_indices = [
+            chapter_index
+            for chapter_index, chapter in enumerate(self.book.chapters)
+            for _ in chapter.pages
+        ]
+
+        position = self.progress.get_position(self.book.title) if cached_book else None
+        self.page_index = min(
+            position["page"] if position else 0,
+            max(0, len(self.pages) - 1),
+        )
+        self._sync_current_page()
 
         logger.info(
             "Opened '%s': %d chapters, %d pages",
             self.book.title,
             len(self.book.chapters),
             len(self.pages),
+        )
+
+    def _sync_current_page(self):
+
+        self.page = self.current_page()
+        self.chapter_index = (
+            self.page_chapter_indices[self.page_index]
+            if self.page is not None
+            else 0
         )
 
     def current_page(self):
@@ -94,7 +114,7 @@ class BookReader:
 
         if self.page_index < len(self.pages) - 1:
             self.page_index += 1
-            self.page = self.pages[self.page_index]
+            self._sync_current_page()
             self.save_position()
 
 
@@ -102,7 +122,7 @@ class BookReader:
 
         if self.page_index > 0:
             self.page_index -= 1
-            self.page = self.pages[self.page_index]
+            self._sync_current_page()
             self.save_position()
 
 

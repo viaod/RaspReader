@@ -27,6 +27,16 @@ class BookCache:
 
         return self.cache_path(book).exists()
 
+    def delete(self, book):
+
+        path = self.cache_path(book)
+
+        if not path.exists():
+            return False
+
+        path.unlink()
+        return True
+
     def load(self, book):
 
         path = self.cache_path(book)

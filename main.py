@@ -19,6 +19,7 @@ class App:
         self.ui = None
         self.library = None
         self.web_server = None
+        self.selected_book = None
         self.running = True
         
     def initialize(self):

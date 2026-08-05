@@ -45,6 +45,14 @@ class ProgressManager:
         )
 
 
+    def clear_position(self, book_id):
+
+        progress = self.load()
+
+        if book_id in progress:
+            del progress[book_id]
+            self.save(progress)
+
     def update(
         self,
         book_id,
