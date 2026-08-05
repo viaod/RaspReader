@@ -25,6 +25,8 @@ class App:
         
         self.library = LibraryManager()
         self.book_reader = BookReader(self.library)
+        self.book_reader = BookReader(self.library)
+
         
         self.web_server = WebServer(
             self.library
@@ -33,6 +35,8 @@ class App:
         try:
             from app.hardware.display import Display
             self.display = Display()
+            
+            self.book_reader.set_display(self.display)
         except Exception as exc:
             logger.warning(f"Display unavailable: {exc}")
             self.display = None

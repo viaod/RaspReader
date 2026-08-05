@@ -19,12 +19,22 @@ class BookReader:
         self.chapter_index = 0
         self.page_index = 0
 
-        self.paginator = Paginator()
+        self.paginator = None
 
         self.progress = ProgressManager()
         
         self.book_cache = BookCache()
 
+    def set_display(self, display):
+
+        font = display.get_font(24)
+
+        self.paginator = Paginator(
+            font=font,
+            page_width=display.width,
+            lines_per_page=11,
+            margin=10,
+        )
 
     def open(self, book):
 
