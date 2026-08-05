@@ -1,4 +1,5 @@
 from bs4 import BeautifulSoup
+from bs4.element import NavigableString, Tag
 from ebooklib import epub, ITEM_DOCUMENT
 
 from app.library.book import Chapter
@@ -16,28 +17,19 @@ def extract_between(soup, start_id=None, end_id=None):
     else:
         start = soup.body or soup
 
+    # Process each text node once. Walking tags and calling ``get_text`` on
+    # each one repeatedly included descendants, making large EPUBs appear to
+    # hang while opening.
     text = []
 
-    node = start
-
-    while node:
-
-        if (
-            end_id
-            and node is not start
-            and getattr(node, "attrs", None)
-            and node.get("id") == end_id
-        ):
+    for node in start.next_elements:
+        if isinstance(node, Tag) and end_id and node.get("id") == end_id:
             break
 
-        if hasattr(node, "get_text"):
-
-            t = node.get_text(" ", strip=True)
-
-            if t:
-                text.append(t)
-
-        node = node.find_next()
+        if isinstance(node, NavigableString):
+            value = node.strip()
+            if value:
+                text.append(value)
 
     return "\n".join(text)
 
