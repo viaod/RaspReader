@@ -40,38 +40,17 @@ class BookReader:
 
         cached_book = self.book_cache.load(book)
 
-        if cached_book is not None:
+        if cached_book:
             self.book = cached_book
 
         else:
-            # Parse the book
             self.book = load_metadata(book.path)
             self.book.chapters = load_chapters(book.path)
 
-            # Paginate every chapter once
             for chapter in self.book.chapters:
                 self.paginator.paginate_chapter(chapter)
 
-            # Save the fully processed book
-            self.book_cache.save(self.book, book)
-
-        # Load reading position
-        position = self.progress.get_position(self.book.title)
-
-        self.chapter_index = position["chapter"]
-        self.page_index = position["page"]
-
-        if self.chapter_index >= len(self.book.chapters):
-            self.chapter_index = 0
-
-        self.chapter = self.book.chapters[self.chapter_index]
-
-        self.pages = self.chapter.pages
-
-        if self.page_index >= len(self.pages):
-            self.page_index = 0
-
-        self.page = self.pages[self.page_index]
+            self.book_cache.save(self.book)
 
     def current_page(self):
 
