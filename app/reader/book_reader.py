@@ -38,55 +38,40 @@ class BookReader:
 
     def open(self, book):
 
-        # Load the book
-        self.book = load_metadata(book.path)
-        self.book.chapters = load_chapters(book.path)
-        
-        # save data 
-        data = {
-            "title": book.title,
-            "author": book.author,
-            "chapters": []
-        }
+        cached_book = self.book_cache.load(book)
 
-        for chapter in book.chapters:
+        if cached_book is not None:
+            self.book = cached_book
 
-            data["chapters"].append({
+        else:
+            # Parse the book
+            self.book = load_metadata(book.path)
+            self.book.chapters = load_chapters(book.path)
 
-                "title": chapter.title,
+            # Paginate every chapter once
+            for chapter in self.book.chapters:
+                self.paginator.paginate_chapter(chapter)
 
-                "pages": [
-                    {
-                        "number": page.number,
-                        "text": page.text
-                    }
-                    for page in chapter.pages
-                ]
-            })
+            # Save the fully processed book
+            self.book_cache.save(self.book, book)
 
-        self.book_cache.save(data, book)
-
-        # Load saved position
+        # Load reading position
         position = self.progress.get_position(self.book.title)
 
         self.chapter_index = position["chapter"]
         self.page_index = position["page"]
 
-        # Clamp chapter index
         if self.chapter_index >= len(self.book.chapters):
             self.chapter_index = 0
 
         self.chapter = self.book.chapters[self.chapter_index]
 
-        # Paginate current chapter
-        self.pages = self.paginator.paginate_chapter(self.chapter)
+        self.pages = self.chapter.pages
 
-        # Clamp page index
         if self.page_index >= len(self.pages):
             self.page_index = 0
 
         self.page = self.pages[self.page_index]
-
 
     def current_page(self):
 
