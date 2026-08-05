@@ -38,19 +38,31 @@ class BookReader:
 
     def open(self, book):
 
+        print(f"BookReader.open: id={id(self)}, book={book.path}", flush=True)
+        print("BookReader: checking cache", flush=True)
         cached_book = self.book_cache.load(book)
 
         if cached_book:
             self.book = cached_book
-            print("Loaded from cache")
+            print("BookReader: loaded from cache", flush=True)
 
         else:
+            if self.paginator is None:
+                raise RuntimeError("BookReader has no paginator; call set_display() first.")
+
+            print("BookReader: loading metadata", flush=True)
             self.book = load_metadata(book.path)
+            print("BookReader: loading chapters", flush=True)
             self.book.chapters = load_chapters(book.path)
+            print(
+                f"BookReader: paginating {len(self.book.chapters)} chapters",
+                flush=True,
+            )
 
             for chapter in self.book.chapters:
                 self.paginator.paginate_chapter(chapter)
 
+            print("BookReader: saving cache", flush=True)
             self.book_cache.save(self.book)
 
         self.pages = [
