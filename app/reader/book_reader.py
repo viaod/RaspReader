@@ -57,7 +57,7 @@ class BookReader:
                 ]
             })
 
-        self.cache.save(data, book)
+        self.book_cache.save(data, book)
 
         # Load saved position
         position = self.progress.get_position(self.book.title)
