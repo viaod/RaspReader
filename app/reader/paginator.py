@@ -5,12 +5,15 @@ class Paginator:
 
     def __init__(
         self,
-        chars_per_line=100,
+        font,
+        page_width,
         lines_per_page=9,
+        margin=10,
     ):
-        self.chars_per_line = chars_per_line
+        self.font = font
+        self.page_width = page_width
         self.lines_per_page = lines_per_page
-
+        self.margin = margin
 
     def paginate_chapter(self, chapter: Chapter):
 
@@ -18,15 +21,9 @@ class Paginator:
 
         pages = []
 
-        for i in range(
-            0,
-            len(lines),
-            self.lines_per_page
-        ):
+        for i in range(0, len(lines), self.lines_per_page):
 
-            page_lines = lines[
-                i:i + self.lines_per_page
-            ]
+            page_lines = lines[i:i + self.lines_per_page]
 
             pages.append(
                 Page(
@@ -39,39 +36,32 @@ class Paginator:
 
         return pages
 
-
     def wrap_text(self, text):
+
+        max_width = self.page_width - (self.margin * 2)
 
         lines = []
 
-        for paragraph in text.split("\n"):
+        for paragraph in text.splitlines():
 
-            paragraph = paragraph.strip()
+            words = paragraph.split()
 
-            if not paragraph:
+            if not words:
                 lines.append("")
                 continue
 
-            while len(paragraph) > self.chars_per_line:
+            current_line = words[0]
 
-                # Find a good word boundary
-                split_at = paragraph.rfind(
-                    " ",
-                    0,
-                    self.chars_per_line
-                )
+            for word in words[1:]:
 
-                if split_at == -1:
-                    split_at = self.chars_per_line
+                test_line = current_line + " " + word
 
-                lines.append(
-                    paragraph[:split_at]
-                )
+                if self.font.getlength(test_line) <= max_width:
+                    current_line = test_line
+                else:
+                    lines.append(current_line)
+                    current_line = word
 
-                paragraph = paragraph[
-                    split_at:
-                ].strip()
-
-            lines.append(paragraph)
+            lines.append(current_line)
 
         return lines
