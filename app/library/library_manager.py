@@ -12,7 +12,7 @@ class LibraryManager:
 
         self.books_dir = Path(
             books_dir
-            or Path(__file__).resolve().parent.parent.parent / "books"
+            or Path(__file__).resolve().parent.parent.parent / "books/epubs"
         )
 
         self.books_dir.mkdir(exist_ok=True)

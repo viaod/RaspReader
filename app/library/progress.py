@@ -4,7 +4,7 @@ from pathlib import Path
 
 class ProgressManager:
 
-    def __init__(self, path="data/progress.json"):
+    def __init__(self, path="data/progress.json"): #change dir to books/data 
 
         self.path = Path(path)
 

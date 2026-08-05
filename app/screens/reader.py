@@ -35,7 +35,7 @@ class ReaderScreen(Screen):
 
         draw = self.display.draw
 
-        font = self.display.get_font(20)
+        font = self.display.get_font(24)
 
         y = 20
 

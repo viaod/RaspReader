@@ -2,6 +2,7 @@ from app.reader.chapters import load_chapters
 from app.reader.paginator import Paginator
 from app.library.metadata import load_metadata
 from app.library.progress import ProgressManager
+from app.library.book_cache import BookCache
 
 
 class BookReader:
@@ -19,11 +20,13 @@ class BookReader:
         self.page_index = 0
 
         self.paginator = Paginator(
-            chars_per_line=125,
-            lines_per_page=11,
+            chars_per_line=100,
+            lines_per_page=9,
         )
 
         self.progress = ProgressManager()
+        
+        self.book_cache = BookCache()
 
 
     def open(self, book):
@@ -31,6 +34,30 @@ class BookReader:
         # Load the book
         self.book = load_metadata(book.path)
         self.book.chapters = load_chapters(book.path)
+        
+        # save data 
+        data = {
+            "title": book.title,
+            "author": book.author,
+            "chapters": []
+        }
+
+        for chapter in book.chapters:
+
+            data["chapters"].append({
+
+                "title": chapter.title,
+
+                "pages": [
+                    {
+                        "number": page.number,
+                        "text": page.text
+                    }
+                    for page in chapter.pages
+                ]
+            })
+
+        self.cache.save(data, book)
 
         # Load saved position
         position = self.progress.get_position(self.book.title)

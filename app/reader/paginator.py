@@ -5,8 +5,8 @@ class Paginator:
 
     def __init__(
         self,
-        chars_per_line=125,
-        lines_per_page=11,
+        chars_per_line=100,
+        lines_per_page=9,
     ):
         self.chars_per_line = chars_per_line
         self.lines_per_page = lines_per_page
