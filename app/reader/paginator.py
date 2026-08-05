@@ -40,6 +40,13 @@ class Paginator:
 
         max_width = self.page_width - (self.margin * 2)
 
+        # Calling PIL's font measurement for every word is prohibitively slow
+        # on the Raspberry Pi for a full novel. Measure once, then use a
+        # proportional character budget while wrapping.
+        sample = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz"
+        average_char_width = self.font.getlength(sample) / len(sample)
+        max_chars = max(1, int(max_width / average_char_width))
+
         lines = []
 
         for paragraph in text.splitlines():
@@ -50,18 +57,21 @@ class Paginator:
                 lines.append("")
                 continue
 
-            current_line = words[0]
+            line_words = []
+            line_length = 0
 
-            for word in words[1:]:
+            for word in words:
 
-                test_line = current_line + " " + word
+                next_length = line_length + len(word) + bool(line_words)
 
-                if self.font.getlength(test_line) <= max_width:
-                    current_line = test_line
+                if line_words and next_length > max_chars:
+                    lines.append(" ".join(line_words))
+                    line_words = [word]
+                    line_length = len(word)
                 else:
-                    lines.append(current_line)
-                    current_line = word
+                    line_words.append(word)
+                    line_length = next_length
 
-            lines.append(current_line)
+            lines.append(" ".join(line_words))
 
         return lines
