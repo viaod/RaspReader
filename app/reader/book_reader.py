@@ -41,7 +41,11 @@ class BookReader:
         cached_book = self.book_cache.load(book)
 
         if cached_book:
-            self.book = cached_book
+            print("Loaded from cache")
+            print(len(cached_book.chapters))
+
+            for chapter in cached_book.chapters:
+                print(chapter.title, len(chapter.pages))
 
         else:
             self.book = load_metadata(book.path)
@@ -51,6 +55,15 @@ class BookReader:
                 self.paginator.paginate_chapter(chapter)
 
             self.book_cache.save(self.book)
+            
+        print("BookReader id:", id(self))
+        print("Pages:", len(self.pages))
+            
+        print("Book:", self.book.title)
+        print("Chapters:", len(self.book.chapters))
+        print("Current chapter:", self.chapter_index)
+        print("Pages:", len(self.pages))
+        print("Current page index:", self.page_index)
 
     def current_page(self):
 

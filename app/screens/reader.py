@@ -32,6 +32,9 @@ class ReaderScreen(Screen):
         page = self.book_reader.current_page()
         
         print("ReaderScreen.show() called")
+        
+        print("Reader BookReader id:", id(self.book_reader))
+        print("Pages:", len(self.book_reader.pages))
 
         if page is None:
             print("No page!")
