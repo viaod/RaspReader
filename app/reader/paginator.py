@@ -6,7 +6,7 @@ class Paginator:
     def __init__(
         self,
         font,
-        page_width,
+        page_height,
         lines_per_page=9,
         margin=10,
     ):
