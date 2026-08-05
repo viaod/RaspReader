@@ -48,14 +48,20 @@ class LibraryScreen(MenuScreen):
 
 
     def select_book(self, book):
-        
+
+        print("1. Opening book")
+
         self.app.book_reader.open(book)
+
+        print("2. Book opened")
 
         from app.screens.reader import ReaderScreen
 
-        self.ui.show(
-            ReaderScreen
-        )
+        print("3. Showing ReaderScreen")
+
+        self.ui.show(ReaderScreen)
+
+        print("4. Done")
 
 
     def back(self):

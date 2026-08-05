@@ -25,11 +25,16 @@ class ReaderScreen(Screen):
 
     def show(self):
 
+        print("ReaderScreen.show() called")
+        
         self.display.clear_image()
 
         page = self.book_reader.current_page()
+        
+        print("ReaderScreen.show() called")
 
         if page is None:
+            print("No page!")
             return
 
 
