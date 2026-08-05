@@ -83,6 +83,5 @@ class ReaderScreen(Screen):
 
 
         elif event == Event.SELECT:
-            from app.screens.library_menu import LibraryScreen
-            self.ui.show(LibraryScreen)
-            # TODO: change to reader menu
+            from app.screens.reader_menu import ReaderMenu
+            self.ui.show(ReaderMenu)

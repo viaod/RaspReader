@@ -1,17 +1,17 @@
 # RaspReader TODO
 
 ## UI
-- [ ] Complete `SettingsMenu`
-- [] Complete `Library`
+- [x] Complete `SettingsMenu`
+- [x] Complete `Library`
 - [ ] Add `Dictionary`
 - [ ] Add `Bookmarks`
-- [ ] Menu scroll functionality
+- [x] Menu scroll functionality
 
 ## Display
 - [x] Display home image
 - [x] Resize images automatically
 - [x] Add fast refresh mode
-- [ ] Prevent unnecessary screen refreshes
+- [x] Prevent unnecessary screen refreshes
 
 ## Encoder
 - [x] Filter bogus encoder positions
@@ -20,9 +20,8 @@
 - [ ] Add long-press detection
 
 ## Reader
-- [ ] Load books from SD card
-- [ ] Remember last page read
-- [ ] Page turn animation
+- [x] Load books from SD card
+- [x] Remember last page read
 
 ## Upload
 - [x] Upload books

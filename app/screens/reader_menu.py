@@ -23,6 +23,7 @@ class ReaderMenu(MenuScreen):
         if self.cache_exists:
             items.append(MenuItem("Delete Cache", action=self.delete_cache))
 
+        items.append(MenuItem("Delete Book", action=self.delete_book))
         items.append(MenuItem("Back", action=self.back))
 
         super().__init__(
@@ -52,6 +53,20 @@ class ReaderMenu(MenuScreen):
             logger.warning("No cache found to delete for '%s'", self.book.title)
 
         self.ui.show(ReaderMenu)
+
+    def delete_book(self):
+
+        if self.app.library.remove_book(self.book.path.name):
+            self.book_reader.book_cache.delete(self.book)
+            self.book_reader.progress.clear_position(self.book.title)
+            self.app.selected_book = None
+            logger.info("Deleted book, cache, and reading position: '%s'", self.book.title)
+        else:
+            logger.warning("Book was not found for deletion: '%s'", self.book.title)
+
+        from app.screens.library_menu import LibraryScreen
+
+        self.ui.show(LibraryScreen)
 
     def back(self):
 
