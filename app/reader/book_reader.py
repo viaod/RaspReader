@@ -3,6 +3,10 @@ from app.reader.paginator import Paginator
 from app.library.metadata import load_metadata
 from app.library.progress import ProgressManager
 from app.library.book_cache import BookCache
+from app.core.logger import Logger
+
+
+logger = Logger("BookReader")
 
 
 class BookReader:
@@ -38,31 +42,29 @@ class BookReader:
 
     def open(self, book):
 
-        print(f"BookReader.open: id={id(self)}, book={book.path}", flush=True)
-        print("BookReader: checking cache", flush=True)
+        logger.info("Opening book: %s", book.path)
+        logger.debug("Checking book cache")
         cached_book = self.book_cache.load(book)
 
         if cached_book:
             self.book = cached_book
-            print("BookReader: loaded from cache", flush=True)
+            logger.info("Loaded book from cache: %s", self.book.title)
 
         else:
             if self.paginator is None:
                 raise RuntimeError("BookReader has no paginator; call set_display() first.")
 
-            print("BookReader: loading metadata", flush=True)
+            logger.debug("Loading EPUB metadata")
             self.book = load_metadata(book.path)
-            print("BookReader: loading chapters", flush=True)
+            
+            logger.debug("Loading EPUB chapters")
             self.book.chapters = load_chapters(book.path)
-            print(
-                f"BookReader: paginating {len(self.book.chapters)} chapters",
-                flush=True,
-            )
-
+            
+            logger.info("Paginating %d chapters", len(self.book.chapters))
             for chapter in self.book.chapters:
                 self.paginator.paginate_chapter(chapter)
 
-            print("BookReader: saving cache", flush=True)
+            logger.debug("Saving book cache")
             self.book_cache.save(self.book)
 
         self.pages = [
@@ -72,14 +74,13 @@ class BookReader:
         ]
         self.page_index = 0
         self.page = self.current_page()
-            
-        print("BookReader id:", id(self))
-            
-        print("Book:", self.book.title)
-        print("Chapters:", len(self.book.chapters))
-        print("Current chapter:", self.chapter_index)
-        print("Pages:", len(self.pages))
-        print("Current page index:", self.page_index)
+
+        logger.info(
+            "Opened '%s': %d chapters, %d pages",
+            self.book.title,
+            len(self.book.chapters),
+            len(self.pages),
+        )
 
     def current_page(self):
 

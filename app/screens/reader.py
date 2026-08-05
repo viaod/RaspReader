@@ -1,5 +1,9 @@
 from app.screen import Screen
 from app.core.events import Event
+from app.core.logger import Logger
+
+
+logger = Logger("ReaderScreen")
 
 
 class ReaderScreen(Screen):
@@ -25,20 +29,15 @@ class ReaderScreen(Screen):
 
     def show(self):
 
-        print("ReaderScreen.show() called")
-        
         self.display.clear_image()
 
         page = self.book_reader.current_page()
-        
-        print("ReaderScreen.show() called")
-        
-        print("Reader BookReader id:", id(self.book_reader))
-        print("Pages:", len(self.book_reader.pages))
 
         if page is None:
-            print("No page!")
+            logger.warning("Reader screen opened without a current page")
             return
+
+        logger.debug("Rendering page %d", page.number)
 
 
         draw = self.display.draw

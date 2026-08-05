@@ -6,6 +6,7 @@ from app.library.book import Book, Chapter, Page
 
 class BookCache:
 
+
     def __init__(self, cache_dir=None):
 
         self.cache_dir = Path(

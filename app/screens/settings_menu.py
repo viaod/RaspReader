@@ -4,6 +4,10 @@ from app.screens.upload import UploadScreen
 from app.widgets.menu import MenuItem, MenuScreen
 from app.screens.storage import StorageScreen
 from app.screens.shutdown import ShutdownScreen
+from app.core.logger import Logger
+
+
+logger = Logger("Settings")
 
 
 class SettingsScreen(MenuScreen):
@@ -35,13 +39,13 @@ class SettingsScreen(MenuScreen):
                     ["sudo", "rfkill", "block", "wifi"],
                     check=True,
                 )
-                print("WiFi disabled")
+                logger.info("WiFi disabled")
             else:
                 subprocess.run(
                     ["sudo", "rfkill", "unblock", "wifi"],
                     check=True,
                 )
-                print("WiFi enabled")
+                logger.info("WiFi enabled")
 
             # Update the menu text
             self.items[2].text = (
@@ -50,7 +54,7 @@ class SettingsScreen(MenuScreen):
             self.show()
 
         except subprocess.CalledProcessError as e:
-            print(f"Failed to toggle WiFi: {e}")
+            logger.error("Failed to toggle WiFi: %s", e)
 
     def wifi_enabled(self):
         result = subprocess.run(

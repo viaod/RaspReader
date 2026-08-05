@@ -1,6 +1,10 @@
 from app.widgets.menu import MenuItem, MenuScreen
 from app.screens.settings_menu import SettingsScreen
 from app.screens.library_menu import LibraryScreen
+from app.core.logger import Logger
+
+
+logger = Logger("MainMenu")
 
 
 class MainMenu(MenuScreen):
@@ -31,13 +35,13 @@ class MainMenu(MenuScreen):
             )
 
     def continue_reading(self):
-        print("Continue Reading")
+        logger.info("Continue Reading selected")
     
     def bookmarks(self):
-        print("Bookmarks")
+        logger.info("Bookmarks selected")
         
     def dictionary(self):
-        print("Dictionary")
+        logger.info("Dictionary selected")
 
     def back(self):
         from app.screens.home import HomeScreen

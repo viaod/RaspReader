@@ -1,3 +1,5 @@
+import re
+
 from app.library.book import Chapter, Page
 
 
@@ -49,7 +51,12 @@ class Paginator:
 
         lines = []
 
-        for paragraph in text.splitlines():
+        # EPUB text nodes often introduce a newline between inline words.
+        # Only a blank line represents a paragraph break; single newlines are
+        # folded into spaces by ``split()`` below.
+        paragraphs = re.split(r"\n\s*\n+", text)
+
+        for paragraph in paragraphs:
 
             words = paragraph.split()
 

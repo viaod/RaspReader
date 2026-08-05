@@ -52,27 +52,27 @@ class Logger(logging.Logger):
     @log_with_extra
     def debug(self, msg, *args, **kwargs):
         if self.isEnabledFor(logging.DEBUG):
-            self._log(logging.INFO, msg, args, **kwargs)
+            self._log(logging.DEBUG, msg, args, **kwargs)
 
     @log_with_extra
     def warning(self, msg, *args, **kwargs):
         if self.isEnabledFor(logging.WARNING):
-            self._log(logging.INFO, msg, args, **kwargs)
+            self._log(logging.WARNING, msg, args, **kwargs)
 
     @log_with_extra
     def error(self, msg, *args, **kwargs):
         if self.isEnabledFor(logging.ERROR):
-            self._log(logging.INFO, msg, args, **kwargs)
+            self._log(logging.ERROR, msg, args, **kwargs)
 
     @log_with_extra
     def critical(self, msg, *args, **kwargs):
         if self.isEnabledFor(logging.CRITICAL):
-            self._log(logging.INFO, msg, args, **kwargs)
+            self._log(logging.CRITICAL, msg, args, **kwargs)
 
     @log_with_extra
     def trace(self, msg, *args, **kwargs):
         if self.isEnabledFor(TRACE_LEVEL):
-            self._log(logging.INFO, msg, args, **kwargs)
+            self._log(TRACE_LEVEL, msg, args, **kwargs)
 
 
 class ConsoleHandler(logging.StreamHandler):
