@@ -64,7 +64,9 @@ class Display:
         # Match the canvas size exactly
         image = image.resize((self.height, self.width))
 
-        self.show(image)
+        self.image = image
+        self.draw = ImageDraw.Draw(self.image)
+        self.show(self.image)
 
         logger.info(f"Displayed image: {image_path}")
 

@@ -30,6 +30,7 @@ class ReaderScreen(Screen):
     def show(self):
 
         self.display.clear_image()
+        self.draw_status_header()
 
         page = self.book_reader.current_page()
 
@@ -44,12 +45,12 @@ class ReaderScreen(Screen):
 
         font = self.display.get_font(26)
 
-        y = 20
+        y = 30
 
         for line in page.text.split("\n"):
 
             draw.text(
-                (15, y),
+                (10, y),
                 line,
                 font=font,
                 fill=0,

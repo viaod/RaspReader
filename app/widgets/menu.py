@@ -55,6 +55,7 @@ class MenuScreen(Screen):
     def show(self):
 
         self.display.clear_image()
+        self.draw_status_header()
 
         draw = self.display.draw
 

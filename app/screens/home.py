@@ -12,6 +12,8 @@ class HomeScreen(Screen):
     def show(self):
         image_path = self.assets_dir / "images" / "raspreader_home.bmp"
         self.display.show_image(str(image_path))
+        self.draw_status_header()
+        self.display.refresh()
 
         self.display.use_fast_mode()
 

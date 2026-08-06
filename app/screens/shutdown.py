@@ -9,6 +9,7 @@ class ShutdownScreen(Screen):
     def show(self):
 
         self.display.clear_image()
+        self.draw_status_header()
 
         title_font = self.display.get_font(22)
         font = self.display.get_font(18)
@@ -54,6 +55,7 @@ class ShutdownScreen(Screen):
 
     def power_off(self):
         self.display.clear_image()
+        self.draw_status_header()
         self.display.refresh()
         self.display.sleep()
 

@@ -22,6 +22,7 @@ class StorageScreen(Screen):
         free_gb = free / (1024 ** 3)
 
         self.display.clear_image()
+        self.draw_status_header()
 
         font_title = self.display.get_font(22)
         font = self.display.get_font(18)
