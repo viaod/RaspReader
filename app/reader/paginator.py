@@ -47,7 +47,7 @@ class Paginator:
         # proportional character budget while wrapping.
         sample = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz"
         average_char_width = self.font.getlength(sample) / len(sample)
-        max_chars = max(1, int((max_width / average_char_width) * 1.2))
+        max_chars = max(1, int((max_width / average_char_width) * 1.3))
 
         lines = []
 
