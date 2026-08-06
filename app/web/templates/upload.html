@@ -52,9 +52,19 @@ if (banner) {
 
         <ul>
         {% for book in books %}
-            <li>
-                <strong>{{ book.title }}</strong><br>
-                <small>by {{ book.author }}</small>
+            <li class="book-item">
+                <div class="book-details">
+                    <strong>{{ book.title }}</strong>
+                    <small>by {{ book.author }}</small>
+                </div>
+                <div class="book-actions">
+                    <form action="{{ url_for('delete_cache', filename=book.path.name) }}" method="POST">
+                        <button class="button-secondary" type="submit">Delete cache</button>
+                    </form>
+                    <form action="{{ url_for('delete_book', filename=book.path.name) }}" method="POST" onsubmit="return confirm('Delete {{ book.title|e }} and its cache?');">
+                        <button class="button-danger" type="submit">Delete book</button>
+                    </form>
+                </div>
             </li>
         {% else %}
             <li class="empty">No books uploaded yet.</li>

@@ -176,3 +176,48 @@ li small {
     background: #2e7d32;
     color: white;
 }
+.book-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
+}
+
+.book-details small {
+    display: block;
+}
+
+.book-actions {
+    display: flex;
+    gap: 8px;
+    flex-shrink: 0;
+}
+
+.book-actions button {
+    padding: 8px 12px;
+    font-size: 0.85rem;
+}
+
+.button-secondary {
+    background: #667085;
+}
+
+.button-secondary:hover {
+    background: #475467;
+}
+
+.button-danger {
+    background: #b42318;
+}
+
+.button-danger:hover {
+    background: #8f1b13;
+}
+
+@media (max-width: 600px) {
+    .book-item,
+    .book-actions {
+        align-items: stretch;
+        flex-direction: column;
+    }
+}
