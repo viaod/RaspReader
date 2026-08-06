@@ -42,14 +42,14 @@ class ReaderScreen(Screen):
 
         draw = self.display.draw
 
-        font = self.display.get_font(24)
+        font = self.display.get_font(26)
 
         y = 20
 
         for line in page.text.split("\n"):
 
             draw.text(
-                (10, y),
+                (15, y),
                 line,
                 font=font,
                 fill=0,

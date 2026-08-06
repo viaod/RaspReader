@@ -32,7 +32,7 @@ class BookReader:
 
     def set_display(self, display):
 
-        font = display.get_font(24)
+        font = display.get_font(26)
 
         self.paginator = Paginator(
             font=font,
