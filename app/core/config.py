@@ -21,12 +21,12 @@ FONT_PATH = "/usr/share/fonts/truetype/liberation/LiberationSans-Regular.ttf"
 # Logical point sizes for each UI role.  Adjust these before changing
 # TEXT_SCALE when only one part of the interface needs to change.
 FONT_SIZE_STATUS = 14
-FONT_SIZE_MENU_TITLE = 24
-FONT_SIZE_MENU_ITEM = 20
-FONT_SIZE_MENU_FOOTER = 18
+FONT_SIZE_MENU_TITLE = 22
+FONT_SIZE_MENU_ITEM = 18
+FONT_SIZE_MENU_FOOTER = 14
 FONT_SIZE_SCREEN_TITLE = 22
 FONT_SIZE_SCREEN_BODY = 18
-FONT_SIZE_READER = 26
+FONT_SIZE_READER = 22
 FONT_SIZE_READER_FOOTER = 14
 
 #
