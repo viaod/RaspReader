@@ -30,6 +30,14 @@ class Display:
     def __init__(self):
         self.epd = epd3in7.EPD()
 
+        # Provide backwards-compatible color constants expected by
+        # other code. Some Waveshare drivers expose GRAY1..GRAY4
+        # instead of WHITE/BLACK.
+        if not hasattr(self.epd, "WHITE"):
+            self.epd.WHITE = getattr(self.epd, "GRAY1", 0xFF)
+        if not hasattr(self.epd, "BLACK"):
+            self.epd.BLACK = getattr(self.epd, "GRAY4", 0x00)
+
         # Initialize display driver. Different Waveshare drivers
         # have different signatures for `init()` and `Clear()`; try
         # the no-arg form first, fall back to common signatures.
@@ -48,7 +56,8 @@ class Display:
             self.epd.Clear()
         except TypeError:
             try:
-                self.epd.Clear(0, 1)
+                # use 0xFF as the clear (white) color when driver expects it
+                self.epd.Clear(0xFF, 1)
             except Exception:
                 # non-fatal: continue even if clear failed
                 logger.warning("Display Clear() not supported with default args; continuing")
@@ -185,7 +194,7 @@ class Display:
             self.epd.Clear()
         except TypeError:
             try:
-                self.epd.Clear(0, 1)
+                self.epd.Clear(0xFF, 1)
             except Exception as e:
                 logger.error(f"Display clear failed: {e}")
                 return
