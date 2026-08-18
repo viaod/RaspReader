@@ -1,4 +1,5 @@
 import subprocess
+import time
 
 from app.core.events import Event
 from app.screen import Screen
@@ -54,15 +55,36 @@ class ShutdownScreen(Screen):
             self.power_off()
 
     def power_off(self):
-        self.display.clear_image()
-        self.draw_status_header()
-        self.display.refresh()
-        self.display.sleep()
+        # Ensure the display is fully cleared (hardware full-clear when
+        # supported) and put to sleep before powering off so no image
+        # remains visible after shutdown.
+        try:
+            if self.display:
+                try:
+                    # Prefer full clear if available
+                    self.display.clear(force_full=True)
+                except TypeError:
+                    # older signature
+                    try:
+                        self.display.clear()
+                    except Exception:
+                        pass
+                except Exception:
+                    # best-effort: try simple clear
+                    try:
+                        self.display.clear()
+                    except Exception:
+                        pass
 
-        import time
+                try:
+                    self.display.sleep()
+                except Exception:
+                    pass
+
+        except Exception:
+            # Do not block shutdown on display errors
+            pass
+
         time.sleep(1)
 
-        subprocess.run(
-            ["sudo", "shutdown", "-h", "now"],
-            check=False,
-        )
+        subprocess.run(["sudo", "shutdown", "-h", "now"], check=False)
