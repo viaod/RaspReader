@@ -81,7 +81,17 @@ class App:
             self.book_reader.save_position()
 
         if self.display:
-            self.display.clear()
+            # Ensure a full clear and put the display to sleep so it
+            # doesn't retain an image after the app exits.
+            try:
+                self.display.clear(force_full=True)
+            except Exception:
+                # best-effort: still try to sleep the display
+                pass
+            try:
+                self.display.sleep()
+            except Exception:
+                pass
         logger.info("App shutdown")
 
 

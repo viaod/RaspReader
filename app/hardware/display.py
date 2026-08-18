@@ -192,8 +192,37 @@ class Display:
     def refresh(self):
         self.show(self.image)
 
-    def clear(self):
-        # Some drivers require arguments for Clear(); try both.
+    def clear(self, force_full: bool = False):
+        """Clear the display. If `force_full` is True, attempt a full
+        clear sequence (init full mode, clear with mode=0) which matches
+        the Waveshare example scripts.
+        """
+        # If requested, try to init full-update mode first.
+        if force_full:
+            try:
+                # many driver variants accept a numeric mode for init
+                try:
+                    self.epd.init(0)
+                except TypeError:
+                    # some drivers only accept no-arg init; try calling
+                    # no-arg init then assume Clear(mode=0) will work.
+                    self.epd.init()
+            except Exception as e:
+                logger.warning(f"Failed to init full-clear mode: {e}")
+
+            # Try the Waveshare-style full clear (color 0xFF, mode 0)
+            try:
+                self.epd.Clear(0xFF, 0)
+                logger.info("Display full-clear completed")
+                return
+            except TypeError:
+                # driver doesn't accept (color, mode) signature; fall back
+                # to regular Clear below
+                pass
+            except Exception as e:
+                logger.warning(f"Full Clear() attempt failed: {e}")
+
+        # Normal clear path: try no-arg Clear(), otherwise try Clear(color, mode)
         try:
             self.epd.Clear()
         except TypeError:
