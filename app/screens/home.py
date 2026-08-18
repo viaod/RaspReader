@@ -2,6 +2,7 @@ from app.core.events import Event
 from app.reader import book_reader
 from app.screen import Screen
 from app.screens.main_menu import MainMenu
+from PIL import Image, ImageDraw
 
 
 class HomeScreen(Screen):
@@ -11,10 +12,22 @@ class HomeScreen(Screen):
 
     def show(self):
         image_path = self.assets_dir / "images" / "raspreader_home.bmp"
-        self.display.show_image(str(image_path))
+
+        # Load the base image, convert/resize to the display canvas,
+        # then draw the shared status header on the same image so the
+        # display update shows both at once (single refresh).
+        img = Image.open(str(image_path)).convert("L")
+        img = img.resize((self.display.height, self.display.width))
+
+        # Replace the display's current canvas with the composed image
+        self.display.image = img
+        self.display.draw = ImageDraw.Draw(self.display.image)
+
+        # draw shared header onto the composed image
         self.draw_status_header()
-        self.display.refresh()
-        # No fast-mode switching for this driver.
+
+        # Single update to the hardware
+        self.display.show(self.display.image)
 
     def handle_input(self, event):
         if event == Event.SELECT:
