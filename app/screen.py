@@ -22,7 +22,14 @@ class Screen:
         """Draw the shared status information at the top of the display."""
         font = self.display.get_font(14)
         time_text = datetime.now().strftime("%H:%M")
-        battery_text = "100%"
+        battery_text = "--%"
+        try:
+            if hasattr(self, "app") and self.app is not None and getattr(self.app, "power", None) is not None:
+                pct = self.app.power.get_percentage()
+                if pct is not None:
+                    battery_text = f"{pct}%"
+        except Exception:
+            battery_text = "--%"
 
         self.display.draw.text((10, 4), time_text, font=font, fill=0)
         battery_width = self.display.draw.textlength(battery_text, font=font)

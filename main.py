@@ -40,6 +40,15 @@ class App:
             logger.warning(f"Display unavailable: {exc}")
             self.display = None
 
+        # Initialize power monitor (battery)
+        try:
+            from app.hardware.power import PowerMonitor
+
+            self.power = PowerMonitor()
+        except Exception as e:
+            logger.warning(f"Power monitor unavailable: {e}")
+            self.power = None
+
         try:
             from app.hardware.encoder import Encoder
             self.encoder = Encoder()
