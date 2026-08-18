@@ -18,7 +18,7 @@ class UploadScreen(Screen):
         font = self.display.get_font(FONT_SIZE_SCREEN_BODY)
 
         self.display.draw.text(
-            (20, 20),
+            (20, 25),
             "Upload",
             font=font_title,
             fill=0,

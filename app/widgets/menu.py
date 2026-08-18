@@ -65,7 +65,7 @@ class MenuScreen(Screen):
         #
 
         draw.text(
-            (20, 20),
+            (20, 25),
             self.title,
             font=self.display.get_font(FONT_SIZE_MENU_TITLE),
             fill=0,

@@ -30,7 +30,7 @@ class StorageScreen(Screen):
 
         # Title
         self.display.draw.text(
-            (20, 20),
+            (20, 25),
             "Storage",
             font=font_title,
             fill=0,

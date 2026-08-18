@@ -17,7 +17,7 @@ class ShutdownScreen(Screen):
         font = self.display.get_font(FONT_SIZE_SCREEN_BODY)
 
         self.display.draw.text(
-            (20, 20),
+            (20, 25),
             "Shutdown?",
             font=title_font,
             fill=0,
