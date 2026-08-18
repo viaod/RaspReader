@@ -30,8 +30,28 @@ class Display:
     def __init__(self):
         self.epd = epd3in7.EPD()
 
-        self.epd.init()
-        self.epd.Clear()
+        # Initialize display driver. Different Waveshare drivers
+        # have different signatures for `init()` and `Clear()`; try
+        # the no-arg form first, fall back to common signatures.
+        try:
+            self.epd.init()
+        except TypeError:
+            try:
+                # many drivers accept a numeric mode (0 or 1)
+                self.epd.init(1)
+            except Exception as e:
+                logger.error(f"Display init failed: {e}")
+                raise
+
+        # Clear the display; some drivers require (color, mode)
+        try:
+            self.epd.Clear()
+        except TypeError:
+            try:
+                self.epd.Clear(0, 1)
+            except Exception:
+                # non-fatal: continue even if clear failed
+                logger.warning("Display Clear() not supported with default args; continuing")
 
         # flag for switching between full and fast refresh
         self.fast_mode = False
@@ -55,13 +75,46 @@ class Display:
         logger.info("Display initialized")
 
     def show(self, image):
-        self.epd.display(self.epd.getbuffer(image))
-        logger.info("Display updated")
+        # Choose the appropriate driver API based on what's available.
+        try:
+            # Normalize canvas to driver-expected orientation: many Waveshare
+            # examples use (height, width) for horizontal buffers.
+            img = image
+            if img.size != (self.height, self.width):
+                img = img.resize((self.height, self.width))
+
+            # Prefer 4-gray APIs when present
+            if hasattr(self.epd, "display_4Gray") and hasattr(self.epd, "getbuffer_4Gray"):
+                buf = self.epd.getbuffer_4Gray(img.convert("L"))
+                self.epd.display_4Gray(buf)
+            # Fallback to 1-gray APIs
+            elif hasattr(self.epd, "display_1Gray") and hasattr(self.epd, "getbuffer"):
+                buf = self.epd.getbuffer(img)
+                try:
+                    self.epd.display_1Gray(buf)
+                except AttributeError:
+                    # some drivers expose a generic 'display' method
+                    if hasattr(self.epd, "display"):
+                        self.epd.display(buf)
+                    else:
+                        raise
+            else:
+                # Last-resort: try a generic display call with a raw buffer
+                buf = self.epd.getbuffer(img)
+                if hasattr(self.epd, "display"):
+                    self.epd.display(buf)
+                else:
+                    raise RuntimeError("No compatible display method found on epd driver")
+
+            logger.info("Display updated")
+        except Exception as e:
+            logger.error(f"Failed to update display: {e}")
+            raise
 
     def show_image(self, image_path):
-        image = Image.open(image_path).convert("RGB")
+        image = Image.open(image_path)
 
-        # Match the canvas size exactly
+        # Let `show()` handle conversion and orientation; just resize.
         image = image.resize((self.height, self.width))
 
         self.image = image
@@ -127,7 +180,16 @@ class Display:
         self.show(self.image)
 
     def clear(self):
-        self.epd.Clear()
+        # Some drivers require arguments for Clear(); try both.
+        try:
+            self.epd.Clear()
+        except TypeError:
+            try:
+                self.epd.Clear(0, 1)
+            except Exception as e:
+                logger.error(f"Display clear failed: {e}")
+                return
+
         logger.info("Display cleared")
 
     def sleep(self):
@@ -135,13 +197,27 @@ class Display:
         logger.info("Display put to sleep")
 
     def use_fast_mode(self):
+        # The currently-installed driver may not support a fast-init
+        # API (init_Fast). Only call it when present; otherwise no-op.
         if not self.fast_mode:
             logger.info("Switching to fast refresh mode")
-            self.epd.init_Fast()
-            self.fast_mode = True
+            if hasattr(self.epd, "init_Fast"):
+                try:
+                    self.epd.init_Fast()
+                    self.fast_mode = True
+                except Exception as e:
+                    logger.warning(f"init_Fast failed: {e}; remaining in full mode")
+            else:
+                logger.debug("Driver has no init_Fast; fast mode skipped")
 
     def use_full_mode(self):
         if self.fast_mode:
             logger.info("Switching to full refresh mode")
-            self.epd.init()
+            try:
+                self.epd.init()
+            except TypeError:
+                try:
+                    self.epd.init(1)
+                except Exception as e:
+                    logger.warning(f"full init failed: {e}")
             self.fast_mode = False
