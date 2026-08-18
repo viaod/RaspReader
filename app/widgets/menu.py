@@ -5,6 +5,7 @@ from PIL import ImageFont
 
 from app.core.events import Event
 from app.screen import Screen
+from app.core.config import FONT_SIZE_MENU_FOOTER, FONT_SIZE_MENU_ITEM, FONT_SIZE_MENU_TITLE
 
 
 @dataclass
@@ -66,7 +67,7 @@ class MenuScreen(Screen):
         draw.text(
             (20, 20),
             self.title,
-            font=self.display.get_font(24),
+            font=self.display.get_font(FONT_SIZE_MENU_TITLE),
             fill=0,
         )
 
@@ -93,7 +94,7 @@ class MenuScreen(Screen):
             draw.text(
                 (20, y),
                 prefix + item.text,
-                font=self.display.get_font(20),
+                font=self.display.get_font(FONT_SIZE_MENU_ITEM),
                 fill=0,
             )
 
@@ -143,16 +144,16 @@ class MenuScreen(Screen):
         draw.text(
             (10, footer_y),
             wifi,
-            font=self.display.get_font(18),
+            font=self.display.get_font(FONT_SIZE_MENU_FOOTER),
             fill=0,
         )
 
-        ip_width = draw.textlength(ip, font=self.display.get_font(18))
+        ip_width = draw.textlength(ip, font=self.display.get_font(FONT_SIZE_MENU_FOOTER))
 
         draw.text(
             (self.display.height - ip_width - 10, footer_y),
             ip,
-            font=self.display.get_font(18),
+            font=self.display.get_font(FONT_SIZE_MENU_FOOTER),
             fill=0,
         )
 

@@ -3,6 +3,7 @@ import time
 
 from app.core.events import Event
 from app.screen import Screen
+from app.core.config import FONT_SIZE_SCREEN_BODY, FONT_SIZE_SCREEN_TITLE
 
 
 class ShutdownScreen(Screen):
@@ -12,8 +13,8 @@ class ShutdownScreen(Screen):
         self.display.clear_image()
         self.draw_status_header()
 
-        title_font = self.display.get_font(22)
-        font = self.display.get_font(18)
+        title_font = self.display.get_font(FONT_SIZE_SCREEN_TITLE)
+        font = self.display.get_font(FONT_SIZE_SCREEN_BODY)
 
         self.display.draw.text(
             (20, 20),

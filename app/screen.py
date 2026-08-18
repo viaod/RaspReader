@@ -1,5 +1,6 @@
 from datetime import datetime
 from pathlib import Path
+from app.core.config import FONT_SIZE_STATUS
 
 class Screen:
 
@@ -20,7 +21,7 @@ class Screen:
 
     def draw_status_header(self):
         """Draw the shared status information at the top of the display."""
-        font = self.display.get_font(14)
+        font = self.display.get_font(FONT_SIZE_STATUS)
         time_text = datetime.now().strftime("%H:%M")
         battery_text = "--%"
         try:

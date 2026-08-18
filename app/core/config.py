@@ -13,11 +13,21 @@ SCREEN_HEIGHT = 416
 # Multiplier applied to every e-reader font.  This is the one setting to
 # change when moving to a display with a different pixel density.  For
 # example, use 1.25 to make all text 25% larger.
-TEXT_SCALE = 0.75
+TEXT_SCALE = 1
 
 # Set this to a .ttf/.ttc/.otf file to use a specific typeface.  Leave it as
 # None to use the first suitable system font found by the display module.
 FONT_PATH = "/usr/share/fonts/truetype/liberation/LiberationSans-Regular.ttf"
+# Logical point sizes for each UI role.  Adjust these before changing
+# TEXT_SCALE when only one part of the interface needs to change.
+FONT_SIZE_STATUS = 14
+FONT_SIZE_MENU_TITLE = 24
+FONT_SIZE_MENU_ITEM = 20
+FONT_SIZE_MENU_FOOTER = 18
+FONT_SIZE_SCREEN_TITLE = 22
+FONT_SIZE_SCREEN_BODY = 18
+FONT_SIZE_READER = 26
+FONT_SIZE_READER_FOOTER = 14
 
 #
 #   I2C

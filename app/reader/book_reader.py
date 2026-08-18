@@ -4,6 +4,7 @@ from app.library.metadata import load_metadata
 from app.library.progress import ProgressManager
 from app.library.book_cache import BookCache
 from app.core.logger import Logger
+from app.core.config import FONT_SIZE_READER
 
 
 logger = Logger("BookReader")
@@ -32,7 +33,7 @@ class BookReader:
 
     def set_display(self, display):
 
-        font = display.get_font(26)
+        font = display.get_font(FONT_SIZE_READER)
         text_bbox = font.getbbox("Ag")
         line_height = (text_bbox[3] - text_bbox[1]) + 5
         footer_y = display.width - 25

@@ -1,6 +1,7 @@
 from app.screen import Screen
 from app.core.events import Event
 from app.core.logger import Logger
+from app.core.config import FONT_SIZE_READER, FONT_SIZE_READER_FOOTER
 
 
 logger = Logger("ReaderScreen")
@@ -43,7 +44,7 @@ class ReaderScreen(Screen):
 
         draw = self.display.draw
 
-        font = self.display.get_font(26)
+        font = self.display.get_font(FONT_SIZE_READER)
 
         y = 30
         font_bbox = draw.textbbox((0, 0), "Ag", font=font)
@@ -62,7 +63,7 @@ class ReaderScreen(Screen):
 
 
         # Footer: page number on the left and reading progress on the right.
-        footer_font = self.display.get_font(14)
+        footer_font = self.display.get_font(FONT_SIZE_READER_FOOTER)
         footer_y = self.display.width - 25
         draw.text(
             (10, footer_y),
