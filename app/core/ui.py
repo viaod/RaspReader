@@ -32,9 +32,7 @@ class UI:
 
         self.current_screen.show()
 
-        # Any screen after Home uses fast updates
-        if screen_cls.__name__ != "HomeScreen":
-            self.display.use_fast_mode()
+        # No fast-mode switching for current driver.
 
     def handle_input(self, event):
         if self.current_screen is not None:

@@ -62,8 +62,7 @@ class Display:
                 # non-fatal: continue even if clear failed
                 logger.warning("Display Clear() not supported with default args; continuing")
 
-        # flag for switching between full and fast refresh
-        self.fast_mode = False
+        # driver doesn't support a separate fast refresh mode
 
         self.width = self.epd.width
         self.height = self.epd.height
@@ -71,12 +70,14 @@ class Display:
         logger.info(f"Display size: {self.width}x{self.height}")
 
         # IMPORTANT:
-        # The official Waveshare driver expects an RGB image with the
-        # dimensions (height, width), not (width, height).
+        # Use grayscale ('L') canvas because this driver expects
+        # 1- or 4-bit grayscale buffers. Creating an 'L' image
+        # avoids color/alpha conversion surprises that produced
+        # a grey-looking background previously.
         self.image = Image.new(
-            "RGB",
+            "L",
             (self.height, self.width),
-            self.epd.WHITE,
+            int(self.epd.WHITE),
         )
 
         self.draw = ImageDraw.Draw(self.image)
@@ -123,7 +124,10 @@ class Display:
     def show_image(self, image_path):
         image = Image.open(image_path)
 
-        # Let `show()` handle conversion and orientation; just resize.
+        # Convert to grayscale to match the canvas and driver expectations.
+        image = image.convert("L")
+
+        # Let `show()` handle orientation; resize to the canvas size.
         image = image.resize((self.height, self.width))
 
         self.image = image
@@ -206,27 +210,9 @@ class Display:
         logger.info("Display put to sleep")
 
     def use_fast_mode(self):
-        # The currently-installed driver may not support a fast-init
-        # API (init_Fast). Only call it when present; otherwise no-op.
-        if not self.fast_mode:
-            logger.info("Switching to fast refresh mode")
-            if hasattr(self.epd, "init_Fast"):
-                try:
-                    self.epd.init_Fast()
-                    self.fast_mode = True
-                except Exception as e:
-                    logger.warning(f"init_Fast failed: {e}; remaining in full mode")
-            else:
-                logger.debug("Driver has no init_Fast; fast mode skipped")
+        # Removed: this driver does not support a fast/partial init API.
+        logger.debug("use_fast_mode called but not supported; no-op")
 
     def use_full_mode(self):
-        if self.fast_mode:
-            logger.info("Switching to full refresh mode")
-            try:
-                self.epd.init()
-            except TypeError:
-                try:
-                    self.epd.init(1)
-                except Exception as e:
-                    logger.warning(f"full init failed: {e}")
-            self.fast_mode = False
+        # Removed: no-op for drivers without fast/full mode support.
+        logger.debug("use_full_mode called but not supported; no-op")

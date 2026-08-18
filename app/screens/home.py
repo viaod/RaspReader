@@ -14,8 +14,7 @@ class HomeScreen(Screen):
         self.display.show_image(str(image_path))
         self.draw_status_header()
         self.display.refresh()
-
-        self.display.use_fast_mode()
+        # No fast-mode switching for this driver.
 
     def handle_input(self, event):
         if event == Event.SELECT:
