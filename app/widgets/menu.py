@@ -72,7 +72,7 @@ class MenuScreen(Screen):
         )
 
         draw.line(
-            (15, 45, self.display.height - 15, 45),
+            (15, 48, self.display.height - 15, 48),
             fill=0,
         )
 
