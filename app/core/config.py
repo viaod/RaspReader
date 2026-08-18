@@ -17,7 +17,7 @@ TEXT_SCALE = 1.15
 
 # Set this to a .ttf/.ttc/.otf file to use a specific typeface.  Leave it as
 # None to use the first suitable system font found by the display module.
-FONT_PATH = "/usr/share/fonts/truetype/freefont/FreeSerif.ttf"
+FONT_PATH = "/usr/share/fonts/truetype/freefont/FreeMono.ttf"
 
 #
 #   I2C
