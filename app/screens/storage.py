@@ -52,7 +52,7 @@ class StorageScreen(Screen):
         if filled > 0:
             self.display.draw.rectangle(
                 (x + 2, y + 2, x + filled - 2, y + height - 2),
-                fill=(255, 0, 0),
+                fill=0,
             )
 
         # Storage information

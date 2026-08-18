@@ -17,7 +17,7 @@ libdir = os.path.join(
 if os.path.exists(libdir):
     sys.path.insert(0, libdir)
 
-from lib.waveshare_epd import epd3in7g
+from lib.waveshare_epd import epd3in7
 from PIL import Image, ImageDraw, ImageFont
 
 from app.core.logger import Logger
@@ -28,7 +28,7 @@ logger = Logger("Display")
 class Display:
 
     def __init__(self):
-        self.epd = epd3in7g.EPD()
+        self.epd = epd3in7.EPD()
 
         self.epd.init()
         self.epd.Clear()
