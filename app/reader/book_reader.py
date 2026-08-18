@@ -33,11 +33,15 @@ class BookReader:
     def set_display(self, display):
 
         font = display.get_font(26)
+        text_bbox = font.getbbox("Ag")
+        line_height = (text_bbox[3] - text_bbox[1]) + 5
+        footer_y = display.width - 25
+        lines_per_page = max(1, (footer_y - 30) // line_height)
 
         self.paginator = Paginator(
             font=font,
             page_width=display.height,
-            lines_per_page=9,
+            lines_per_page=lines_per_page,
             margin=10,
         )
 

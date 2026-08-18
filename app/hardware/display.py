@@ -3,6 +3,7 @@
 
 import os
 import sys
+from functools import lru_cache
 
 picdir = os.path.join(
     os.path.dirname(os.path.dirname(os.path.realpath(__file__))),
@@ -21,6 +22,7 @@ from lib.waveshare_epd import epd3in7
 from PIL import Image, ImageDraw, ImageFont
 
 from app.core.logger import Logger
+from app.core.config import FONT_PATH, TEXT_SCALE
 
 logger = Logger("Display")
 
@@ -180,14 +182,32 @@ class Display:
             fill=fill,
         )
 
+    @staticmethod
+    def _font_paths():
+        """Return fonts available on both the Pi and local development PCs."""
+        project_dir = os.path.dirname(os.path.dirname(os.path.dirname(os.path.realpath(__file__))))
+        candidates = [
+            FONT_PATH,
+            os.path.join(project_dir, "assets", "fonts", "Font.ttc"),
+            os.path.join(project_dir, "assets", "fonts", "DejaVuSans.ttf"),
+            os.path.join(picdir, "Font.ttc"),
+            "/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf",
+            "/usr/share/fonts/truetype/liberation2/LiberationSans-Regular.ttf",
+            r"C:\Windows\Fonts\arial.ttf",
+        ]
+        return [path for path in candidates if path and os.path.isfile(path)]
+
+    @lru_cache(maxsize=32)
     def get_font(self, size=18):
-        try:
-            return ImageFont.truetype(
-                os.path.join(picdir, "Font.ttc"),
-                size,
-            )
-        except Exception:
-            return ImageFont.load_default()
+        """Load a scalable font, applying the application-wide TEXT_SCALE."""
+        scaled_size = max(1, round(size * TEXT_SCALE))
+        for font_path in self._font_paths():
+            try:
+                return ImageFont.truetype(font_path, scaled_size)
+            except OSError:
+                logger.warning("Unable to load font: %s", font_path)
+        logger.warning("No scalable font found; using Pillow's fixed-size fallback")
+        return ImageFont.load_default()
 
     def refresh(self):
         self.show(self.image)

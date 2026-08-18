@@ -7,6 +7,19 @@ SCREEN_WIDTH = 240
 SCREEN_HEIGHT = 416
 
 #
+#   TYPOGRAPHY
+#
+
+# Multiplier applied to every e-reader font.  This is the one setting to
+# change when moving to a display with a different pixel density.  For
+# example, use 1.25 to make all text 25% larger.
+TEXT_SCALE = 1.15
+
+# Set this to a .ttf/.ttc/.otf file to use a specific typeface.  Leave it as
+# None to use the first suitable system font found by the display module.
+FONT_PATH = None
+
+#
 #   I2C
 #
 
@@ -27,13 +40,9 @@ DOUBLE_CLICK_TIME = 0.35
 
 ROTARY_PIN_A = 2
 
-ROTARY_PIN_B
-
-BUTTON_SELECT
-
-REFRESH_RATE
-
-
+ROTARY_PIN_B = None
+BUTTON_SELECT = None
+REFRESH_RATE = None
 # 
 #   FILES
 # 

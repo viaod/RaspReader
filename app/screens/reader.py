@@ -46,6 +46,8 @@ class ReaderScreen(Screen):
         font = self.display.get_font(26)
 
         y = 30
+        font_bbox = draw.textbbox((0, 0), "Ag", font=font)
+        line_height = (font_bbox[3] - font_bbox[1]) + 5
 
         for line in page.text.split("\n"):
 
@@ -56,13 +58,14 @@ class ReaderScreen(Screen):
                 fill=0,
             )
 
-            y += 20
+            y += line_height
 
 
         # Footer: page number on the left and reading progress on the right.
         footer_font = self.display.get_font(14)
+        footer_y = self.display.width - 25
         draw.text(
-            (10, 220),
+            (10, footer_y),
             f"Page {page.number}",
             font=footer_font,
             fill=0,
@@ -73,7 +76,7 @@ class ReaderScreen(Screen):
         progress_text = f"{progress_percent}%"
         progress_width = draw.textlength(progress_text, font=footer_font)
         draw.text(
-            (self.display.height - progress_width - 10, 220),
+            (self.display.height - progress_width - 10, footer_y),
             progress_text,
             font=footer_font,
             fill=0,

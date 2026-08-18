@@ -2,9 +2,12 @@ from pathlib import Path
 import json
 
 from app.library.book import Book, Chapter, Page
+from app.core.config import TEXT_SCALE
 
 
 class BookCache:
+
+    CACHE_VERSION = 2
 
 
     def __init__(self, cache_dir=None):
@@ -47,6 +50,13 @@ class BookCache:
         with open(path, "r", encoding="utf-8") as f:
             data = json.load(f)
 
+        # Older caches used the tiny fixed Pillow font and therefore have
+        # incompatible line breaks with the scalable typography.
+        if (data.get("version") != self.CACHE_VERSION or
+                data.get("text_scale") != TEXT_SCALE):
+
+            return None
+
         cached_book = Book(
             title=data["title"],
             author=data["author"],
@@ -80,6 +90,8 @@ class BookCache:
     def save(self, book):
 
         data = {
+            "version": self.CACHE_VERSION,
+            "text_scale": TEXT_SCALE,
             "title": book.title,
             "author": book.author,
             "chapters": [],
