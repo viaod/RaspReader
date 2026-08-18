@@ -34,7 +34,7 @@ class PowerMonitor:
         self.alpha = smoothing
 
         try:
-            from waveshare_epd.INA219 import INA219
+            from lib.INA219 import INA219
 
             self.ina = INA219(i2c_bus=i2c_bus, addr=addr)
             logger.info("INA219 power monitor initialized")
