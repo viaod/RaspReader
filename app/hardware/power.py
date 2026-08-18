@@ -33,13 +33,52 @@ class PowerMonitor:
         self._smoothed = None
         self.alpha = smoothing
 
-        try:
-            from lib.INA219 import INA219
+        # Try several possible import paths for the INA219 class
+        ina_cls = None
+        import importlib
+        for imp_path in ("waveshare_epd.INA219", "lib.waveshare_epd.INA219", "lib.INA219", "INA219"):
+            try:
+                mod = importlib.import_module(imp_path)
+                ina_cls = getattr(mod, "INA219", None)
+                if ina_cls:
+                    break
+            except Exception:
+                continue
 
-            self.ina = INA219(i2c_bus=i2c_bus, addr=addr)
-            logger.info("INA219 power monitor initialized")
-        except Exception as e:
-            logger.warning(f"Power monitor unavailable: {e}")
+        if ina_cls is None:
+            logger.warning("Power monitor unavailable: INA219 module not found (check lib path)")
+            return
+
+        # Try to instantiate INA219 at the given address; if it fails with
+        # an I/O error, attempt common alternate addresses before giving up.
+        candidate_addrs = [addr]
+        for a in (0x40, 0x41, 0x43, 0x44, 0x45):
+            if a not in candidate_addrs:
+                candidate_addrs.append(a)
+
+        last_exc = None
+        for a in candidate_addrs:
+            try:
+                self.ina = ina_cls(i2c_bus=i2c_bus, addr=a)
+                logger.info(f"INA219 power monitor initialized at address 0x{a:02x}")
+                break
+            except OSError as e:
+                # Common on missing device; keep trying other addresses
+                last_exc = e
+                continue
+            except Exception as e:
+                last_exc = e
+                break
+
+        if self.ina is None:
+            # Provide actionable diagnostic advice when I/O errors occur
+            if isinstance(last_exc, OSError):
+                logger.warning(
+                    "Power monitor unavailable: I/O error when probing INA219. "
+                    "Check I2C wiring, enable I2C in raspi-config, and run 'sudo i2cdetect -y 1' to see the device address."
+                )
+            else:
+                logger.warning(f"Power monitor unavailable: {last_exc}")
 
     def read_voltage(self):
         if not self.ina:
