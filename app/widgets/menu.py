@@ -41,7 +41,7 @@ class MenuScreen(Screen):
         self.selected = 0
         self.scroll_offset = 0
 
-        self.item_height = 35
+        self.item_height = 25
         self.menu_start_y = 60
 
         self.title_font = ImageFont.load_default()
@@ -107,7 +107,7 @@ class MenuScreen(Screen):
         if len(self.items) > self.visible_items:
 
             track_top = self.menu_start_y
-            track_bottom = self.display.width - 25
+            track_bottom = self.display.width - 20
             track_height = track_bottom - track_top
 
             scrollbar_height = max(
