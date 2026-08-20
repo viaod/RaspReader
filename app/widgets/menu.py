@@ -34,14 +34,14 @@ class MenuScreen(Screen):
         )
 
         self.app = app
-        
+
         self.title = title
         self.items = items or []
 
         self.selected = 0
         self.scroll_offset = 0
 
-        self.item_height = 25
+        self.item_height = 35
         self.menu_start_y = 60
 
         self.title_font = ImageFont.load_default()
@@ -51,7 +51,7 @@ class MenuScreen(Screen):
         footer_height = 40
         available_height = self.display.width - self.menu_start_y - footer_height
 
-        self.visible_items = max(1, (available_height // self.item_height) + 1)
+        self.visible_items = max(1, (available_height // self.item_height))
 
     def show(self):
 
@@ -106,26 +106,32 @@ class MenuScreen(Screen):
 
         if len(self.items) > self.visible_items:
 
-            scrollbar_height = int((self.visible_items / len(self.items)) * 100)
+            track_top = self.menu_start_y
+            track_bottom = self.display.width - 25
+            track_height = track_bottom - track_top
 
-            scrollbar_height = max(scrollbar_height, 10)
+            scrollbar_height = max(
+                10,
+                int(track_height * self.visible_items / len(self.items)),
+            )
+            scrollbar_height = min(scrollbar_height, track_height)
 
             max_scroll = len(self.items) - self.visible_items
+            scrollbar_y = int(
+                track_top
+                + (track_height - scrollbar_height)
+                * (self.scroll_offset / max_scroll)
+            )
 
-            if max_scroll > 0:
-                scrollbar_y = int(
-                    60 + (100 - scrollbar_height) * (self.scroll_offset / max_scroll)
-                )
-
-                draw.rectangle(
-                    (
-                        self.display.height - 8,
-                        scrollbar_y,
-                        self.display.height - 4,
-                        scrollbar_y + scrollbar_height,
-                    ),
-                    fill=0,
-                )
+            draw.rectangle(
+                (
+                    self.display.height - 8,
+                    scrollbar_y,
+                    self.display.height - 4,
+                    scrollbar_y + scrollbar_height,
+                ),
+                fill=0,
+            )
 
         #
         # Footer
