@@ -42,7 +42,7 @@ class MenuScreen(Screen):
         self.scroll_offset = 0
 
         self.item_height = 25
-        self.menu_start_y = 60
+        self.menu_start_y = 70
 
         self.title_font = ImageFont.load_default()
         self.item_font = ImageFont.load_default()
