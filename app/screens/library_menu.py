@@ -1,6 +1,6 @@
 from app.widgets.menu import MenuItem, MenuScreen
 from app.core.logger import Logger
-
+import textwrap
 
 logger = Logger("LibraryScreen")
 
@@ -18,18 +18,13 @@ class LibraryScreen(MenuScreen):
         self.app = app
 
         books = self.app.library.get_books()
-         
-        # books = sorted(
-        #     self.app.library.get_books(),
-        #     key=lambda book: book.title.lower()
-        # )
 
         items = []
 
         for book in books:
             items.append(
                 MenuItem(
-                    book.title,
+                    textwrap.shorten(book.title, width=30, placeholder="..."),
                     action=lambda b=book: self.select_book(b)
                 )
             )

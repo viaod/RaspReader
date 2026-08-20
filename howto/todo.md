@@ -1,36 +1,24 @@
 # RaspReader TODO
 
 ## UI
-- [x] Complete `SettingsMenu`
-- [x] Complete `Library`
 - [ ] Add `Dictionary`
 - [ ] Add `Bookmarks`
-- [x] Menu scroll functionality
-
-## Display
-- [x] Display home image
-- [x] Resize images automatically
-- [x] Add fast refresh mode
-- [x] Prevent unnecessary screen refreshes
+- [ ] Fix Menu scroll functionality
+- [ ] Find better font
 
 ## Encoder
-- [x] Filter bogus encoder positions
-- [x] Debounce button presses
 - [ ] Improve encoder recalibration
 - [ ] Add long-press detection
 
-## Reader
-- [x] Load books from SD card
-- [x] Remember last page read
+## Library/Reader
+- [ ] Truncate book names 
+- [ ] Add continue reading functionality 
 
 ## Upload
-- [x] Upload books
 - [ ] Get text from webpage 
 
 ## Testing
-- [ ] Hardware integration tests
-- [ ] UI navigation tests
-- [ ] Battery life testing
+- [ ] Improve testing
 
-
+## Misc
 - [ ] requirements.txt file for downloading deps
