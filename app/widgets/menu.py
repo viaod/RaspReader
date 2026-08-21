@@ -51,7 +51,7 @@ class MenuScreen(Screen):
         footer_height = 40
         available_height = self.display.width - self.menu_start_y - footer_height
 
-        self.visible_items = max(1, (available_height // self.item_height))
+        self.visible_items = max(1, (available_height // self.item_height) + 1)
 
     def show(self):
 

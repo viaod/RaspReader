@@ -28,7 +28,8 @@ class MainMenu(MenuScreen):
                 MenuItem("Library", screen=LibraryScreen),
                 MenuItem("Continue Reading", action=self.continue_reading),
                 MenuItem("Bookmarks", action=self.bookmarks),
-                MenuItem("Dictionary", action=self.dictionary),
+                MenuItem("Dictionary X", action=self.dictionary),
+                MenuItem("Archive X", action=self.archive),
                 MenuItem("Settings", screen=SettingsScreen),
             ],
             app=app,
@@ -42,6 +43,9 @@ class MainMenu(MenuScreen):
         
     def dictionary(self):
         logger.info("Dictionary selected")
+        
+    def archive(self):
+        logger.info("Archive selected")
 
     def back(self):
         from app.screens.home import HomeScreen

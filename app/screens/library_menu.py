@@ -24,7 +24,7 @@ class LibraryScreen(MenuScreen):
         for book in books:
             items.append(
                 MenuItem(
-                    textwrap.shorten(book.title, width=30, placeholder="..."),
+                    textwrap.shorten(book.title, width=45, placeholder="..."),
                     action=lambda b=book: self.select_book(b)
                 )
             )
