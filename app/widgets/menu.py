@@ -107,7 +107,7 @@ class MenuScreen(Screen):
         if len(self.items) > self.visible_items:
 
             track_top = self.menu_start_y
-            track_bottom = self.display.width - 20
+            track_bottom = self.display.width - 35
             track_height = track_bottom - track_top
 
             scrollbar_height = max(

@@ -31,3 +31,4 @@
 
 ## Misc
 - [ ] requirements.txt file for downloading deps
+- [ ] run main.py on device start up
