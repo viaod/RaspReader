@@ -19,6 +19,8 @@ class ReaderMenu(MenuScreen):
 
         primary_action = "Continue Reading" if self.cache_exists else "Start Reading"
         items = [MenuItem(primary_action, action=self.open_book)]
+        
+        items.append(MenuItem("Bookmarks", action=self.bookmarks))
 
         if self.cache_exists:
             items.append(MenuItem("Delete Cache", action=self.delete_cache))
@@ -67,6 +69,11 @@ class ReaderMenu(MenuScreen):
         from app.screens.library_menu import LibraryScreen
 
         self.ui.show(LibraryScreen)
+        
+    def bookmarks(self):
+        logger.info("Bookmarks selected")
+        from app.screens.bookmarks import BookmarkBooksScreen
+        self.ui.show(BookmarkBooksScreen)
 
     def back(self):
 

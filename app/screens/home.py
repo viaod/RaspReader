@@ -13,9 +13,6 @@ class HomeScreen(Screen):
     def show(self):
         image_path = self.assets_dir / "images" / "raspreader_home.bmp"
 
-        # Load the base image, convert/resize to the display canvas,
-        # then draw the shared status header on the same image so the
-        # display update shows both at once (single refresh).
         img = Image.open(str(image_path)).convert("L")
         img = img.resize((self.display.height, self.display.width))
 
@@ -23,7 +20,13 @@ class HomeScreen(Screen):
         self.display.image = img
         self.display.draw = ImageDraw.Draw(self.display.image)
 
-        # draw shared header onto the composed image
+        # Keep the shared status text readable over the home artwork.
+        self.display.draw.rectangle(
+            (0, 0, self.display.height, 24),
+            fill=255,
+        )
+
+        # Draw the shared header on top of the white band.
         self.draw_status_header()
 
         # Single update to the hardware
