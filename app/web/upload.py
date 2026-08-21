@@ -16,4 +16,3 @@ def upload_book(file, library):
 
     library.add_book(file)
     
-#TODO - delete_book()
