@@ -3,6 +3,7 @@ from app.reader.paginator import Paginator
 from app.library.metadata import load_metadata
 from app.library.progress import ProgressManager
 from app.library.book_cache import BookCache
+from app.reader.bookmark import BookmarkManager
 from app.core.logger import Logger
 from app.core.config import FONT_SIZE_READER
 
@@ -28,7 +29,7 @@ class BookReader:
         self.paginator = None
 
         self.progress = ProgressManager()
-        
+        self.bookmarks = BookmarkManager()
         self.book_cache = BookCache()
 
     def set_display(self, display):
@@ -141,3 +142,24 @@ class BookReader:
             self.chapter_index,
             self.page_index,
         )
+
+    def bookmark_current_page(self):
+        """Persist a bookmark for the page currently being read."""
+        if self.book is None or self.current_page() is None:
+            return False
+
+        return self.bookmarks.add(
+            self.book.title,
+            self.chapter_index,
+            self.page_index,
+        )
+
+    def go_to_page(self, page_index):
+        """Move to a zero-based page index, returning whether it was valid."""
+        if not 0 <= page_index < len(self.pages):
+            return False
+
+        self.page_index = page_index
+        self._sync_current_page()
+        self.save_position()
+        return True

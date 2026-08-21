@@ -99,6 +99,17 @@ class ReaderScreen(Screen):
             self.show()
 
 
+        elif event == Event.DOWN:
+            if self.book_reader.bookmark_current_page():
+                logger.info(
+                    "Bookmarked '%s', page %d",
+                    self.book_reader.book.title,
+                    self.book_reader.current_page().number,
+                )
+            else:
+                logger.debug("Current page is already bookmarked or unavailable")
+
+
         elif event == Event.SELECT:
             from app.screens.reader_menu import ReaderMenu
             self.ui.show(ReaderMenu)
