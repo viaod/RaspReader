@@ -4,8 +4,8 @@
 Run on the Raspberry Pi from the project root with:
     python3 -m app.testing.font_test
 
-Use the encoder's Left and Right buttons to change the font.  Press Ctrl+C
-in the terminal to clear the display and exit.
+Use the encoder's Left and Right buttons to change the group of four fonts.
+Press Ctrl+C in the terminal to clear the display and exit.
 """
 
 import time
@@ -18,11 +18,12 @@ from app.hardware.display import Display
 from app.hardware.encoder import Encoder
 
 
-SAMPLE_SIZES = (12, 16, 20, 26)
+FONTS_PER_PAGE = 4
+SAMPLE_TEXT = "The quick brown fox jumps over the lazy dog."
 
 
 class FontPreview:
-    """Draw font samples and switch between files in assets/fonts."""
+    """Draw four samples at once and switch between assets/fonts pages."""
 
     def __init__(self, display):
         self.display = display
@@ -32,17 +33,14 @@ class FontPreview:
             for extension in ("*.ttf", "*.otf", "*.ttc")
             for path in fonts_dir.glob(extension)
         )
-        self.selected_font = 0
+        self.page = 0
 
-    def _font_name(self):
-        if not self.font_paths:
-            return "Pillow default"
-        return self.font_paths[self.selected_font].name
+    @property
+    def page_count(self):
+        return max(1, (len(self.font_paths) + FONTS_PER_PAGE - 1) // FONTS_PER_PAGE)
 
-    def _load_font(self, size):
-        if not self.font_paths:
-            return ImageFont.load_default()
-        return ImageFont.truetype(self.font_paths[self.selected_font], size)
+    def _load_font(self, font_path, size):
+        return ImageFont.truetype(font_path, size)
 
     def show(self):
         draw = self.display.draw
@@ -54,33 +52,33 @@ class FontPreview:
         draw.text((15, 15), title, font=title_font, fill=0)
         draw.line((15, 42, self.display.height - 15, 42), fill=0)
 
-        position = "Pillow default" if not self.font_paths else (
-            f"{self.selected_font + 1}/{len(self.font_paths)}"
+        draw.text(
+            (15, 50),
+            f"Fonts {self.page * FONTS_PER_PAGE + 1}-{min((self.page + 1) * FONTS_PER_PAGE, len(self.font_paths))} of {len(self.font_paths)}",
+            font=body_font,
+            fill=0,
         )
-        draw.text((15, 50), f"{position}: {self._font_name()}", font=body_font, fill=0)
 
-        y = 75
-        for size in SAMPLE_SIZES:
-            font = self._load_font(size)
-            draw.text((20, y), f"{size}px  The quick brown fox", font=font, fill=0)
-            y += size + 12
+        start = self.page * FONTS_PER_PAGE
+        for row, font_path in enumerate(self.font_paths[start:start + FONTS_PER_PAGE]):
+            y = 70 + row * 42
+            draw.text((20, y), font_path.stem, font=body_font, fill=0)
+            draw.text((20, y + 13), SAMPLE_TEXT, font=self._load_font(font_path, 18), fill=0)
 
         draw.line((15, self.display.width - 42, self.display.height - 15, self.display.width - 42), fill=0)
         draw.text(
             (15, self.display.width - 32),
-            "Left / Right: change font   Ctrl+C: exit",
+            f"Left / Right: page {self.page + 1}/{self.page_count}   Ctrl+C: exit",
             font=body_font,
             fill=0,
         )
         self.display.refresh()
 
     def handle_event(self, event):
-        if not self.font_paths:
-            return
         if event == Event.LEFT:
-            self.selected_font = (self.selected_font - 1) % len(self.font_paths)
+            self.page = (self.page - 1) % self.page_count
         elif event == Event.RIGHT:
-            self.selected_font = (self.selected_font + 1) % len(self.font_paths)
+            self.page = (self.page + 1) % self.page_count
         else:
             return
         self.show()
