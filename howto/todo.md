@@ -14,6 +14,7 @@
 - [ ] Centre menu page title 
 - [ ] Change font functionality
 - [ ] Make back menu item lighter colour **
+- [ ] Update? git pull from screen
 
 ## Encoder
 - [ ] Improve encoder recalibration

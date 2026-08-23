@@ -91,11 +91,13 @@ class MenuScreen(Screen):
 
             prefix = "▶ " if i == self.selected else "  "
 
+            item_color = self.display.epd.GRAY2 if item.text == "Back" else 0
+
             draw.text(
                 (20, y),
                 prefix + item.text,
                 font=self.display.get_font(FONT_SIZE_MENU_ITEM),
-                fill=0,
+                fill=item_color,
             )
 
             y += self.item_height
