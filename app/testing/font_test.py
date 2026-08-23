@@ -8,8 +8,8 @@ Use the encoder's Left and Right buttons to change the font.  Press Ctrl+C
 in the terminal to clear the display and exit.
 """
 
-import os
 import time
+from pathlib import Path
 
 from PIL import ImageFont
 
@@ -22,17 +22,22 @@ SAMPLE_SIZES = (12, 16, 20, 26)
 
 
 class FontPreview:
-    """Draw font samples and switch between installed font files."""
+    """Draw font samples and switch between files in assets/fonts."""
 
     def __init__(self, display):
         self.display = display
-        self.font_paths = display._font_paths()
+        fonts_dir = Path(__file__).resolve().parents[2] / "assets" / "fonts"
+        self.font_paths = sorted(
+            path
+            for extension in ("*.ttf", "*.otf", "*.ttc")
+            for path in fonts_dir.glob(extension)
+        )
         self.selected_font = 0
 
     def _font_name(self):
         if not self.font_paths:
             return "Pillow default"
-        return os.path.basename(self.font_paths[self.selected_font])
+        return self.font_paths[self.selected_font].name
 
     def _load_font(self, size):
         if not self.font_paths:
