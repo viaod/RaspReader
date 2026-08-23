@@ -4,6 +4,7 @@ from app.screens.upload import UploadScreen
 from app.widgets.menu import MenuItem, MenuScreen
 from app.screens.storage import StorageScreen
 from app.screens.shutdown import ShutdownScreen
+from app.screens.font_settings import FontSettingsScreen
 from app.core.logger import Logger
 
 
@@ -22,6 +23,7 @@ class SettingsScreen(MenuScreen):
             items=[
                 MenuItem("Upload", screen=UploadScreen),
                 MenuItem("Storage", screen=StorageScreen),
+                MenuItem("Device Font", screen=FontSettingsScreen),
                 MenuItem(
                     f"WiFi: {'On' if self.wifi_enabled() else 'Off'}",
                     action=self.wifi_settings,
@@ -47,10 +49,11 @@ class SettingsScreen(MenuScreen):
                 )
                 logger.info("WiFi enabled")
 
-            # Update the menu text
-            self.items[2].text = (
-                f"WiFi: {'On' if self.wifi_enabled() else 'Off'}"
-            )
+            # Update the WiFi menu item without depending on its position.
+            for item in self.items:
+                if item.text.startswith("WiFi:"):
+                    item.text = f"WiFi: {'On' if self.wifi_enabled() else 'Off'}"
+                    break
             self.show()
 
         except subprocess.CalledProcessError as e:

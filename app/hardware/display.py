@@ -23,6 +23,7 @@ from PIL import Image, ImageDraw, ImageFont
 
 from app.core.logger import Logger
 from app.core.config import FONT_PATH, TEXT_SCALE
+from app.core.settings import get_font_path, save_font_path
 
 logger = Logger("Display")
 
@@ -31,6 +32,7 @@ class Display:
 
     def __init__(self):
         self.epd = epd3in7.EPD()
+        self.font_path = get_font_path(FONT_PATH)
 
         # Provide backwards-compatible color constants expected by
         # other code. Some Waveshare drivers expose GRAY1..GRAY4
@@ -182,12 +184,11 @@ class Display:
             fill=fill,
         )
 
-    @staticmethod
-    def _font_paths():
+    def _font_paths(self):
         """Return fonts available on both the Pi and local development PCs."""
         project_dir = os.path.dirname(os.path.dirname(os.path.dirname(os.path.realpath(__file__))))
         candidates = [
-            FONT_PATH,
+            self.font_path,
             os.path.join(project_dir, "assets", "fonts", "Font.ttc"),
             os.path.join(project_dir, "assets", "fonts", "DejaVuSans.ttf"),
             os.path.join(picdir, "Font.ttc"),
@@ -196,6 +197,14 @@ class Display:
             r"C:\Windows\Fonts\arial.ttf",
         ]
         return [path for path in candidates if path and os.path.isfile(path)]
+
+    def set_font_path(self, font_path):
+        """Use and persist a user-selected font for all display text."""
+        if not font_path or not os.path.isfile(font_path):
+            raise ValueError(f"Font file does not exist: {font_path}")
+        self.font_path = str(font_path)
+        self.get_font.cache_clear()
+        save_font_path(self.font_path)
 
     @lru_cache(maxsize=32)
     def get_font(self, size=18):

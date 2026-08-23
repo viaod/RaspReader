@@ -1,3 +1,5 @@
+from pathlib import Path
+
 #
 #   DISPLAY
 #
@@ -15,9 +17,10 @@ SCREEN_HEIGHT = 416
 # example, use 1.25 to make all text 25% larger.
 TEXT_SCALE = 1
 
-# Set this to a .ttf/.ttc/.otf file to use a specific typeface.  Leave it as
-# None to use the first suitable system font found by the display module.
-FONT_PATH = "/usr/share/fonts/truetype/liberation/LiberationSans-Regular.ttf"
+# Default device typeface. Users can override this from Settings > Device Font.
+FONT_PATH = str(
+    Path(__file__).resolve().parents[2] / "assets" / "fonts" / "Sourcerer-Regular.ttf"
+)
 # Logical point sizes for each UI role.  Adjust these before changing
 # TEXT_SCALE when only one part of the interface needs to change.
 FONT_SIZE_STATUS = 14

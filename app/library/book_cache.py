@@ -3,11 +3,13 @@ import json
 
 from app.library.book import Book, Chapter, Page
 from app.core.config import TEXT_SCALE
+from app.core.config import FONT_PATH
+from app.core.settings import get_font_path
 
 
 class BookCache:
 
-    CACHE_VERSION = 2
+    CACHE_VERSION = 3
 
 
     def __init__(self, cache_dir=None):
@@ -53,7 +55,8 @@ class BookCache:
         # Older caches used the tiny fixed Pillow font and therefore have
         # incompatible line breaks with the scalable typography.
         if (data.get("version") != self.CACHE_VERSION or
-                data.get("text_scale") != TEXT_SCALE):
+                data.get("text_scale") != TEXT_SCALE or
+                data.get("font_path") != get_font_path(FONT_PATH)):
 
             return None
 
@@ -92,6 +95,7 @@ class BookCache:
         data = {
             "version": self.CACHE_VERSION,
             "text_scale": TEXT_SCALE,
+            "font_path": get_font_path(FONT_PATH),
             "title": book.title,
             "author": book.author,
             "chapters": [],
