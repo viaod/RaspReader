@@ -22,7 +22,7 @@ class HomeScreen(Screen):
 
         # Keep the shared status text readable over the home artwork.
         self.display.draw.rectangle(
-            (0, 0, self.display.height, 24),
+            (self.display.height - 100, 0, self.display.height, 24),
             fill=255,
         )
 

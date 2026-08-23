@@ -13,7 +13,7 @@
 - [ ] Clean up shutdown and upload pages 
 - [ ] Centre menu page title 
 - [ ] Change font functionality
-- [ ] Make back menu item lighter colour **
+- [x] Make back menu item lighter colour **
 - [ ] Update? git pull from screen
 
 ## Encoder
