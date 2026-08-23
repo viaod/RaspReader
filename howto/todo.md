@@ -6,13 +6,13 @@
 - [ ] Add `Archive`
     - off load book, no cache/remove from lib 
 - [x] Fix Menu scroll functionality
-- [ ] Find better font
+- [x] Find better font
 - [ ] Partial refresh for menu item selection and time **
 - [ ] Cannot see battery on home screen - adjust box **
 - [ ] Fix back functionality ???
 - [ ] Clean up shutdown and upload pages 
 - [ ] Centre menu page title 
-- [ ] Change font functionality
+- [x] Change font functionality
 - [x] Make back menu item lighter colour **
 - [ ] Update? git pull from screen
 
@@ -25,7 +25,7 @@
 - [ ] Add continue reading functionality 
 - [ ] Add reading progress bar next to %
 
-## Uploadz
+## Upload
 - [ ] Get text from webpage 
 
 ## Testing
