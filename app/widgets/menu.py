@@ -91,7 +91,7 @@ class MenuScreen(Screen):
 
             prefix = "▶ " if i == self.selected else "  "
 
-            item_color = self.display.epd.GRAY2 if item.text == "Back" else 0
+            item_color = self.display.epd.GRAY3 if item.text == "Back" else 0
 
             draw.text(
                 (20, y),
