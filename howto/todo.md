@@ -24,7 +24,7 @@
 - [ ] Add continue reading functionality 
 - [ ] Add reading progress bar next to %
 
-## Upload
+## Uploadz
 - [ ] Get text from webpage 
 
 ## Testing
