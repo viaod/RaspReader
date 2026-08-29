@@ -3,7 +3,7 @@
 ## UI
 - [ ] Add `Dictionary`
 - [x] Add `Bookmarks`
-- [ ] Add `Archive`
+- [x] Add `Archive`
     - off load book, no cache/remove from lib 
 - [x] Fix Menu scroll functionality
 - [x] Find better font
