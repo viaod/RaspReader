@@ -1,4 +1,3 @@
-from app.core.events import Event
 from app.core.logger import Logger
 from app.widgets.menu import MenuItem, MenuScreen
 
@@ -22,12 +21,23 @@ class ArchiveScreen(MenuScreen):
 
         items = []
 
-        for book in books:
+        if books:
+
+            for book in books:
+
+                items.append(
+                    MenuItem(
+                        book.title,
+                        action=lambda b=book: self.restore_book(b)
+                    )
+                )
+
+        else:
 
             items.append(
                 MenuItem(
-                    book.title,
-                    action=lambda b=book: self.restore_book(b)
+                    "Archive is empty",
+                    action=lambda: None
                 )
             )
 
@@ -47,16 +57,17 @@ class ArchiveScreen(MenuScreen):
             app=app,
         )
 
+
     def restore_book(self, book):
 
         logger.info(f"Restoring book: {book.title}")
 
         self.app.library.restore_book(book)
 
-        # Return to the library
         from app.screens.library_menu import LibraryScreen
 
         self.ui.show(LibraryScreen)
+
 
     def back(self):
 
