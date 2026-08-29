@@ -3,7 +3,7 @@
 ## UI
 - [ ] Add `Dictionary`
 - [ ] Partial refresh for menu item selection and time **
-- [ ] Fix back functionality 
+- [ ] Fix back functionality...
     - go back to actual previous page instead of pre-set one
 - [ ] Update? git pull from screen in settingsls 
 - [ ] Add clear page
