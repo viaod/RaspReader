@@ -9,7 +9,7 @@ from app.core.settings import get_font_path
 
 class BookCache:
 
-    CACHE_VERSION = 3
+    CACHE_VERSION = 1
 
 
     def __init__(self, cache_dir=None):

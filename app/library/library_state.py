@@ -4,7 +4,7 @@ from pathlib import Path
 
 class LibraryState:
 
-    def __init__(self, path="book/data/library.json"):
+    def __init__(self, path="books/data/library.json"):
 
         self.path = Path(path)
         self.path.parent.mkdir(parents=True, exist_ok=True)
