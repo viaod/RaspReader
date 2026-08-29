@@ -17,6 +17,7 @@ class LibraryManager:
         )
 
         self.books_dir.mkdir(exist_ok=True)
+        self.state = LibraryState()
 
     def get_books(self):
 
