@@ -1,4 +1,6 @@
+import os
 import subprocess
+from pathlib import Path
 
 from app.screens.upload import UploadScreen
 from app.widgets.menu import MenuItem, MenuScreen
@@ -24,6 +26,7 @@ class SettingsScreen(MenuScreen):
                 MenuItem("Upload", screen=UploadScreen),
                 MenuItem("Storage", screen=StorageScreen),
                 MenuItem("Device Font", screen=FontSettingsScreen),
+                MenuItem("Check for Updates", action=self.check_for_updates),
                 MenuItem(
                     f"WiFi: {'On' if self.wifi_enabled() else 'Off'}",
                     action=self.wifi_settings,
@@ -33,6 +36,32 @@ class SettingsScreen(MenuScreen):
             ],
             app=app
         )
+
+    def check_for_updates(self):
+        repo_dir = Path(__file__).resolve().parents[2]
+        venv_python = Path.home() / "myenv" / "bin" / "python"
+
+        try:
+            subprocess.run(
+                ["git", "pull", "--ff-only"],
+                cwd=str(repo_dir),
+                check=True,
+                capture_output=True,
+                text=True,
+            )
+
+            if self.display is not None:
+                self.display.clear_image()
+                self.display.refresh()
+
+            subprocess.Popen(
+                [str(venv_python), "-m", "main"],
+                cwd=str(repo_dir),
+            )
+            os._exit(0)
+
+        except subprocess.CalledProcessError as exc:
+            logger.error("Update failed: %s", exc)
 
     def wifi_settings(self):
         try:

@@ -13,7 +13,7 @@
 - [ ] Improve encoder recalibration
 - [ ] Add long-press detection
 
-## Library/Reader
+## Library/Readerl
 - [x] Truncate book names 
 - [x] Add continue reading functionality 
 - [ ] Add reading progress bar next to %
