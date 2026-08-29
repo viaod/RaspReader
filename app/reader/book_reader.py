@@ -131,9 +131,7 @@ class BookReader:
             self._sync_current_page()
             self.save_position()
 
-
     def save_position(self):
-
         if self.book is None:
             return
 
@@ -142,6 +140,7 @@ class BookReader:
             self.chapter_index,
             self.page_index,
         )
+        self.progress.set_last_book(self.book.title)
 
     def bookmark_current_page(self):
         """Persist a bookmark for the page currently being read."""

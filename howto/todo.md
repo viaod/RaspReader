@@ -23,7 +23,7 @@
 
 ## Library/Reader
 - [x] Truncate book names 
-- [ ] Add continue reading functionality 
+- [x] Add continue reading functionality 
 - [ ] Add reading progress bar next to %
 
 ## Upload
