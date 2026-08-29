@@ -74,9 +74,11 @@ class ReaderMenu(MenuScreen):
 
         self.ui.show(LibraryScreen)
         
-    def archive():
+    def archive(self):
         logger.info("Archived book: '%s", self.book.title)
+        self.app.library.archive_book(self.book)
         
+        self.back()
         
     def bookmarks(self):
         logger.info("Bookmarks selected")
