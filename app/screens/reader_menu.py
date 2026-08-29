@@ -22,7 +22,7 @@ class ReaderMenu(MenuScreen):
         
         items.append(MenuItem("Bookmarks", action=self.bookmarks))
         
-        items.append(MenuItem("Archive Book", actions=self.archive))
+        items.append(MenuItem("Archive Book", action=self.archive))
         
         # items.append(MenuItem("Delete Progress", actions=self.delete_progress))
 
