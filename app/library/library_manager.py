@@ -2,6 +2,7 @@ from pathlib import Path
 
 from app.core.logger import Logger
 from app.library.metadata import load_metadata
+from app.library.library_state import LibraryState
 
 logger = Logger("Library")
 
@@ -26,14 +27,20 @@ class LibraryManager:
 
         return sorted(books, key=lambda book: book.title.casefold())
 
-    def get_book(self, filename):
+    def get_books(self):
 
-        path = self.books_dir / filename
+        books = []
 
-        if not path.exists():
-            return None
+        for path in self.books_dir.glob("*.epub"):
 
-        return load_metadata(path)
+            book = load_metadata(path)
+
+            if self.state.is_offloaded(book):
+                continue
+
+            books.append(book)
+
+        return books
 
     def add_book(self, uploaded_file):
 
@@ -45,16 +52,13 @@ class LibraryManager:
 
         return load_metadata(destination)
 
-    def remove_book(self, filename):
+    def offload_book(self, book):
 
-        path = self.books_dir / filename
-
-        if path.exists():
-            path.unlink()
-            logger.info(f"Removed {filename}")
-            return True
-
-        return False
+        self.state.offload(book)
+        
+    def restore_book(self, book):
+        
+        self.state.restore(book)
 
     def book_exists(self, filename):
         return (self.books_dir / filename).exists()

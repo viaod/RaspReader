@@ -21,6 +21,10 @@ class ReaderMenu(MenuScreen):
         items = [MenuItem(primary_action, action=self.open_book)]
         
         items.append(MenuItem("Bookmarks", action=self.bookmarks))
+        
+        items.append(MenuItem("Archive Book", actions=self.archive))
+        
+        # items.append(MenuItem("Delete Progress", actions=self.delete_progress))
 
         if self.cache_exists:
             items.append(MenuItem("Delete Cache", action=self.delete_cache))
@@ -69,6 +73,10 @@ class ReaderMenu(MenuScreen):
         from app.screens.library_menu import LibraryScreen
 
         self.ui.show(LibraryScreen)
+        
+    def archive():
+        logger.info("Archived book: '%s", self.book.title)
+        
         
     def bookmarks(self):
         logger.info("Bookmarks selected")

@@ -8,7 +8,7 @@
 - [x] Fix Menu scroll functionality
 - [x] Find better font
 - [ ] Partial refresh for menu item selection and time **
-- [ ] Cannot see battery on home screen - adjust box **
+- [x] Cannot see battery on home screen - adjust box **
 - [ ] Fix back functionality ???
 - [ ] Clean up shutdown and upload pages 
 - [ ] Centre menu page title 
