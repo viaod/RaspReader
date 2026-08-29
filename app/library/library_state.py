@@ -57,3 +57,7 @@ class LibraryState:
         book_id = str(Path(book.path).name)
 
         return book_id in data["offloaded"]
+        
+    def get_offloaded(self):
+        data = self.load()
+        return data.get("offloaded", [])

@@ -63,3 +63,21 @@ class LibraryManager:
 
     def book_exists(self, filename):
         return (self.books_dir / filename).exists()
+    
+    def get_offloaded_books(self):
+
+        filenames = self.state.get_offloaded()
+
+        books = []
+
+        for filename in filenames:
+
+            path = self.books_dir / filename
+
+            if not path.exists():
+                continue
+
+            book = load_metadata(path)
+            books.append(book)
+
+        return books
