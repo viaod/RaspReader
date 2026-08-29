@@ -76,7 +76,7 @@ class ReaderMenu(MenuScreen):
         
     def archive(self):
         logger.info("Archived book: '%s", self.book.title)
-        self.app.library.archive_book(self.book)
+        self.app.library.offload_book(self.book)
         
         self.back()
         
