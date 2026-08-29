@@ -68,7 +68,7 @@ class MenuScreen(Screen):
         title_bbox = draw.textbbox((0, 0), self.title, font=title_font)
         title_width = title_bbox[2] - title_bbox[0]
 
-        x = (self.display.width - title_width) // 2
+        x = (self.display.height - title_width) // 2
 
         draw.text(
             (x, 25),
