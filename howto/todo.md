@@ -9,9 +9,10 @@
 - [x] Find better font
 - [ ] Partial refresh for menu item selection and time **
 - [x] Cannot see battery on home screen - adjust box **
-- [ ] Fix back functionality ???
-- [ ] Clean up shutdown and upload pages 
-- [ ] Centre menu page title 
+- [ ] Fix back functionality 
+    - go back to actual previous page instead of pre-set one
+- [x] Clean up shutdown and upload pages 
+- [x] Centre menu page title 
 - [x] Change font functionality
 - [x] Make back menu item lighter colour **
 - [ ] Update? git pull from screen

@@ -16,33 +16,29 @@ class ShutdownScreen(Screen):
         title_font = self.display.get_font(FONT_SIZE_SCREEN_TITLE)
         font = self.display.get_font(FONT_SIZE_SCREEN_BODY)
 
+        bbox = self.display.draw.textbbox((0, 0), "Shutdown?", font=title_font)
+        text_width = bbox[2] - bbox[0]
+        x = (self.display.height - text_width) // 2
         self.display.draw.text(
-            (20, 25),
+            (x, 25),
             "Shutdown?",
             font=title_font,
             fill=0,
         )
 
-        self.display.draw.text(
-            (20, 70),
-            "Press SELECT",
-            font=font,
-            fill=0,
-        )
-
-        self.display.draw.text(
-            (20, 95),
-            "to power off.",
-            font=font,
-            fill=0,
-        )
-
-        self.display.draw.text(
-            (20, 170),
-            "LEFT = Cancel",
-            font=font,
-            fill=0,
-        )
+        for y, text in [
+            (80, "Press SELECT to power off."),
+            (140, "LEFT = Cancel"),
+        ]:
+            bbox = self.display.draw.textbbox((0, 0), text, font=font)
+            text_width = bbox[2] - bbox[0]
+            x = (self.display.height - text_width) // 2
+            self.display.draw.text(
+                (x, y),
+                text,
+                font=font,
+                fill=0,
+            )
 
         self.display.refresh()
 

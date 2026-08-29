@@ -29,11 +29,10 @@ class StorageScreen(Screen):
         font = self.display.get_font(FONT_SIZE_SCREEN_BODY)
 
         # Title
-        self.display.draw.text(
-            (20, 25),
+        self.draw_centered(
             "Storage",
-            font=font_title,
-            fill=0,
+            25,
+            font_title,
         )
 
         # Progress bar

@@ -71,7 +71,7 @@ class MenuScreen(Screen):
         x = (self.display.height - title_width) // 2
 
         draw.text(
-            (x, 25),
+            (x, 20),
             self.title,
             font=title_font,
             fill=0,

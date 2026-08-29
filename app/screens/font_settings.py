@@ -32,7 +32,11 @@ class FontSettingsScreen(Screen):
         title_font = self.display.get_font(FONT_SIZE_SCREEN_TITLE)
         body_font = self.display.get_font(FONT_SIZE_SCREEN_BODY)
 
-        draw.text((20, 25), "Device Font", font=title_font, fill=0)
+        title = "Device Font"
+        bbox = draw.textbbox((0, 0), title, font=title_font)
+        title_width = bbox[2] - bbox[0]
+        title_x = (self.display.height - title_width) // 2
+        draw.text((title_x, 25), title, font=title_font, fill=0)
         draw.line((15, 48, self.display.height - 15, 48), fill=0)
 
         if not self.font_paths:

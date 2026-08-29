@@ -17,26 +17,29 @@ class UploadScreen(Screen):
         font_title = self.display.get_font(FONT_SIZE_SCREEN_TITLE)
         font = self.display.get_font(FONT_SIZE_SCREEN_BODY)
 
+        bbox = self.display.draw.textbbox((0, 0), "Upload", font=font_title)
+        text_width = bbox[2] - bbox[0]
+        x = (self.display.height - text_width) // 2
         self.display.draw.text(
-            (20, 25),
+            (x, 25),
             "Upload",
             font=font_title,
             fill=0,
         )
 
-        self.display.draw.text(
-            (20, 60),
-            "Please upload a book via the web interface.",
-            font=font,
-            fill=0,
-        )
-
-        self.display.draw.text(
-            (20, 100),
-            f"URL: http://{self.get_ip()}:8080",
-            font=font,
-            fill=0,
-        )
+        for y, text in [
+            (60, "Please upload a book via the web interface."),
+            (100, f"URL: http://{self.get_ip()}:8080"),
+        ]:
+            bbox = self.display.draw.textbbox((0, 0), text, font=font)
+            text_width = bbox[2] - bbox[0]
+            x = (self.display.height - text_width) // 2
+            self.display.draw.text(
+                (x, y),
+                text,
+                font=font,
+                fill=0,
+            )
 
         self.display.draw.text(
             (20, 220),
