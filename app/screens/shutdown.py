@@ -27,8 +27,8 @@ class ShutdownScreen(Screen):
         )
 
         for y, text in [
-            (80, "Press SELECT to power off."),
-            (140, "LEFT = Cancel"),
+            (90, "Press SELECT to power off."),
+            (130, "LEFT = Cancel"),
         ]:
             bbox = self.display.draw.textbbox((0, 0), text, font=font)
             text_width = bbox[2] - bbox[0]

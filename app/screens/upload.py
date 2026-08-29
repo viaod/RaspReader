@@ -28,8 +28,8 @@ class UploadScreen(Screen):
         )
 
         for y, text in [
-            (60, "Please upload a book via the web interface."),
-            (100, f"URL: http://{self.get_ip()}:8080"),
+            (90, "Please upload a book via the web interface."),
+            (130, f"URL: http://{self.get_ip()}:8080"),
         ]:
             bbox = self.display.draw.textbbox((0, 0), text, font=font)
             text_width = bbox[2] - bbox[0]
