@@ -68,10 +68,10 @@ class MenuScreen(Screen):
         title_bbox = draw.textbbox((0, 0), self.title, font=title_font)
         title_width = title_bbox[2] - title_bbox[0]
 
-        title_x = max(0, (self.display.height - title_width) // 2)
+        x = (self.display.height - title_width) // 2
 
         draw.text(
-            (title_x, 20),
+            (x, 25),
             self.title,
             font=title_font,
             fill=0,
@@ -96,18 +96,13 @@ class MenuScreen(Screen):
             item = self.items[i]
 
             prefix = "▶ " if i == self.selected else "  "
-            label = prefix + item.text
-            item_font = self.display.get_font(FONT_SIZE_MENU_ITEM)
-            item_bbox = draw.textbbox((0, 0), label, font=item_font)
-            item_width = item_bbox[2] - item_bbox[0]
-            item_x = max(0, (self.display.height - item_width) // 2)
 
             item_color = self.display.epd.GRAY3 if item.text == "Back" else 0
 
             draw.text(
-                (item_x, y),
-                label,
-                font=item_font,
+                (20, y),
+                prefix + item.text,
+                font=self.display.get_font(FONT_SIZE_MENU_ITEM),
                 fill=item_color,
             )
 
