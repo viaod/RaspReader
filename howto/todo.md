@@ -5,7 +5,7 @@
 - [ ] Partial refresh for menu item selection and time **
 - [ ] Fix back functionality...
     - go back to actual previous page instead of pre-set one
-- [ ] Update? git pull from screen in settingsls 
+- [x] Update? git pull from screen in settingsls 
 - [ ] Add clear page
     - 'clear progress', 'clear cache', 'clear books'
 
