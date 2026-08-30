@@ -25,8 +25,8 @@ class MainMenu(MenuScreen):
             ui,
             title="Main Menu",
             items=[
-                MenuItem("Library", screen=LibraryScreen),
                 MenuItem("Continue Reading", action=self.continue_reading),
+                MenuItem("Library", screen=LibraryScreen),
                 MenuItem("Bookmarks", action=self.bookmarks),
                 # MenuItem("Dictionary X", action=self.dictionary),
                 MenuItem("Archive", action=self.archive),
