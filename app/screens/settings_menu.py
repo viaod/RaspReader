@@ -37,11 +37,18 @@ class SettingsScreen(MenuScreen):
             app=app
         )
 
+
     def check_for_updates(self):
         repo_dir = Path(__file__).resolve().parents[2]
         venv_python = Path.home() / "myenv" / "bin" / "python"
 
         try:
+            before = subprocess.check_output(
+                ["git", "rev-parse", "HEAD"],
+                cwd=str(repo_dir),
+                text=True,
+            ).strip()
+
             subprocess.run(
                 ["git", "pull", "--ff-only"],
                 cwd=str(repo_dir),
@@ -50,18 +57,26 @@ class SettingsScreen(MenuScreen):
                 text=True,
             )
 
+            after = subprocess.check_output(
+                ["git", "rev-parse", "HEAD"],
+                cwd=str(repo_dir),
+                text=True,
+            ).strip()
+
+            if before == after:
+                logger.info("No updates available; not restarting app")
+                return
+
             if self.display is not None:
                 self.display.clear_image()
                 self.display.refresh()
 
-            subprocess.Popen(
-                [str(venv_python), "-m", "main"],
-                cwd=str(repo_dir),
-            )
-            os._exit(0)
+            os.execv(str(venv_python), ["python", "-m", "main"])
 
         except subprocess.CalledProcessError as exc:
             logger.error("Update failed: %s", exc)
+            if exc.stderr:
+                logger.error(exc.stderr.strip())
 
     def wifi_settings(self):
         try:
