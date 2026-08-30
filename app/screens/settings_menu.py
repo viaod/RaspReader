@@ -23,14 +23,15 @@ class SettingsScreen(MenuScreen):
             ui,
             title="Settings",
             items=[
+                MenuItem("Check for Updates", action=self.check_for_updates),
                 MenuItem("Upload", screen=UploadScreen),
                 MenuItem("Storage", screen=StorageScreen),
                 MenuItem("Device Font", screen=FontSettingsScreen),
-                MenuItem("Check for Updates", action=self.check_for_updates),
                 MenuItem(
                     f"WiFi: {'On' if self.wifi_enabled() else 'Off'}",
                     action=self.wifi_settings,
                 ),
+                MenuItem("Clear Data", action=self.clear_data),
                 MenuItem("Back", action=self.back),
                 MenuItem("Shutdown", screen=ShutdownScreen),
             ],
@@ -119,6 +120,9 @@ class SettingsScreen(MenuScreen):
 
         return False
     
+    def clear_data(self):
+        logger.info("Selected clear data")
+        
     def back(self):
         from app.screens.main_menu import MainMenu
         self.ui.show(MainMenu)
