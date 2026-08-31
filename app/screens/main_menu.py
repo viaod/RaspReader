@@ -9,60 +9,60 @@ logger = Logger("MainMenu")
 
 class MainMenu(MenuScreen):
 
-    def __init__(
-        self,
-        display,
-        assets_dir=None,
-        ui=None,
-        title="Menu",
-        items=None,
-        app=None,
-    ):
+    def __init__(self, display, assets_dir=None, ui=None, title="Menu", items=None, app=None):
+        self._prev_book = self._get_prev_book_if_any()
+
+        menu_items = [
+            MenuItem("Library", screen=LibraryScreen),
+            MenuItem("Bookmarks", action=self.bookmarks),
+            MenuItem("Archive", action=self.archive),
+            MenuItem("Settings", screen=SettingsScreen),
+        ]
+
+        if self._prev_book is not None:
+            menu_items.insert(
+                0,
+                MenuItem(f"Continue Reading: {self._prev_book.title}", action=self.continue_reading),
+            )
 
         super().__init__(
             display,
             assets_dir,
             ui,
             title="Main Menu",
-            items=[
-                MenuItem("Continue Reading", action=self.continue_reading),
-                MenuItem("Library", screen=LibraryScreen),
-                MenuItem("Bookmarks", action=self.bookmarks),
-                # MenuItem("Dictionary X", action=self.dictionary),
-                MenuItem("Archive", action=self.archive),
-                MenuItem("Settings", screen=SettingsScreen),
-            ],
+            items=menu_items,
             app=app,
-            )
+        )
 
-    def continue_reading(self):
-        logger.info("Continue Reading selected")
+    def _get_prev_book_if_any(self):
+        if self.app is None or self.app.book_reader is None:
+            return None
 
         progress = self.app.book_reader.progress
+        last_book_key = progress.get_last_book()
+        if not last_book_key:
+            return None
 
-        candidate_keys = []
-        last_book = progress.get_last_book()
-        if last_book:
-            candidate_keys.append(last_book)
+        book = self._find_book_by_key(last_book_key)
+        if book is None:
+            return None
 
-        latest_book = progress.get_latest_book()
-        if latest_book and latest_book not in candidate_keys:
-            candidate_keys.append(latest_book)
+        if self.app.library.state.is_offloaded(book):
+            self.app.library.restore_book(book)
 
-        for key in candidate_keys:
-            book = self._find_book_by_key(key)
-            if book:
-                if self.app.library.state.is_offloaded(book):
-                    self.app.library.restore_book(book)
+        return book
 
-                self.app.selected_book = book
-                self.app.book_reader.open(book)
+    def continue_reading(self):
+        book = self._get_prev_book_if_any()
+        if not book:
+            logger.info("No previous book found")
+            return
 
-                from app.screens.reader import ReaderScreen
-                self.ui.show(ReaderScreen)
-                return
+        self.app.selected_book = book
+        self.app.book_reader.open(book)
 
-        logger.info("No previous book found")
+        from app.screens.reader import ReaderScreen
+        self.ui.show(ReaderScreen)
     
     def bookmarks(self):
         logger.info("Bookmarks selected")

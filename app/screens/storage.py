@@ -20,15 +20,14 @@ class StorageScreen(Screen):
 
     def draw_bottom_menu(self, font):
         footer_y = 216
-        self.display.draw.line((10, footer_y - 8, self.display.height - 10, footer_y - 8), fill=0)
 
         left_text = "Clear Data"
         right_text = "Back"
 
         if self.selected == 0:
-            left_text = "▶ Clear Data"
+            left_text = "< Back"
         else:
-            right_text = "▶ Back"
+            right_text = "Clear Data >"
 
         left_x = 18
         right_x = self.display.height - self.display.draw.textlength(right_text, font=font) - 18

@@ -72,5 +72,5 @@ class ClearDataMenu(MenuScreen):
             logger.error("Failed to reset %s: %s", path, exc)
 
     def back(self):
-        from app.screens.main_menu import MainMenu
-        self.ui.show(MainMenu)
+        from app.screens.storage import StorageScreen
+        self.ui.show(StorageScreen)
