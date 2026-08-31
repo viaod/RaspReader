@@ -5,12 +5,11 @@
 - [ ] Partial refresh for menu item selection and time **
 - [ ] Fix back functionality...
     - go back to actual previous page instead of pre-set one
-- [x] Update? git pull from screen in settingsls 
-- [ ] Add clear page
+- [x] Update? git pull from screen in settings 
+- [x] Add clear page
     - 'clear progress', 'clear cache', 'clear books'
-- [ ] Continue reading only appears if there is book to continue
+- [x] Continue reading only appears if there is book to continue
 - [ ] Clear screen no matter how device shut down - ungracefull 
-- [ ]
  
 ## Encoder
 - [ ] Improve encoder recalibration
