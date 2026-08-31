@@ -8,6 +8,10 @@
 - [x] Update? git pull from screen in settingsls 
 - [ ] Add clear page
     - 'clear progress', 'clear cache', 'clear books'
+- [ ] Indicator to show book is parsed / in  progress in library
+    - (..% next to the name?)
+- [ ] Continue reading only appears if there is book to continue
+- [ ] Clear screen no matter how device shut down - ungracefull 
 
 ## Encoder
 - [ ] Improve encoder recalibration
