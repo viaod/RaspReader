@@ -31,7 +31,6 @@ class SettingsScreen(MenuScreen):
                     f"WiFi: {'On' if self.wifi_enabled() else 'Off'}",
                     action=self.wifi_settings,
                 ),
-                MenuItem("Clear Data", action=self.clear_data),
                 MenuItem("Back", action=self.back),
                 MenuItem("Shutdown", screen=ShutdownScreen),
             ],
@@ -119,9 +118,6 @@ class SettingsScreen(MenuScreen):
                 return "Soft blocked: no" in lines[i + 1]
 
         return False
-    
-    def clear_data(self):
-        logger.info("Selected clear data")
         
     def back(self):
         from app.screens.main_menu import MainMenu
