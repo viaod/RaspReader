@@ -8,19 +8,25 @@
 - [x] Update? git pull from screen in settingsls 
 - [ ] Add clear page
     - 'clear progress', 'clear cache', 'clear books'
-- [ ] Indicator to show book is parsed / in  progress in library
-    - (..% next to the name?)
 - [ ] Continue reading only appears if there is book to continue
 - [ ] Clear screen no matter how device shut down - ungracefull 
-
+- [ ]
+ 
 ## Encoder
 - [ ] Improve encoder recalibration
 - [ ] Add long-press detection
 
-## Library/Readerl
+## Library/Reader
 - [x] Truncate book names 
 - [x] Add continue reading functionality 
 - [ ] Add reading progress bar next to %
+- [ ] Indicator to show book is parsed / in  progress in library
+    - (..% next to the name?)
+- [ ] Fix page numbering
+    - does page in chapter not entire book
+- [ ] reduce size of reading area
+- [ ] Home selection in reader menu
+
 
 ## Upload
 - [ ] Get text from webpage 
