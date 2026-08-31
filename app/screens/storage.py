@@ -21,16 +21,11 @@ class StorageScreen(Screen):
     def draw_bottom_menu(self, font):
         footer_y = 216
 
-        left_text = "Clear Data"
-        right_text = "Back"
+        left_text = "< Back"
+        right_text = "Clear Data >"
 
-        if self.selected == 0:
-            left_text = "< Back"
-        else:
-            right_text = "Clear Data >"
-
-        left_x = 18
-        right_x = self.display.height - self.display.draw.textlength(right_text, font=font) - 18
+        left_x = 25
+        right_x = self.display.height - self.display.draw.textlength(right_text, font=font) - 25
 
         self.display.draw.text((left_x, footer_y), left_text, font=font, fill=0)
         self.display.draw.text((right_x, footer_y), right_text, font=font, fill=0)
@@ -80,15 +75,6 @@ class StorageScreen(Screen):
 
     def handle_input(self, event):
         if event == Event.LEFT:
-            self.selected = 0 if self.selected == 0 else self.selected - 1
-            self.show()
-        elif event == Event.RIGHT:
-            self.selected = 1 if self.selected == 0 else 1
-            self.show()
-        elif event == Event.SELECT:
-            if self.selected == 0:
-                self.clear_data()
-            else:
-                self.back()
-        elif event == Event.UP:
             self.back()
+        elif event == Event.RIGHT:
+            self.clear_data()
