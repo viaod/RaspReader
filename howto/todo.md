@@ -2,14 +2,14 @@
 
 ## UI
 - [ ] Add `Dictionary`
-- [ ] Partial refresh for menu item selection and time **
+- [ ] Partial refresh for menu item selection and time 
 - [ ] Fix back functionality...
     - go back to actual previous page instead of pre-set one
 - [x] Update? git pull from screen in settings 
 - [x] Add clear page
     - 'clear progress', 'clear cache', 'clear books'
 - [x] Continue reading only appears if there is book to continue
-- [ ] Clear screen no matter how device shut down - ungracefull 
+- [ ] Clear screen no matter how device shut down - ungraceful
  
 ## Encoder
 - [ ] Improve encoder recalibration
@@ -18,13 +18,14 @@
 ## Library/Reader
 - [x] Truncate book names 
 - [x] Add continue reading functionality 
-- [ ] Add reading progress bar next to %
-- [ ] Indicator to show book is parsed / in  progress in library
+- [ ] Add reading progress bar next to % **
+- [ ] Indicator to show book is parsed / in  progress in library **
     - (..% next to the name?)
-- [ ] Fix page numbering
+- [ ] Fix page numbering **
     - does page in chapter not entire book
-- [ ] reduce size of reading area
-- [ ] Home selection in reader menu
+- [ ] reduce size of reading area **
+- [ ] Home selection in reader menu **
+- [ ] Library not in alphabetical order anymore..? **
 
 
 ## Upload
