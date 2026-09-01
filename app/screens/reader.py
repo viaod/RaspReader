@@ -53,7 +53,7 @@ class ReaderScreen(Screen):
         for line in page.text.split("\n"):
 
             draw.text(
-                (10, y),
+                (20, y),
                 line,
                 font=font,
                 fill=0,
