@@ -18,7 +18,9 @@ class Paginator:
         self.margin = margin
 
     def paginate_chapter(self, chapter: Chapter):
-
+        # TODO: do i want page in chapter and or page in book?
+            # c_page and b_page ?
+        
         lines = self.wrap_text(chapter.text)
 
         pages = []

@@ -1,3 +1,5 @@
+from functools import cache
+
 from app.widgets.menu import MenuItem, MenuScreen
 from app.core.logger import Logger
 import textwrap
@@ -20,8 +22,15 @@ class LibraryScreen(MenuScreen):
         books = self.app.library.get_books()
 
         items = []
+        
+        # cached_book = self.book_cache.load(book)
+
+        # if cached_book:
+        #     self.book = cached_book
+        #     logger.info("Loaded book from cache: %s", self.book.title)
 
         for book in books:
+            # TODO: check if book is cached and add to name progess, e.g., (2% read)
             items.append(
                 MenuItem(
                     textwrap.shorten(book.title, width=45, placeholder="..."),

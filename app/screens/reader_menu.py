@@ -32,7 +32,6 @@ class ReaderMenu(MenuScreen):
             items.append(MenuItem("Delete Cache", action=self.delete_cache))
 
         items.append(MenuItem("Delete Book", action=self.delete_book))
-        items.append(MenuItem("Back", action=self.back))
 
         super().__init__(
             display,

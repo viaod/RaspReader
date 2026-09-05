@@ -74,6 +74,13 @@ class ReaderScreen(Screen):
 
         total_pages = len(self.book_reader.pages)
         progress_percent = round(((self.book_reader.page_index + 1) / total_pages) * 100)
+        
+        ## small progress bar
+        x = self.display.height - 50
+        y = footer_y
+        
+        draw.rectangle((x,y, x+40, y+10 ) outline=0, width=2)
+
         progress_text = f"{progress_percent}%"
         progress_width = draw.textlength(progress_text, font=footer_font)
         draw.text(
