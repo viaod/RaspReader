@@ -33,11 +33,27 @@ class SettingsScreen(MenuScreen):
                 ),
                 MenuItem("Back", action=self.back),
                 MenuItem("Shutdown", screen=ShutdownScreen),
+                MenuItem("Refresh", action=self.refresh),
             ],
             app=app
         )
 
-
+    def refresh(self): 
+        repo_dir = Path(__file__).resolve().parents[2]
+        venv_python = Path.home() / "myenv" / "bin" / "python"
+        
+        try:
+            if self.display is not None:
+                self.display.clear_image()
+                self.display.refresh()
+            
+            os.execv(str(venv_python), ["python", "-m", "main"])
+            
+        except subprocess.CalledProcessError as exc:
+            logger.error("Update failed: %s", exc)
+            if exc.stderr:
+                logger.error(exc.stderr.strip())
+        
     def check_for_updates(self):
         repo_dir = Path(__file__).resolve().parents[2]
         venv_python = Path.home() / "myenv" / "bin" / "python"

@@ -2,7 +2,7 @@
 
 ## UI
 - [ ] Add `Dictionary`
-- [ ] Partial refresh for menu item selection and time 
+- [ ] Partial refresh for menu item selection (and time maybe) 
 - [ ] Fix back functionality...
     - go back to actual previous page instead of pre-set one
 - [x] Update? git pull from screen in settings 
@@ -10,6 +10,9 @@
     - 'clear progress', 'clear cache', 'clear books'
 - [x] Continue reading only appears if there is book to continue
 - [ ] Clear screen no matter how device shut down - ungraceful
+- [ ] Grid option instead of scroll for some menus?
+    - scroll: library
+    - grid: every other 
  
 ## Encoder
 - [ ] Improve encoder recalibration
