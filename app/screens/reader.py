@@ -79,7 +79,7 @@ class ReaderScreen(Screen):
         x = self.display.height - 50
         y = footer_y
         
-        draw.rectangle((x,y, x+40, y+10 ) outline=0, width=2)
+        draw.rectangle((x,y, x+40, y+10 ), outline=0, width=2)
 
         progress_text = f"{progress_percent}%"
         progress_width = draw.textlength(progress_text, font=footer_font)
