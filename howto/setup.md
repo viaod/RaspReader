@@ -107,3 +107,13 @@ scp "C:\Users\vodug\Electronic_Projects\e-reader\RaspReader\books\epubs\*.epub" 
 
 # will add upload portal later 
 ```
+
+## Service
+
+```
+sudo systemctl daemon-reload
+sudo systemctl enable raspreader.service
+sudo systemctl restart raspreader.service
+sudo systemctl status raspreader.service
+sudo journalctl -u raspreader.service -b --no-pager
+```
