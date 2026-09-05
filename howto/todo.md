@@ -21,13 +21,14 @@
 ## Library/Reader
 - [x] Truncate book names 
 - [x] Add continue reading functionality 
-- [ ] Add reading progress bar next to % **
+- [x] Add reading progress bar next to % 
 - [ ] Indicator to show book is parsed / in  progress in library **
     - (..% next to the name?)
 - [ ] Fix page numbering **
     - does page in chapter not entire book
-- [x] reduce size of reading area **
-- [x] Home selection in reader menu **
+- [x] reduce size of reading area 
+- [x] Home selection in reader menu 
+- [ ] Settings selection in reader menu
 - [ ] Library not in alphabetical order anymore..? **
 - [ ] Do i like the way the pages are paginated..?
 
