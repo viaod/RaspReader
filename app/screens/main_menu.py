@@ -33,7 +33,7 @@ class MainMenu(MenuScreen):
             title="Main Menu",
             items=menu_items,
             app=app,
-            grid=True,
+            grid=False,
         )
 
     def _get_prev_book_if_any(self):

@@ -36,7 +36,7 @@ class SettingsScreen(MenuScreen):
                 MenuItem("Refresh", action=self.refresh),
             ],
             app=app,
-            grid=False,
+            grid=True,
         )
 
     def refresh(self): 
