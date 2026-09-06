@@ -1,5 +1,6 @@
 from app.core.logger import Logger
 from app.widgets.menu import MenuItem, MenuScreen
+from app.screens.settings_menu import SettingsScreen
 
 
 logger = Logger("ReaderMenu")
@@ -26,12 +27,12 @@ class ReaderMenu(MenuScreen):
         
         items.append(MenuItem("Archive Book", action=self.archive))
         
-        # items.append(MenuItem("Delete Progress", actions=self.delete_progress))
-
         if self.cache_exists:
             items.append(MenuItem("Delete Cache", action=self.delete_cache))
 
         items.append(MenuItem("Delete Book", action=self.delete_book))
+        
+        items.append(MenuItem("Settings"), screen=SettingsScreen)
 
         super().__init__(
             display,
