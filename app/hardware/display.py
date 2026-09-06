@@ -22,7 +22,7 @@ from lib.waveshare_epd import epd3in7
 from PIL import Image, ImageDraw, ImageFont
 
 from app.core.logger import Logger
-from app.core.config import FONT_PATH, TEXT_SCALE
+from app.core.config import FONT_PATH, PARTIAL_REFRESH_LIMIT, TEXT_SCALE
 from app.core.settings import get_font_path, save_font_path
 
 logger = Logger("Display")
@@ -85,12 +85,19 @@ class Display:
         )
 
         self.draw = ImageDraw.Draw(self.image)
+        self._partial_mode = False
+        self._partial_refresh_count = 0
 
         logger.info("Display initialized")
 
     def show(self, image):
         # Choose the appropriate driver API based on what's available.
         try:
+            if self._partial_mode:
+                self.epd.init(0)
+                self._partial_mode = False
+            self._partial_refresh_count = 0
+
             # Normalize canvas to driver-expected orientation: many Waveshare
             # examples use (height, width) for horizontal buffers.
             img = image
@@ -218,8 +225,52 @@ class Display:
         logger.warning("No scalable font found; using Pillow's fixed-size fallback")
         return ImageFont.load_default()
 
-    def refresh(self):
-        self.show(self.image)
+    def refresh(self, partial=False):
+        if not partial or not self._supports_partial_refresh():
+            if self._partial_mode:
+                try:
+                    self.epd.init(0)
+                    self._partial_mode = False
+                except (AttributeError, TypeError, RuntimeError) as exc:
+                    logger.warning("Unable to switch to full refresh mode: %s", exc)
+            self._partial_refresh_count = 0
+            self.show(self.image)
+            return
+
+        if self._partial_refresh_count >= PARTIAL_REFRESH_LIMIT:
+            try:
+                self.epd.init(0)
+                self._partial_mode = False
+                self._partial_refresh_count = 0
+                self.show(self.image)
+                return
+            except (AttributeError, TypeError, RuntimeError) as exc:
+                logger.warning("Scheduled full refresh failed: %s", exc)
+
+        if not self._partial_mode:
+            try:
+                self.epd.init(1)
+                self._partial_mode = True
+            except (AttributeError, TypeError, RuntimeError) as exc:
+                logger.warning("Partial refresh unavailable: %s", exc)
+                self.show(self.image)
+                return
+
+        try:
+            image = self.image.convert("1")
+            self.epd.display_1Gray(self.epd.getbuffer(image))
+            self._partial_refresh_count += 1
+            logger.info("Display partially updated")
+        except (AttributeError, TypeError, RuntimeError) as exc:
+            logger.warning("Partial refresh failed; using full refresh: %s", exc)
+            self._partial_mode = False
+            self.show(self.image)
+
+    def _supports_partial_refresh(self):
+        return all(
+            hasattr(self.epd, attribute)
+            for attribute in ("init", "getbuffer", "display_1Gray")
+        )
 
     def clear(self, force_full: bool = False):
         """Clear the display. If `force_full` is True, attempt a full

@@ -127,7 +127,7 @@ class MenuScreen(Screen):
             fill=0,
         )
 
-        self.display.refresh()
+        self.display.refresh(partial=True)
 
     def handle_input(self, event):
 
