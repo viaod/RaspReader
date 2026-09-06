@@ -10,15 +10,7 @@ logger = Logger("MainMenu")
 class MainMenu(MenuScreen):
 
     def __init__(self, display, assets_dir=None, ui=None, title="Menu", items=None, app=None):
-        super().__init__(
-            display,
-            assets_dir,
-            ui,
-            title="Main Menu",
-            items=[],
-            app=app,
-        )
-
+        self.app = app
         self._prev_book = self._get_prev_book_if_any()
 
         menu_items = [
@@ -34,7 +26,15 @@ class MainMenu(MenuScreen):
                 MenuItem(f"Continue Reading: {self._prev_book.title}", action=self.continue_reading),
             )
 
-        self.items = menu_items
+        super().__init__(
+            display,
+            assets_dir,
+            ui,
+            title="Main Menu",
+            items=menu_items,
+            app=app,
+            grid=True,
+        )
 
     def _get_prev_book_if_any(self):
         if self.app is None or self.app.book_reader is None:

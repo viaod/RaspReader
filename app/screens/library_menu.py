@@ -52,6 +52,7 @@ class LibraryScreen(MenuScreen):
             title="Library",
             items=items,
             app=app,
+            grid=False,
         )
 
 

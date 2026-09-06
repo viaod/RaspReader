@@ -55,6 +55,7 @@ class ArchiveScreen(MenuScreen):
             title="Archive",
             items=items,
             app=app,
+            grid=True,
         )
 
 

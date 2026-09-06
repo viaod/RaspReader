@@ -1,5 +1,6 @@
 from dataclasses import dataclass
 import subprocess
+import textwrap
 
 from PIL import ImageFont
 
@@ -25,6 +26,7 @@ class MenuScreen(Screen):
         title="Menu",
         items=None,
         app=None,
+        grid=False,
     ):
         super().__init__(
             display,
@@ -35,11 +37,14 @@ class MenuScreen(Screen):
 
         self.app = app
 
+        self.grid = grid
+
         self.title = title
         self.items = items or []
 
         self.selected = 0
         self.scroll_offset = 0
+        self.grid_offset = 0
 
         self.item_height = 25
         self.menu_start_y = 70
@@ -86,60 +91,11 @@ class MenuScreen(Screen):
         # Menu items
         #
 
-        start = self.scroll_offset
-        end = min(start + self.visible_items, len(self.items))
+        if self.grid:
+            self.grid_format(draw)
+        else:
+            self.scroll_format(draw)
 
-        y = self.menu_start_y
-
-        for i in range(start, end):
-
-            item = self.items[i]
-
-            prefix = "▶ " if i == self.selected else "  "
-
-            item_color = self.display.epd.GRAY3 if item.text == "Back" else 0
-
-            draw.text(
-                (20, y),
-                prefix + item.text,
-                font=self.display.get_font(FONT_SIZE_MENU_ITEM),
-                fill=item_color,
-            )
-
-            y += self.item_height
-
-        #
-        # Scroll indicator
-        #
-
-        if len(self.items) > self.visible_items:
-
-            track_top = self.menu_start_y
-            track_bottom = self.display.width - 35
-            track_height = track_bottom - track_top
-
-            scrollbar_height = max(
-                10,
-                int(track_height * self.visible_items / len(self.items)),
-            )
-            scrollbar_height = min(scrollbar_height, track_height)
-
-            max_scroll = len(self.items) - self.visible_items
-            scrollbar_y = int(
-                track_top
-                + (track_height - scrollbar_height)
-                * (self.scroll_offset / max_scroll)
-            )
-
-            draw.rectangle(
-                (
-                    self.display.height - 8,
-                    scrollbar_y,
-                    self.display.height - 4,
-                    scrollbar_y + scrollbar_height,
-                ),
-                fill=0,
-            )
 
         #
         # Footer
@@ -178,6 +134,10 @@ class MenuScreen(Screen):
         if not self.items:
             return
 
+        if self.grid:
+            self.handle_grid_input(event)
+            return
+
         #
         # Move down
         #
@@ -214,6 +174,12 @@ class MenuScreen(Screen):
                 self.scroll_offset = self.selected
 
             self.show()
+
+        # elif event == Event.RIGHT:
+        # go to the other side of the grid
+
+        # elif event == Event.LEFT:
+        # //
 
         #
         # Select
@@ -274,3 +240,150 @@ class MenuScreen(Screen):
             pass
 
         return "No IP"
+
+    def scroll_format(self, draw):
+        start = self.scroll_offset
+        end = min(start + self.visible_items, len(self.items))
+
+        y = self.menu_start_y
+
+        for i in range(start, end):
+
+            item = self.items[i]
+
+            prefix = "▶ " if i == self.selected else "  "
+
+            item_color = self.display.epd.GRAY3 if item.text == "Back" else 0
+
+            draw.text(
+                (20, y),
+                prefix + item.text,
+                font=self.display.get_font(FONT_SIZE_MENU_ITEM),
+                fill=item_color,
+            )
+
+            y += self.item_height
+
+        #
+        # Scroll indicator
+        #
+
+        if len(self.items) > self.visible_items:
+
+            track_top = self.menu_start_y
+            track_bottom = self.display.width - 35
+            track_height = track_bottom - track_top
+
+            scrollbar_height = max(
+                10,
+                int(track_height * self.visible_items / len(self.items)),
+            )
+            scrollbar_height = min(scrollbar_height, track_height)
+
+            max_scroll = len(self.items) - self.visible_items
+            scrollbar_y = int(
+                track_top
+                + (track_height - scrollbar_height)
+                * (self.scroll_offset / max_scroll)
+            )
+
+            draw.rectangle(
+                (
+                    self.display.height - 8,
+                    scrollbar_y,
+                    self.display.height - 4,
+                    scrollbar_y + scrollbar_height,
+                ),
+                fill=0,
+            )
+
+    def grid_format(self, draw):
+        columns = 3
+        gap = 10
+        grid_left = 15
+        grid_right = self.display.height - 15
+        grid_top = self.menu_start_y
+        grid_bottom = self.display.width - 35
+        cell_width = (grid_right - grid_left - gap * (columns - 1)) // columns
+        cell_height = 42
+
+        rows = max(1, (grid_bottom - grid_top + gap) // (cell_height + gap))
+        page_size = columns * rows
+        page_start = self.grid_offset * page_size
+        page_end = min(page_start + page_size, len(self.items))
+
+        font = self.display.get_font(FONT_SIZE_MENU_ITEM)
+
+        for position, index in enumerate(range(page_start, page_end)):
+            row, column = divmod(position, columns)
+            x = grid_left + column * (cell_width + gap)
+            y = grid_top + row * (cell_height + gap)
+            item = self.items[index]
+            label = textwrap.shorten(item.text, width=18, placeholder="...")
+            selected = index == self.selected
+
+            if selected:
+                draw.rectangle(
+                    (x, y, x + cell_width, y + cell_height),
+                    outline=0,
+                    width=2,
+                )
+
+            bbox = draw.textbbox((0, 0), label, font=font)
+            text_width = bbox[2] - bbox[0]
+            text_x = x + max(4, (cell_width - text_width) // 2)
+            text_y = y + (cell_height - (bbox[3] - bbox[1])) // 2 - bbox[1]
+            item_color = self.display.epd.GRAY3 if item.text == "Back" else 0
+
+            draw.text((text_x, text_y), label, font=font, fill=item_color)
+
+        if len(self.items) > page_size:
+            track_top = grid_top
+            track_bottom = grid_bottom
+            track_height = track_bottom - track_top
+            pages = (len(self.items) + page_size - 1) // page_size
+            scrollbar_height = max(10, track_height // pages)
+            scrollbar_y = track_top + int(
+                (track_height - scrollbar_height)
+                * self.grid_offset
+                / max(1, pages - 1)
+            )
+            draw.rectangle(
+                (self.display.height - 8, scrollbar_y,
+                 self.display.height - 4, scrollbar_y + scrollbar_height),
+                fill=0,
+            )
+
+    def handle_grid_input(self, event):
+        columns = 3
+        rows = max(
+            1,
+            (self.display.width - self.menu_start_y - 35 + 10) // (42 + 10),
+        )
+        old_selected = self.selected
+
+        if event == Event.RIGHT:
+            self.selected = min(self.selected + 1, len(self.items) - 1)
+        elif event == Event.LEFT:
+            if self.selected % columns == 0:
+                self.back()
+                return
+            self.selected -= 1
+        elif event == Event.DOWN:
+            self.selected = min(self.selected + columns, len(self.items) - 1)
+        elif event == Event.UP:
+            self.selected = max(self.selected - columns, 0)
+        elif event == Event.SELECT:
+            item = self.items[self.selected]
+            if item.screen is not None:
+                self.ui.show(item.screen)
+            elif item.action is not None:
+                item.action()
+            return
+        else:
+            return
+
+        if self.selected != old_selected:
+            page_size = columns * rows
+            self.grid_offset = self.selected // page_size
+            self.show()

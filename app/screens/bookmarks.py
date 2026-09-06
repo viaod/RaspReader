@@ -39,6 +39,7 @@ class BookmarkBooksScreen(MenuScreen):
             title="Bookmarks",
             items=items,
             app=app,
+            grid=False,
         )
 
     def select_book(self, book):
@@ -77,6 +78,7 @@ class BookmarkPagesScreen(MenuScreen):
             title=textwrap.shorten(self.book.title, width=32, placeholder="..."),
             items=items,
             app=app,
+            grid=False,
         )
 
     def handle_input(self, event):

@@ -35,7 +35,8 @@ class SettingsScreen(MenuScreen):
                 MenuItem("Shutdown", screen=ShutdownScreen),
                 MenuItem("Refresh", action=self.refresh),
             ],
-            app=app
+            app=app,
+            grid=False,
         )
 
     def refresh(self): 

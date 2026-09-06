@@ -40,6 +40,7 @@ class ReaderMenu(MenuScreen):
             title=self.book.title,
             items=items,
             app=app,
+            grid=False,
         )
 
     def open_book(self):

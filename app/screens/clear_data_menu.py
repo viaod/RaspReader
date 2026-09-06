@@ -22,6 +22,7 @@ class ClearDataMenu(MenuScreen):
                 MenuItem("Back", action=self.back),
             ],
             app=app,
+            grid=True,
         )
 
     def _project_root(self):
