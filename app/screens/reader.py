@@ -103,12 +103,12 @@ class ReaderScreen(Screen):
 
         if event == Event.RIGHT:
             self.book_reader.next_page()
-            self.show(partial=True)
+            self.show()
 
 
         elif event == Event.LEFT:
             self.book_reader.previous_page()
-            self.show(partial=True)
+            self.show()
 
 
         elif event == Event.DOWN:
