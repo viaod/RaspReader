@@ -32,7 +32,7 @@ class ReaderMenu(MenuScreen):
 
         items.append(MenuItem("Delete Book", action=self.delete_book))
         
-        items.append(MenuItem("Settings"), action=self.settings)
+        items.append(MenuItem("Settings", action=self.settings))
 
         super().__init__(
             display,
