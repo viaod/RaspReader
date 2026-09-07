@@ -32,7 +32,7 @@ class ReaderMenu(MenuScreen):
 
         items.append(MenuItem("Delete Book", action=self.delete_book))
         
-        items.append(MenuItem("Settings"), screen=SettingsScreen)
+        items.append(MenuItem("Settings"), action=self.settings)
 
         super().__init__(
             display,
@@ -89,9 +89,14 @@ class ReaderMenu(MenuScreen):
         self.ui.show(BookmarkBooksScreen)
 
     def main_menu(self):
-        logger.info("Go to Main menu selected")
+        logger.info("Main Menu selected")
         from app.screens.main_menu import MainMenu
         self.ui.show(MainMenu)
+        
+    def settings(self):
+        logger.info("Settings Menu selected")
+        from app.screens.settings_menu import SettingsScreen
+        self.ui.show(SettingsScreen)
         
     def back(self):
         logger.info("Back selected, going to library screen")
