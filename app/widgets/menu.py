@@ -128,7 +128,9 @@ class MenuScreen(Screen):
             fill=0,
         )
 
-        self.display.refresh(partial=self._has_rendered)
+        # Moving selection markers need a full waveform to erase their old
+        # position reliably on this panel. Reader page turns use partial mode.
+        self.display.refresh()
         self._has_rendered = True
 
     def handle_input(self, event):
