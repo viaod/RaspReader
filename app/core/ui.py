@@ -22,6 +22,8 @@ class UI:
 
         if self.display is None:
             return
+
+        self.display.request_full_refresh()
         
         self.current_screen = screen_cls(
             self.display,

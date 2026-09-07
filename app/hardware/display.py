@@ -85,17 +85,21 @@ class Display:
         )
 
         self.draw = ImageDraw.Draw(self.image)
-        self._partial_mode = False
+        # The Waveshare driver fallback above initializes in 1-gray mode.
+        # Force the first normal render to select the full-gray waveform.
+        self._partial_mode = True
         self._partial_refresh_count = 0
+        self._force_full_refresh = False
 
         logger.info("Display initialized")
 
     def show(self, image):
         # Choose the appropriate driver API based on what's available.
         try:
-            if self._partial_mode:
+            if self._partial_mode or self._force_full_refresh:
                 self.epd.init(0)
                 self._partial_mode = False
+            self._force_full_refresh = False
             self._partial_refresh_count = 0
 
             # Normalize canvas to driver-expected orientation: many Waveshare
@@ -226,13 +230,10 @@ class Display:
         return ImageFont.load_default()
 
     def refresh(self, partial=False):
+        if self._force_full_refresh:
+            partial = False
+
         if not partial or not self._supports_partial_refresh():
-            if self._partial_mode:
-                try:
-                    self.epd.init(0)
-                    self._partial_mode = False
-                except (AttributeError, TypeError, RuntimeError) as exc:
-                    logger.warning("Unable to switch to full refresh mode: %s", exc)
             self._partial_refresh_count = 0
             self.show(self.image)
             return
@@ -265,6 +266,9 @@ class Display:
             logger.warning("Partial refresh failed; using full refresh: %s", exc)
             self._partial_mode = False
             self.show(self.image)
+
+    def request_full_refresh(self):
+        self._force_full_refresh = True
 
     def _supports_partial_refresh(self):
         return all(

@@ -28,7 +28,7 @@ class ReaderScreen(Screen):
         self.book_reader = app.book_reader
 
 
-    def show(self):
+    def show(self, partial=False):
 
         self.display.clear_image()
         self.draw_status_header()
@@ -96,19 +96,19 @@ class ReaderScreen(Screen):
         )
 
 
-        self.display.refresh()
+        self.display.refresh(partial=partial)
 
 
     def handle_input(self, event):
 
         if event == Event.RIGHT:
             self.book_reader.next_page()
-            self.show()
+            self.show(partial=True)
 
 
         elif event == Event.LEFT:
             self.book_reader.previous_page()
-            self.show()
+            self.show(partial=True)
 
 
         elif event == Event.DOWN:

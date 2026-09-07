@@ -45,6 +45,7 @@ class MenuScreen(Screen):
         self.selected = 0
         self.scroll_offset = 0
         self.grid_offset = 0
+        self._has_rendered = False
 
         self.item_height = 25
         self.menu_start_y = 70
@@ -127,7 +128,8 @@ class MenuScreen(Screen):
             fill=0,
         )
 
-        self.display.refresh(partial=True)
+        self.display.refresh(partial=self._has_rendered)
+        self._has_rendered = True
 
     def handle_input(self, event):
 
