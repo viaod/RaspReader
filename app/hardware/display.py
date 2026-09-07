@@ -251,6 +251,7 @@ class Display:
         if not self._partial_mode:
             try:
                 self.epd.init(1)
+                self.epd.Clear(0xFF, 1)
                 self._partial_mode = True
             except (AttributeError, TypeError, RuntimeError) as exc:
                 logger.warning("Partial refresh unavailable: %s", exc)
