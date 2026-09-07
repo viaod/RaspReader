@@ -46,6 +46,8 @@ class MenuScreen(Screen):
         self.scroll_offset = 0
         self.grid_offset = 0
         self._has_rendered = False
+        self._last_selected = None
+        self._last_scroll_offset = None
 
         self.item_height = 25
         self.menu_start_y = 70
@@ -128,10 +130,16 @@ class MenuScreen(Screen):
             fill=0,
         )
 
-        # Moving selection markers need a full waveform to erase their old
-        # position reliably on this panel. Reader page turns use partial mode.
-        self.display.refresh()
+        selection_only = (
+            not self.grid
+            and self._has_rendered
+            and self.selected != self._last_selected
+            and self.scroll_offset == self._last_scroll_offset
+        )
+        self.display.refresh(partial=selection_only)
         self._has_rendered = True
+        self._last_selected = self.selected
+        self._last_scroll_offset = self.scroll_offset
 
     def handle_input(self, event):
 
@@ -255,13 +263,18 @@ class MenuScreen(Screen):
 
             item = self.items[i]
 
-            prefix = "▶ " if i == self.selected else "  "
-
             item_color = self.display.epd.GRAY3 if item.text == "Back" else 0
 
             draw.text(
                 (20, y),
-                prefix + item.text,
+                "▶" if i == self.selected else " ",
+                font=self.display.get_font(FONT_SIZE_MENU_ITEM),
+                fill=0,
+            )
+
+            draw.text(
+                (38, y),
+                item.text,
                 font=self.display.get_font(FONT_SIZE_MENU_ITEM),
                 fill=item_color,
             )
