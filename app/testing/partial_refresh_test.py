@@ -15,7 +15,17 @@ from PIL import Image, ImageDraw, ImageFont
 
 
 def run(iterations, delay):
-    from lib.waveshare_epd import epd3in7
+    try:
+        from lib.waveshare_epd import epd3in7
+    except Exception as exc:
+        raise SystemExit(
+            "Could not claim the display GPIO pins. Stop the reader service "
+            "before running this hardware test, then start it again afterward:\n"
+            "  sudo systemctl stop raspreader.service\n"
+            "  python -m app.testing.partial_refresh_test\n"
+            "  sudo systemctl start raspreader.service\n"
+            f"\nOriginal error: {exc}"
+        ) from exc
 
     epd = epd3in7.EPD()
 
