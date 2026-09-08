@@ -130,10 +130,7 @@ class MenuScreen(Screen):
             fill=0,
         )
 
-        if self._has_rendered:
-            self.display.refresh_fast()
-        else:
-            self.display.refresh()
+        self.display.refresh_fast()
         self._has_rendered = True
         self._last_selected = self.selected
         self._last_scroll_offset = self.scroll_offset
