@@ -24,15 +24,6 @@ class LibraryManager:
         books = []
 
         for path in self.books_dir.glob("*.epub"):
-            books.append(load_metadata(path))
-
-        return sorted(books, key=lambda book: book.title.casefold())
-
-    def get_books(self):
-
-        books = []
-
-        for path in self.books_dir.glob("*.epub"):
 
             book = load_metadata(path)
 
@@ -41,7 +32,7 @@ class LibraryManager:
 
             books.append(book)
 
-        return books
+        return sorted(books, key=lambda book: book.title.casefold())
 
     def add_book(self, uploaded_file):
 
