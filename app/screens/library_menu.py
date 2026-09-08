@@ -20,6 +20,8 @@ class LibraryScreen(MenuScreen):
         self.app = app
 
         books = self.app.library.get_books()
+        progress = self.app.book_reader.progress.load()
+        book_cache = self.app.book_reader.book_cache
 
         items = []
         
@@ -30,10 +32,27 @@ class LibraryScreen(MenuScreen):
         #     logger.info("Loaded book from cache: %s", self.book.title)
 
         for book in books:
-            # TODO: check if book is cached and add to name progess, e.g., (2% read)
+            label = textwrap.shorten(book.title, width=35, placeholder="...")
+            position = progress.get(str(book.title))
+            if position is not None:
+                cached_book = book_cache.load(book)
+                total_pages = sum(
+                    len(chapter.pages)
+                    for chapter in cached_book.chapters
+                ) if cached_book else 0
+
+                if total_pages:
+                    percentage = min(
+                        100,
+                        round(100 * (position.get("page", 0) + 1) / total_pages),
+                    )
+                    label = f"{label} [{percentage}%]"
+                else:
+                    label = f"{label} [In progress]"
+
             items.append(
                 MenuItem(
-                    textwrap.shorten(book.title, width=45, placeholder="..."),
+                    label,
                     action=lambda b=book: self.select_book(b)
                 )
             )
@@ -54,7 +73,6 @@ class LibraryScreen(MenuScreen):
             app=app,
             grid=False,
         )
-
 
     def select_book(self, book):
 
