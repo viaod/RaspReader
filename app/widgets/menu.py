@@ -264,7 +264,7 @@ class MenuScreen(Screen):
 
             draw.text(
                 (20, y),
-                "▶" if i == self.selected else " ",
+                ">" if i == self.selected else " ",
                 font=self.display.get_font(FONT_SIZE_MENU_ITEM),
                 fill=0,
             )
