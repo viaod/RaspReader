@@ -2,7 +2,7 @@
 
 ## UI
 - [ ] Add `Dictionary`
-- [ ] Partial refresh for menu item selection (and time maybe) 
+- [x] Partial refresh for menu item selection (and time maybe) 
 - [ ] Fix back functionality...
     - go back to actual previous page instead of pre-set one
 - [x] Update? git pull from screen in settings 
@@ -30,7 +30,7 @@
 - [x] Home selection in reader menu 
 - [x] Settings selection in reader menu
 - [x] Library not in alphabetical order anymore..? **
-- [ ] Do i like the way the pages are paginated..?
+- [x] Do i like the way the pages are paginated..?
 
 
 ## Upload
