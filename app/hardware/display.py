@@ -139,14 +139,18 @@ class Display:
         self._refresh_mode = mode
 
     def refresh_fast(self):
-        """Refresh the current canvas with the driver's fast 1-bit waveform."""
+        """Refresh the current canvas with a clean 1-bit waveform."""
         if not hasattr(self.epd, "display_1Gray") or not hasattr(self.epd, "getbuffer"):
             self.refresh()
             return
 
         self._ensure_refresh_mode(1)
         image = self.image.convert("1")
-        self.epd.display_1Gray(self.epd.getbuffer(image))
+        buffer = self.epd.getbuffer(image)
+        if hasattr(self.epd, "display_1Gray_DU"):
+            self.epd.display_1Gray_DU(buffer)
+        else:
+            self.epd.display_1Gray(buffer)
 
     def show_image(self, image_path):
         image = Image.open(image_path)
