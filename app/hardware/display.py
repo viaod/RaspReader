@@ -22,7 +22,7 @@ from lib.waveshare_epd import epd3in7
 from PIL import Image, ImageDraw, ImageFont
 
 from app.core.logger import Logger
-from app.core.config import FONT_PATH, PARTIAL_REFRESH_LIMIT, TEXT_SCALE
+from app.core.config import FONT_PATH, TEXT_SCALE
 from app.core.settings import get_font_path, save_font_path
 
 logger = Logger("Display")
@@ -85,23 +85,11 @@ class Display:
         )
 
         self.draw = ImageDraw.Draw(self.image)
-        # The Waveshare driver fallback above initializes in 1-gray mode.
-        # Force the first normal render to select the full-gray waveform.
-        self._partial_mode = True
-        self._partial_refresh_count = 0
-        self._force_full_refresh = False
-
         logger.info("Display initialized")
 
     def show(self, image):
         # Choose the appropriate driver API based on what's available.
         try:
-            if self._partial_mode or self._force_full_refresh:
-                self.epd.init(0)
-                self._partial_mode = False
-            self._force_full_refresh = False
-            self._partial_refresh_count = 0
-
             # Normalize canvas to driver-expected orientation: many Waveshare
             # examples use (height, width) for horizontal buffers.
             img = image
@@ -229,53 +217,8 @@ class Display:
         logger.warning("No scalable font found; using Pillow's fixed-size fallback")
         return ImageFont.load_default()
 
-    def refresh(self, partial=False):
-        if self._force_full_refresh:
-            partial = False
-
-        if not partial or not self._supports_partial_refresh():
-            self._partial_refresh_count = 0
-            self.show(self.image)
-            return
-
-        if self._partial_refresh_count >= PARTIAL_REFRESH_LIMIT:
-            try:
-                self.epd.init(0)
-                self._partial_mode = False
-                self._partial_refresh_count = 0
-                self.show(self.image)
-                return
-            except (AttributeError, TypeError, RuntimeError) as exc:
-                logger.warning("Scheduled full refresh failed: %s", exc)
-
-        if not self._partial_mode:
-            try:
-                self.epd.init(1)
-                self.epd.Clear(0xFF, 1)
-                self._partial_mode = True
-            except (AttributeError, TypeError, RuntimeError) as exc:
-                logger.warning("Partial refresh unavailable: %s", exc)
-                self.show(self.image)
-                return
-
-        try:
-            image = self.image.convert("1")
-            self.epd.display_1Gray(self.epd.getbuffer(image))
-            self._partial_refresh_count += 1
-            logger.info("Display partially updated")
-        except (AttributeError, TypeError, RuntimeError) as exc:
-            logger.warning("Partial refresh failed; using full refresh: %s", exc)
-            self._partial_mode = False
-            self.show(self.image)
-
-    def request_full_refresh(self):
-        self._force_full_refresh = True
-
-    def _supports_partial_refresh(self):
-        return all(
-            hasattr(self.epd, attribute)
-            for attribute in ("init", "getbuffer", "display_1Gray")
-        )
+    def refresh(self):
+        self.show(self.image)
 
     def clear(self, force_full: bool = False):
         """Clear the display. If `force_full` is True, attempt a full
@@ -323,10 +266,3 @@ class Display:
         self.epd.sleep()
         logger.info("Display put to sleep")
 
-    def use_fast_mode(self):
-        # Removed: this driver does not support a fast/partial init API.
-        logger.debug("use_fast_mode called but not supported; no-op")
-
-    def use_full_mode(self):
-        # Removed: no-op for drivers without fast/full mode support.
-        logger.debug("use_full_mode called but not supported; no-op")

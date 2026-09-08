@@ -130,9 +130,6 @@ class MenuScreen(Screen):
             fill=0,
         )
 
-        # This panel's partial waveform does not reliably erase the old
-        # marker, so selection changes need a full refresh even though the
-        # marker is drawn separately from the item text.
         self.display.refresh()
         self._has_rendered = True
         self._last_selected = self.selected

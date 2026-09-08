@@ -28,7 +28,7 @@ class ReaderScreen(Screen):
         self.book_reader = app.book_reader
 
 
-    def show(self, partial=False):
+    def show(self):
 
         self.display.clear_image()
         self.draw_status_header()
@@ -96,7 +96,7 @@ class ReaderScreen(Screen):
         )
 
 
-        self.display.refresh(partial=partial)
+        self.display.refresh()
 
 
     def handle_input(self, event):
