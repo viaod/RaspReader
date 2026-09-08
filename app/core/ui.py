@@ -23,6 +23,8 @@ class UI:
         if self.display is None:
             return
 
+        self.display.clear(force_full=True)
+
         self.current_screen = screen_cls(
             self.display,
             self.assets_dir,

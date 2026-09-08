@@ -260,10 +260,12 @@ class Display:
                 # many driver variants accept a numeric mode for init
                 try:
                     self.epd.init(0)
+                    self._refresh_mode = 0
                 except TypeError:
                     # some drivers only accept no-arg init; try calling
                     # no-arg init then assume Clear(mode=0) will work.
                     self.epd.init()
+                    self._refresh_mode = 0
             except Exception as e:
                 logger.warning(f"Failed to init full-clear mode: {e}")
 
