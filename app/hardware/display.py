@@ -32,6 +32,7 @@ class Display:
 
     def __init__(self):
         self.epd = epd3in7.EPD()
+        self._refresh_mode = None
         self.font_path = get_font_path(FONT_PATH)
 
         # Provide backwards-compatible color constants expected by
@@ -51,6 +52,7 @@ class Display:
             try:
                 # many drivers accept a numeric mode (0 or 1)
                 self.epd.init(1)
+                self._refresh_mode = 1
             except Exception as e:
                 logger.error(f"Display init failed: {e}")
                 raise
@@ -98,10 +100,12 @@ class Display:
 
             # Prefer 4-gray APIs when present
             if hasattr(self.epd, "display_4Gray") and hasattr(self.epd, "getbuffer_4Gray"):
+                self._ensure_refresh_mode(0)
                 buf = self.epd.getbuffer_4Gray(img.convert("L"))
                 self.epd.display_4Gray(buf)
             # Fallback to 1-gray APIs
             elif hasattr(self.epd, "display_1Gray") and hasattr(self.epd, "getbuffer"):
+                self._ensure_refresh_mode(1)
                 buf = self.epd.getbuffer(img)
                 try:
                     self.epd.display_1Gray(buf)
@@ -123,6 +127,26 @@ class Display:
         except Exception as e:
             logger.error(f"Failed to update display: {e}")
             raise
+
+    def _ensure_refresh_mode(self, mode):
+        if self._refresh_mode == mode:
+            return
+
+        try:
+            self.epd.init(mode)
+        except TypeError:
+            self.epd.init()
+        self._refresh_mode = mode
+
+    def refresh_fast(self):
+        """Refresh the current canvas with the driver's fast 1-bit waveform."""
+        if not hasattr(self.epd, "display_1Gray") or not hasattr(self.epd, "getbuffer"):
+            self.refresh()
+            return
+
+        self._ensure_refresh_mode(1)
+        image = self.image.convert("1")
+        self.epd.display_1Gray(self.epd.getbuffer(image))
 
     def show_image(self, image_path):
         image = Image.open(image_path)

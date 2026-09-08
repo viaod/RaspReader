@@ -130,7 +130,10 @@ class MenuScreen(Screen):
             fill=0,
         )
 
-        self.display.refresh()
+        if self._has_rendered:
+            self.display.refresh_fast()
+        else:
+            self.display.refresh()
         self._has_rendered = True
         self._last_selected = self.selected
         self._last_scroll_offset = self.scroll_offset
@@ -148,7 +151,7 @@ class MenuScreen(Screen):
         # Move down
         #
 
-        if event == Event.DOWN:
+        if event in (Event.DOWN, Event.ROTATE_RIGHT):
 
             self.selected = (self.selected + 1) % len(self.items)
 
@@ -165,7 +168,7 @@ class MenuScreen(Screen):
         # Move up
         #
 
-        elif event == Event.UP:
+        elif event in (Event.UP, Event.ROTATE_LEFT):
 
             self.selected = (self.selected - 1) % len(self.items)
 
