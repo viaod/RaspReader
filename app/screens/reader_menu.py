@@ -41,7 +41,7 @@ class ReaderMenu(MenuScreen):
             title=self.book.title,
             items=items,
             app=app,
-            grid=False,
+            grid=True,
         )
 
     def open_book(self):
