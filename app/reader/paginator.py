@@ -44,13 +44,6 @@ class Paginator:
 
         max_width = self.page_width - (self.margin * 2)
 
-        # Calling PIL's font measurement for every word is prohibitively slow
-        # on the Raspberry Pi for a full novel. Measure once, then use a
-        # proportional character budget while wrapping.
-        sample = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz"
-        average_char_width = self.font.getlength(sample) / len(sample)
-        max_chars = max(1, int((max_width / average_char_width) * 1.2))
-
         lines = []
 
         # EPUB text nodes often introduce a newline between inline words.
@@ -67,20 +60,46 @@ class Paginator:
                 continue
 
             line_words = []
-            line_length = 0
+            line_width = 0
 
             for word in words:
 
-                next_length = line_length + len(word) + bool(line_words)
+                word_parts = self._split_word(word, max_width)
+                for word_part in word_parts:
+                    separator_width = self.font.getlength(" ") if line_words else 0
+                    part_width = self.font.getlength(word_part)
 
-                if line_words and next_length > max_chars:
-                    lines.append(" ".join(line_words))
-                    line_words = [word]
-                    line_length = len(word)
-                else:
-                    line_words.append(word)
-                    line_length = next_length
+                    if line_words and line_width + separator_width + part_width > max_width:
+                        lines.append(" ".join(line_words))
+                        line_words = []
+                        line_width = 0
+                        separator_width = 0
 
-            lines.append(" ".join(line_words))
+                    line_words.append(word_part)
+                    line_width += separator_width + part_width
+
+            if line_words:
+                lines.append(" ".join(line_words))
 
         return lines
+
+    def _split_word(self, word, max_width):
+        """Split a word that is wider than the available line."""
+        if self.font.getlength(word) <= max_width:
+            return [word]
+
+        parts = []
+        current = ""
+
+        for character in word:
+            candidate = current + character
+            if current and self.font.getlength(candidate) > max_width:
+                parts.append(current)
+                current = character
+            else:
+                current = candidate
+
+        if current:
+            parts.append(current)
+
+        return parts

@@ -29,7 +29,7 @@
 - [x] reduce size of reading area 
 - [x] Home selection in reader menu 
 - [x] Settings selection in reader menu
-- [ ] Library not in alphabetical order anymore..? **
+- [x] Library not in alphabetical order anymore..? **
 - [ ] Do i like the way the pages are paginated..?
 
 

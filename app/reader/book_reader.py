@@ -44,7 +44,7 @@ class BookReader:
             font=font,
             page_width=display.height,
             lines_per_page=lines_per_page,
-            margin=10,
+            margin=20,
         )
 
     def open(self, book):
